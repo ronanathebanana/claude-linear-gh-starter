@@ -1,0 +1,36 @@
+#!/bin/sh
+# Linear issue ID validation hook
+# Warns if no Linear issue ID found in commit message
+
+COMMIT_MSG_FILE=$1
+COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+
+# Issue pattern: {{formats.issuePattern}}
+ISSUE_PATTERN="{{formats.issuePattern}}"
+
+# Skip merge commits and reverts
+if echo "$COMMIT_MSG" | grep -qE "^Merge|^Revert"; then
+  exit 0
+fi
+
+# Check for Linear issue ID
+if ! echo "$COMMIT_MSG" | grep -qE "$ISSUE_PATTERN"; then
+  echo ""
+  echo "⚠️  WARNING: No Linear issue ID found in commit message"
+  echo "Expected format: <type>: <description> ({{formats.issueExample}})"
+  echo ""
+  echo "Example:"
+  echo "  feat: Add new feature ({{formats.issueExample}})"
+  echo ""
+  echo "Commit message:"
+  echo "$COMMIT_MSG"
+  echo ""
+  read -p "Proceed without Linear issue ID? (y/N): " -n 1 -r
+  echo
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo "Commit cancelled. Please add issue ID and try again."
+    exit 1
+  fi
+fi
+
+exit 0

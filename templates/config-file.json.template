@@ -1,0 +1,42 @@
+{
+  "version": "1.0.0",
+  "project": {
+    "name": "{{project.name}}",
+    "path": "{{project.path}}"
+  },
+  "branches": {
+    "main": "{{branches.main}}"{{#branches.staging}},
+    "staging": "{{branches.staging}}"{{/branches.staging}}{{#branches.prod}},
+    "prod": "{{branches.prod}}"{{/branches.prod}}
+  },
+  "linear": {
+    "teamKey": "{{linear.teamKey}}",
+    "teamId": "{{linear.teamId}}",
+    "teamName": "{{linear.teamName}}",
+    "workspaceId": "{{linear.workspaceId}}",
+    "workspaceName": "{{linear.workspaceName}}",
+    "statuses": {
+      "inProgress": "{{linear.statuses.inProgress}}",
+      "inProgressId": "{{linear.statuses.inProgressId}}"{{#branches.staging}},
+      "staging": "{{linear.statuses.staging}}",
+      "stagingId": "{{linear.statuses.stagingId}}"{{/branches.staging}},
+      "review": "{{linear.statuses.review}}",
+      "reviewId": "{{linear.statuses.reviewId}}"{{#branches.prod}},
+      "done": "{{linear.statuses.done}}",
+      "doneId": "{{linear.statuses.doneId}}"{{/branches.prod}}
+    }
+  },
+  "formats": {
+    "commit": "{{formats.commit}}",
+    "pr": "{{formats.pr}}",
+    "issuePattern": "{{formats.issuePattern}}",
+    "issueExample": "{{formats.issueExample}}"
+  },
+  "detail": "{{detail}}",
+  "paths": {
+    "issues": "{{paths.issues}}",
+    "workflow": "/.github/workflows/linear-status-update.yml"
+  },
+  "installed": "{{installed}}",
+  "installedBy": "claude-linear-gh-starter"
+}
