@@ -160,90 +160,22 @@ gh auth login
 
 ## 🚀 Quick Start
 
-### Step 1️⃣: Validate Environment
-
-Run pre-flight checks to ensure everything's ready:
+Three commands. Five minutes. You're done.
 
 ```bash
-./scripts/preflight-checks.sh
-```
+# 1. Clone this repo into your project
+git clone https://github.com/YOUR_USERNAME/claude-linear-gh-starter.git
 
-This validates:
-- ✅ Git repository initialization
-- ✅ GitHub CLI installation and authentication
-- ✅ Required `workflow` scope for GitHub CLI
-- ✅ Repository access permissions
-- ✅ Node.js installation
+# 2. Start Claude Code in your project directory
+cd your-project && claude
 
-**⚠️ Common Issue:** Missing `workflow` scope
-
-If you see this warning:
-```bash
-gh auth refresh --scopes workflow
-```
-
-<br/>
-
-### Step 2️⃣: Run Setup Wizard
-
-From your project directory in Claude Code:
-
-```bash
-# Option 1: Slash command
+# 3. Run the setup wizard
 /setup-linear
-
-# Option 2: Natural language
-"Setup Linear workflow"
 ```
 
-The wizard guides you through:
+The wizard handles everything: environment checks, Linear connection, GitHub Actions setup, and team configuration. Test it with the generated issue, merge the branch, and you're live.
 
-1. 📍 **Project Location** - Where to install the workflow
-2. 🌿 **Branch Strategy** - Choose preset profiles or customize
-3. 🔗 **Linear Connection** - Connect to workspace and team
-4. 📊 **Status Mapping** - Map git events to Linear statuses
-5. 📝 **Format Configuration** - Define commit/PR patterns
-6. 👥 **Auto-Assignment** - Configure team assignments
-7. 📈 **Detail Level** - Set update verbosity
-
-<br/>
-
-### Step 3️⃣: Test & Merge
-
-Installation creates a `setup/linear-workflow` branch. Test first, then merge:
-
-```bash
-# Test the workflow
-"Let's get to work on DEV-123"
-
-# Review changes
-git diff main setup/linear-workflow
-
-# Option 1: Direct merge
-git checkout main && git merge setup/linear-workflow && git push
-
-# Option 2: Pull request (recommended)
-gh pr create --base main --head setup/linear-workflow
-```
-
-<br/>
-
-### Step 4️⃣: Start Using
-
-Once merged, the workflow activates automatically:
-
-```bash
-# Work on an issue
-git checkout -b feature/DEV-123-new-feature
-git commit -m "feat: implement feature (DEV-123)"
-git push
-# ✅ Status automatically updates to "In Progress"
-
-# Create and merge PR
-gh pr create --title "DEV-123: Implement new feature"
-gh pr merge --merge
-# ✅ Status automatically updates to "Review Required"
-```
+**Need help?** The wizard includes pre-flight checks and auto-fixes common issues. If something's missing (like GitHub CLI), it'll tell you exactly what to install.
 
 <br/>
 
