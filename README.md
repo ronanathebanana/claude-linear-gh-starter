@@ -597,6 +597,6 @@ now open-sourced for the community. 💙
 
 <br/>
 
-Made with ❤️ by developers, for developers
+Your tickets update themselves now. You're welcome. 🤖
 
 </div>
