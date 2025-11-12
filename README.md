@@ -2,13 +2,9 @@
 
 <br/>
 
-<img src="https://linear.app/cdn-cgi/image/quality=90,format=auto/front/_next/static/media/logomark-white.ea0b5756.svg" alt="Linear" width="50" height="50" />
-&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://avatars.githubusercontent.com/u/54814322?s=200&v=4" alt="Claude AI" width="50" height="50" />
-&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" width="50" height="50" />
+# ⚡ Linear × Claude × GitHub
 
-<br/><br/>
+<br/>
 
 # 🔗 Linear + GitHub + Claude Workflow
 
@@ -576,16 +572,11 @@ Copyright © 2025 [MatchDay Live](https://matchdaylive.com)
 
 <div align="center">
 
-Built with:
+**Built with:**
 
-<img src="https://avatars.githubusercontent.com/u/54814322?s=200&v=4" alt="Claude AI" width="40" height="40" />
-**Anthropic Claude AI** for intelligent automation
-
-<img src="https://linear.app/cdn-cgi/image/quality=90,format=auto/front/_next/static/media/logomark-white.ea0b5756.svg" alt="Linear" width="40" height="40" />
-**Linear API** for issue tracking integration
-
-<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" width="40" height="40" />
-**GitHub Actions** for CI/CD infrastructure
+🤖 **[Anthropic Claude AI](https://claude.ai)** for intelligent automation
+📊 **[Linear API](https://linear.app)** for issue tracking integration
+🐙 **[GitHub Actions](https://github.com/features/actions)** for CI/CD infrastructure
 
 <br/>
 
