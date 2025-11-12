@@ -35,7 +35,7 @@ Once installed, your development flow becomes seamless: commit with an issue ID,
 - Use Linear for issue tracking and GitHub for code
 - Want AI-powered task analysis and summaries
 
-[🚀 Quick Start](#-quick-start) • [✨ Features](#-key-features) • [📖 Documentation](docs/) • [💬 Support](#-support)
+[🚀 Quick Start](#-quick-start) • [⚡ Commands](COMMAND-CHEATSHEET.md) • [✨ Features](#-key-features) • [📖 Documentation](docs/) • [💬 Support](#-support)
 
 <br/>
 
@@ -102,6 +102,64 @@ Once installed, your development flow becomes seamless: commit with an issue ID,
 
 ---
 
+## 🚀 Quick Start
+
+Three commands. Five minutes. You're done.
+
+```bash
+# 1. Clone this repo into your project
+git clone https://github.com/YOUR_USERNAME/claude-linear-gh-starter.git
+
+# 2. Start Claude Code in your project directory
+cd your-project && claude
+
+# 3. Run the setup wizard
+/setup-linear
+```
+
+The wizard handles everything: environment checks, Linear connection, GitHub Actions setup, and team configuration. Test it with the generated issue, merge the branch, and you're live.
+
+**Need help?** The wizard includes pre-flight checks and auto-fixes common issues. If something's missing (like GitHub CLI), it'll tell you exactly what to install.
+
+<br/>
+
+---
+
+## ⚡ Common Commands
+
+After setup, just talk to Claude naturally. Here are some examples:
+
+**Start working:**
+```
+"Let's get to work on DEV-123"
+"Continue DEV-456"
+```
+
+**When blocked:**
+```
+"Create a blocker for this"
+"This is blocked by [reason]"
+```
+
+**Discover work:**
+```
+"Show me high priority issues"
+"Any recent bugs?"
+"What am I working on?"
+```
+
+**Finish up:**
+```
+"Ready for review"
+"Add progress update"
+```
+
+[→ **Full Command Cheat Sheet**](COMMAND-CHEATSHEET.md) - Complete list of 20+ commands
+
+<br/>
+
+---
+
 ## 📋 Prerequisites
 
 Before diving in, make sure you have:
@@ -153,29 +211,6 @@ choco install gh nodejs
 # Authenticate with GitHub
 gh auth login
 ```
-
-<br/>
-
----
-
-## 🚀 Quick Start
-
-Three commands. Five minutes. You're done.
-
-```bash
-# 1. Clone this repo into your project
-git clone https://github.com/YOUR_USERNAME/claude-linear-gh-starter.git
-
-# 2. Start Claude Code in your project directory
-cd your-project && claude
-
-# 3. Run the setup wizard
-/setup-linear
-```
-
-The wizard handles everything: environment checks, Linear connection, GitHub Actions setup, and team configuration. Test it with the generated issue, merge the branch, and you're live.
-
-**Need help?** The wizard includes pre-flight checks and auto-fixes common issues. If something's missing (like GitHub CLI), it'll tell you exactly what to install.
 
 <br/>
 
