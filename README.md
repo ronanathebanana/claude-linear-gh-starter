@@ -17,23 +17,27 @@
 
 <br/>
 
-**Production-ready workflow automation that connects Linear issue tracking with GitHub Actions and Claude AI for seamless development operations.**
-
-[🚀 Quick Start](#-quick-start) • [✨ Features](#-key-features) • [📖 Documentation](docs/) • [💬 Support](#-support)
-
-<br/>
-
 </div>
 
 ---
 
-## 🎯 What Is This?
+## 📖 Overview
 
-A **5-minute setup wizard** that automates your entire Linear workflow. Push commits and merge PRs—Linear issues update themselves. No manual work, no context switching, just smooth sailing.
+Stop manually updating tickets. This workflow automation connects **Linear**, **GitHub**, and **Claude AI** to keep your issues in sync automatically. When you push code, merge PRs, or deploy to production, your Linear issues update themselves—no clicking, no context switching, no "did you update the ticket?" Slack pings.
 
-**Two-pronged integration:**
-- 🤖 **GitHub Actions**: Automates status updates based on git activity
-- 🧠 **Claude AI**: Interactive issue management via Model Context Protocol (MCP)
+The setup wizard walks you through a **5-minute installation** that configures everything: GitHub Actions workflows, commit message validation, auto-assignment rules, and Claude AI integration via MCP. Choose from pre-built profiles (Startup, Small Team, Enterprise) or customize every detail to match your workflow.
+
+Once installed, your development flow becomes seamless: commit with an issue ID, push to your branch, and watch Linear update automatically. Merge to staging? Issue moves to "Code Review" and auto-assigns your reviewer. Deploy to production? Status updates to "Done". Your commit messages become your ticket updates.
+
+**Perfect for teams who:**
+- Want to ship code, not update tickets
+- Need workflow automation without the complexity
+- Use Linear for issue tracking and GitHub for code
+- Want AI-powered task analysis and summaries
+
+[🚀 Quick Start](#-quick-start) • [✨ Features](#-key-features) • [📖 Documentation](docs/) • [💬 Support](#-support)
+
+<br/>
 
 <br/>
 
@@ -562,7 +566,7 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for:
 
 MIT License - see [LICENSE](LICENSE) for details
 
-Copyright © 2025 [MatchDay Live](https://matchdaylive.com)
+Copyright © 2025
 
 <br/>
 
@@ -580,8 +584,7 @@ Copyright © 2025 [MatchDay Live](https://matchdaylive.com)
 
 <br/>
 
-Originally developed for internal use at [MatchDay Live](https://matchdaylive.com),
-now open-sourced for the community. 💙
+Built for the developer community. 💙
 
 </div>
 

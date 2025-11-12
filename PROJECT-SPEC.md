@@ -668,8 +668,7 @@ echo "$CONFIG_JSON" > $PROJECT_PATH/.linear-workflow.json
 **License:** MIT (most permissive)
 
 **Attribution:**
-- Credit MatchDay Live team as original creators
-- Link to mdl-admin-dev as reference implementation
+- Open source project built for the developer community
 - Acknowledge community contributors
 
 **Commercial Use:** Fully allowed, no restrictions
@@ -684,8 +683,8 @@ Success will be measured not just by technical correctness, but by the number of
 
 ---
 
-**Status:** Ready to implement
-**Next Step:** Begin Phase 1 - Extract and parameterize templates
-**Timeline:** 3-4 weeks to v1.0.0 release
-**Owner:** Ronan Worthington
-**Reviewers:** TBD
+**Status:** Active Development
+**Next Step:** Community contributions welcome
+**Timeline:** Rolling releases
+**Maintainers:** Open source community
+**Contributors:** See GitHub contributors page
