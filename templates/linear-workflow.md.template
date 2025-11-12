@@ -8,12 +8,54 @@ This project uses Linear for issue tracking with MCP (Model Context Protocol) in
 
 ## MCP Server Configuration
 
-The Linear MCP server is configured for both Claude Desktop and Claude Code CLI:
+This project is configured to use the Linear MCP server for seamless integration with Linear issues.
 
-- **Claude Desktop**: Configure via `~/Library/Application Support/Claude/claude_desktop_config.json`
-- **Claude Code CLI**: Already configured via `.mcp.json` in project root (automatically detected)
+### For Claude Code (CLI)
 
-**Setup requirement**: Ensure `LINEAR_API_KEY` is set in the project's `.env.local` file.
+**Setup is already complete for this project!** The Linear MCP server was configured during installation.
+
+If you need to set up MCP on a different machine or project:
+
+1. Add the Linear MCP server:
+   ```bash
+   claude mcp add --transport http linear-server https://mcp.linear.app/mcp
+   ```
+
+2. Authenticate with Linear:
+   - Type `/mcp` in Claude Code
+   - Complete OAuth authentication in your browser
+   - Grant access to your Linear workspace
+
+**Troubleshooting:**
+- If MCP tools aren't available, verify the server was added: `cat ~/.claude.json`
+- Clear cached auth if needed: `rm -rf ~/.mcp-auth`
+- Restart Claude Code after adding the MCP server
+
+### For Claude Desktop (Team Members)
+
+If team members are using Claude Desktop (not Claude Code CLI), they should:
+
+1. Add to their global config file at:
+   `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+   ```json
+   {
+     "mcpServers": {
+       "linear": {
+         "command": "npx",
+         "args": ["-y", "mcp-remote", "https://mcp.linear.app/mcp"]
+       }
+     }
+   }
+   ```
+
+2. Restart Claude Desktop application
+
+3. Authenticate via OAuth when prompted
+
+**Reference files in this project:**
+- `.mcp.json` - Example config for Claude Desktop users
+- `.env.example` - Reference template (not used for MCP setup)
 
 ---
 
@@ -450,6 +492,104 @@ Linear MCP server provides these tools:
 ║ 🟢 Ready  🟠 Awaiting/In Progress  🔴 Blocked                  ║
 ╚════════════════════════════════════════════════════════════════╝
 ```
+
+---
+
+## Advanced Commands
+
+Beyond the core workflow, Claude Code supports additional commands for common development scenarios:
+
+### Related Issue Creation
+
+**Create a Blocker:**
+```
+"Create a blocker for this"
+"This is blocked by [description]"
+```
+Creates a blocking issue, links it to your current work, and marks current issue as blocked.
+
+**Create a Sub-task:**
+```
+"Create a sub-task for [description]"
+"Break this into a sub-task: [description]"
+```
+Creates a child issue linked to the current issue. Useful for breaking down large features.
+
+**Found a Bug:**
+```
+"Found a bug: [description]"
+"This needs a bug report"
+```
+Creates a bug report issue. Claude will ask if the bug is related to your current work, part of another issue, or standalone. Links appropriately and sets priority based on severity.
+
+**Create Follow-up:**
+```
+"Create follow-up for [description]"
+"Log this for later: [description]"
+```
+Creates a backlog issue for improvements or tech debt discovered during current work.
+
+### Progress & Communication
+
+**Progress Update:**
+```
+"Add progress update"
+"Post progress to Linear"
+```
+Analyzes recent commits and current changes, posts structured update to Linear issue.
+
+**Mark as Blocked:**
+```
+"Mark as blocked"
+"This is blocked by [reason]"
+```
+Updates issue status to "On Hold", posts blocker comment, optionally creates blocker issue.
+
+**Request Clarification:**
+```
+"Request clarification on [topic]"
+"Need clarification: [question]"
+```
+Posts formatted question to Linear, tags relevant people, marks as needing clarification.
+
+### Context Switching
+
+**Pause Work:**
+```
+"Pause work on this"
+"Save progress and switch"
+```
+Commits WIP changes, posts pause comment to Linear, returns to main branch.
+
+**Resume Work:**
+```
+"Resume DEV-XXX"
+"Continue DEV-XXX"
+```
+Fetches latest issue context, checks out branch, shows what changed since last work.
+
+**What Am I Working On:**
+```
+"What am I working on?"
+"Show my active issues"
+```
+Lists all your issues in "In Progress" status with their branches and last activity.
+
+### Quick Actions
+
+**Ready for Review:**
+```
+"Ready for review"
+"This is ready"
+```
+Commits pending changes, creates PR, posts summary to Linear, updates status.
+
+**Address Review Comments:**
+```
+"Address review comments"
+"Fix PR feedback"
+```
+Fetches PR review comments, creates checklist, works through feedback systematically.
 
 ---
 

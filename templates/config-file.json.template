@@ -36,6 +36,18 @@
   "paths": {
     "issues": "{{paths.issues}}",
     "workflow": "/.github/workflows/linear-status-update.yml"
+  }{{#assignees.enabled}},
+  "assignees": {
+    "enabled": {{assignees.enabled}}{{#assignees.onInProgress}},
+    "onInProgress": "{{assignees.onInProgress}}"{{/assignees.onInProgress}}{{#assignees.onReview}},
+    "onReview": "{{assignees.onReview}}"{{/assignees.onReview}}{{#assignees.onStaging}},
+    "onStaging": "{{assignees.onStaging}}"{{/assignees.onStaging}}{{#assignees.onDone}},
+    "onDone": "{{assignees.onDone}}"{{/assignees.onDone}}{{#assignees.preserveOriginal}},
+    "preserveOriginal": {{assignees.preserveOriginal}}{{/assignees.preserveOriginal}}
+  }{{/assignees.enabled}},
+  "mcp": {
+    "setup": "claude-code-cli",
+    "note": "MCP server configured via: claude mcp add --transport http linear-server https://mcp.linear.app/mcp"
   },
   "installed": "{{installed}}",
   "installedBy": "claude-linear-gh-starter"
