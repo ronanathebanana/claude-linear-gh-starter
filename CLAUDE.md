@@ -178,35 +178,51 @@ Let's begin!
 
 **IMMEDIATELY after user approves setup, use TodoWrite to create the installation checklist:**
 
+Show progress bar at the start:
 ```
-Setup Tasks:
-[ ] Confirm project location
-[ ] Create installation branch
-[ ] Run pre-flight environment checks
-[ ] Configure Linear workspace connection
-[ ] Set up branch strategy and status mappings
-[ ] Configure commit and PR formats
-[ ] Install workflow files and documentation
-[ ] Set up GitHub secrets and git hooks
-[ ] Configure Linear MCP server
-[ ] Create Linear issue templates
-[ ] Create test issue
-[ ] Test the workflow
-[ ] Commit and push installation
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Linear Workflow Setup
+
+Progress: [█_________] 1/11 steps complete
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-**Update this TODO list after EACH step is completed using TodoWrite.**
+**Update this progress bar and TODO list after EACH step is completed using TodoWrite.**
 
-Display format (minimal emojis):
+**Progress Bar Format:**
+- Use █ for completed sections
+- Use _ for incomplete sections
+- Always show: [█████_____] X/11 steps complete
+- Update after each phase completion
+
+Display format:
 ```
-Installation Progress:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Linear Workflow Setup
 
-[✓] Confirm project location
-[✓] Create installation branch
-[✓] Run pre-flight environment checks
-[ ] Configure Linear workspace connection
-[ ] Set up branch strategy and status mappings
-...
+Progress: [███_______] 3/11 steps complete
+
+Completed:
+  ✓ Confirm project location
+  ✓ Create installation branch
+  ✓ Run pre-flight environment checks
+
+Current:
+  ⟳ Configure Linear workspace connection
+
+Remaining:
+  • Set up branch strategy and status mappings
+  • Configure commit and PR formats
+  • Install workflow files and documentation
+  • Set up GitHub secrets and git hooks
+  • Configure Linear MCP server
+  • Create Linear issue templates
+  • Create test issue
+  • Test the workflow
+  • Commit and push installation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 ### Phase 1.5: Check for Existing Installation & Version
@@ -406,6 +422,36 @@ Exit wizard.
 
 **[Step 2 of 11 | Interactive | ~10 seconds]**
 
+**Show progress:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Linear Workflow Setup
+
+Progress: [██________] 2/11 steps complete
+
+Completed:
+  ✓ Confirm project location
+
+Current:
+  ⟳ Create installation branch
+
+Remaining:
+  • Run pre-flight environment checks
+  • Configure Linear workspace connection
+  • Set up branch strategy and status mappings
+  • Configure commit and PR formats
+  • Install workflow files and documentation
+  • Set up GitHub secrets and git hooks
+  • Configure Linear MCP server
+  • Create Linear issue templates
+  • Create test issue
+  • Test the workflow
+  • Commit and push installation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
 **IMPORTANT:** Before making any changes, create a new branch for the installation.
 
 **Ask the user:**
@@ -418,9 +464,11 @@ You can review all changes before merging to your main branch.
 Branch name [setup/linear-workflow]:
 ```
 
-**Create the branch:**
+**Create the branch with clear progress:**
 
 ```bash
+echo "Creating installation branch..."
+
 cd "/path/to/project" && \
   git checkout -b setup/linear-workflow && \
   echo "✓ Created branch: setup/linear-workflow"
@@ -456,9 +504,28 @@ This prevents installation failures by catching issues upfront and fixing them a
 
 **Mark TODO as in_progress, then run checks, then mark as completed.**
 
+**Show progress and clear descriptions before each check:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Linear Workflow Setup
+
+Progress: [███_______] 3/11 steps complete
+
+Running pre-flight environment checks...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
 **Run these checks automatically (batched to minimize approval prompts):**
 
 ```bash
+# Display what we're checking
+echo "Verifying project directory..."
+echo "Checking git repository status..."
+echo "Validating GitHub access..."
+echo "Confirming tool installations..."
+echo ""
+
 # Batch 1: All environment checks in target directory (one approval)
 cd "/path/to/project" && \
   echo "=== DIRECTORY ===" && pwd && \
@@ -740,6 +807,36 @@ Reminder saved to installation summary.
 ### Phase 4: Configuration Wizard
 
 **[Step 4 of 11 | Interactive | ~2-5 minutes]**
+
+**Show progress:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Linear Workflow Setup
+
+Progress: [████______] 4/11 steps complete
+
+Completed:
+  ✓ Confirm project location
+  ✓ Create installation branch
+  ✓ Run pre-flight environment checks
+
+Current:
+  ⟳ Configure Linear workspace connection
+
+Remaining:
+  • Set up branch strategy and status mappings
+  • Configure commit and PR formats
+  • Install workflow files and documentation
+  • Set up GitHub secrets and git hooks
+  • Configure Linear MCP server
+  • Create Linear issue templates
+  • Create test issue
+  • Test the workflow
+  • Commit and push installation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 Ask the user these questions **one at a time**, storing answers in memory:
 
@@ -1673,6 +1770,36 @@ Your choice [1]: _____
 
 **[Step 5 of 11 | Review | ~1 minute]**
 
+**Show progress:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Linear Workflow Setup
+
+Progress: [█████_____] 5/11 steps complete
+
+Completed:
+  ✓ Confirm project location
+  ✓ Create installation branch
+  ✓ Run pre-flight environment checks
+  ✓ Configure Linear workspace connection
+  ✓ Set up branch strategy and status mappings
+
+Current:
+  ⟳ Review configuration
+
+Remaining:
+  • Install workflow files and documentation
+  • Set up GitHub secrets and git hooks
+  • Configure Linear MCP server
+  • Create Linear issue templates
+  • Create test issue
+  • Test the workflow
+  • Commit and push installation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
 Display complete configuration and confirm:
 
 ```
@@ -1909,37 +2036,53 @@ Shows:
 
 Once confirmed, execute installation via the orchestrator:
 
+Show progress at the start of installation:
 ```
-📦 Installing Linear Workflow...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Linear Workflow Setup
 
-1. Creating configuration file
-   ✓ .linear-workflow.json created
+Progress: [██████____] 6/11 steps complete
 
-2. Creating GitHub Actions workflow
-   ✓ .github/workflows/linear-status-update.yml created
+Installing workflow files...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
-3. Creating workflow documentation
-   ✓ docs/linear-workflow.md created
+Display each step with clear descriptions:
 
-4. Creating MCP reference files
-   ✓ .mcp.json created (reference for Claude Desktop users)
-   ✓ .env.example created (reference template)
-   ✓ .gitignore updated
+```
+📦 Installing Linear Workflow
 
-5. Installing git hooks
-   ✓ .git/hooks/commit-msg installed
-   ⏳ Testing hook...
-   ✓ Hook validation passed (7/7 tests)
+[1/7] Creating workflow configuration...
+      ✓ .linear-workflow.json created
 
-6. Creating issue documentation folder
-   ✓ docs/issues/ created
+[2/7] Setting up GitHub Actions automation...
+      ✓ .github/workflows/linear-status-update.yml created
 
-7. Setting up GitHub secrets
-   ✓ LINEAR_API_KEY added to repository secrets
-   ⏳ Validating secret...
-   ✓ Secret validated - Linear API connection successful
+[3/7] Generating team documentation...
+      ✓ docs/linear-workflow.md created
 
+[4/7] Creating MCP reference files...
+      ✓ .mcp.json created (reference for Claude Desktop users)
+      ✓ .env.example created (reference template)
+      ✓ .gitignore updated
+
+[5/7] Installing commit message validation...
+      ✓ .git/hooks/commit-msg installed
+      ⟳ Testing hook validation...
+      ✓ Hook validation passed (7/7 tests)
+
+[6/7] Creating issue documentation folder...
+      ✓ docs/issues/ created
+
+[7/7] Configuring GitHub repository secrets...
+      ⟳ Adding LINEAR_API_KEY to GitHub...
+      ✓ LINEAR_API_KEY added to repository secrets
+      ⟳ Validating Linear API connection...
+      ✓ Secret validated - Linear API connection successful
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✅ Installation complete!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 **Secret Validation Details:**
@@ -2186,6 +2329,35 @@ git commit -m "test: Verify hook (DEV-123)"
 
 **[Step 7 of 11 | Requires Browser Authentication | ~1-2 minutes]**
 
+**Show progress:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Linear Workflow Setup
+
+Progress: [███████___] 7/11 steps complete
+
+Completed:
+  ✓ Confirm project location
+  ✓ Create installation branch
+  ✓ Run pre-flight environment checks
+  ✓ Configure Linear workspace connection
+  ✓ Set up branch strategy and status mappings
+  ✓ Review configuration
+  ✓ Install workflow files and documentation
+
+Current:
+  ⟳ Configure Linear MCP server
+
+Remaining:
+  • Create Linear issue templates
+  • Create test issue
+  • Test the workflow
+  • Commit and push installation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
 **BEFORE STARTING THIS PHASE:**
 
 Show the user what to expect:
@@ -2352,12 +2524,41 @@ Then restart Claude Desktop application.
 
 **[Step 8 of 11 | Automatic | ~30 seconds]**
 
+**Show progress:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Linear Workflow Setup
+
+Progress: [████████__] 8/11 steps complete
+
+Completed:
+  ✓ Confirm project location
+  ✓ Create installation branch
+  ✓ Run pre-flight environment checks
+  ✓ Configure Linear workspace connection
+  ✓ Set up branch strategy and status mappings
+  ✓ Review configuration
+  ✓ Install workflow files and documentation
+  ✓ Configure Linear MCP server
+
+Current:
+  ⟳ Create Linear issue templates
+
+Remaining:
+  • Create test issue
+  • Test the workflow
+  • Commit and push installation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
 **After installation completes, automatically create Linear templates:**
 
 ```
 Creating Linear issue templates...
 
-[1/3] Bug Report template
+[1/3] ⟳ Bug Report template
 [2/3] Improvement template
 [3/3] New Feature template
 ```
@@ -2417,6 +2618,35 @@ curl -X POST https://api.linear.app/graphql \
 
 **[Step 9 of 11 | Automatic | ~10 seconds]**
 
+**Show progress:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Linear Workflow Setup
+
+Progress: [█████████_] 9/11 steps complete
+
+Completed:
+  ✓ Confirm project location
+  ✓ Create installation branch
+  ✓ Run pre-flight environment checks
+  ✓ Configure Linear workspace connection
+  ✓ Set up branch strategy and status mappings
+  ✓ Review configuration
+  ✓ Install workflow files and documentation
+  ✓ Configure Linear MCP server
+  ✓ Create Linear issue templates
+
+Current:
+  ⟳ Create test issue
+
+Remaining:
+  • Test the workflow
+  • Commit and push installation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
 **After templates are created, create a test issue using Linear API:**
 
 **IMPORTANT:** Since MCP authentication is now complete, you could use MCP tools here, but for consistency during installation, continue using curl.
@@ -2462,6 +2692,35 @@ to analyze. When you run "Let's get to work on {{ISSUE-ID}}", Claude will:
 
 **[Step 10 of 11 | Automatic Validation + Optional Full Test | ~1-3 minutes]**
 
+**Show progress:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Linear Workflow Setup
+
+Progress: [██████████] 10/11 steps complete
+
+Completed:
+  ✓ Confirm project location
+  ✓ Create installation branch
+  ✓ Run pre-flight environment checks
+  ✓ Configure Linear workspace connection
+  ✓ Set up branch strategy and status mappings
+  ✓ Review configuration
+  ✓ Install workflow files and documentation
+  ✓ Configure Linear MCP server
+  ✓ Create Linear issue templates
+  ✓ Create test issue
+
+Current:
+  ⟳ Test the workflow
+
+Remaining:
+  • Commit and push installation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
 **After test issue is created, AUTOMATICALLY run validation tests:**
 
 **Part A: Automatic Validation (No user input required)**
@@ -2471,7 +2730,7 @@ to analyze. When you run "Let's get to work on {{ISSUE-ID}}", Claude will:
 
 🧪 Running Automated Tests...
 
-[1/5] Testing Linear MCP connection...
+[1/5] ⟳ Testing Linear MCP connection...
       Fetching test issue {{ISSUE-ID}}...
 ```
 
@@ -2674,20 +2933,57 @@ Let's finalize the installation.
 
 **[Step 11 of 11 | Automatic | ~30 seconds]**
 
+**Show progress:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Linear Workflow Setup
+
+Progress: [███████████] 11/11 steps complete
+
+Completed:
+  ✓ Confirm project location
+  ✓ Create installation branch
+  ✓ Run pre-flight environment checks
+  ✓ Configure Linear workspace connection
+  ✓ Set up branch strategy and status mappings
+  ✓ Review configuration
+  ✓ Install workflow files and documentation
+  ✓ Configure Linear MCP server
+  ✓ Create Linear issue templates
+  ✓ Create test issue
+  ✓ Test the workflow
+
+Current:
+  ⟳ Commit and push installation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
 **After testing is complete (or skipped), switch back to setup branch and commit all installation files:**
 
 ```
+Finalizing installation...
+
 Switching back to setup/linear-workflow branch...
-Committing all installation files...
+Adding all workflow files...
+Committing installation...
 ```
 
 **Batch all git operations together:**
 
 ```bash
+echo "Switching to installation branch..."
+
 cd "/path/to/project" && \
   git checkout setup/linear-workflow && \
   echo "✓ Switched to setup/linear-workflow" && \
+  echo "" && \
+  echo "Staging workflow files..." && \
   git add .linear-workflow.json .mcp.json .env .env.example .gitignore .github/ docs/ .git/hooks/commit-msg && \
+  echo "✓ Files staged for commit" && \
+  echo "" && \
+  echo "Creating commit..." && \
   git commit -m "feat: Add Linear workflow integration
 
 - GitHub Actions workflow for automatic status updates
