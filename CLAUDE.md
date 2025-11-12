@@ -2433,8 +2433,8 @@ curl -X POST https://api.linear.app/graphql \
   -d '{
     "query": "mutation { issueCreate(input: {
       teamId: \"{{teamId}}\",
-      title: \"Test Linear + Claude + GitHub Integration\",
-      description: \"This is a test issue to verify the Linear workflow setup.\\n\\nWhen you commit code referencing this issue, it should automatically:\\n- Update to In Progress when pushed to a feature branch\\n- Update to Review Required when merged to main\\n- Update to Done when merged to prod\\n\\nTest by running: git commit -m \\\"test: Verify workflow ({{issueId}})\\\"\"
+      title: \"Add user authentication to dashboard\",
+      description: \"## Overview\\n\\nImplement user authentication for the dashboard to ensure only authorized users can access sensitive data.\\n\\n## Requirements\\n\\n- Support email/password login\\n- Add JWT token-based authentication\\n- Implement password reset flow\\n- Add session management\\n- Secure API endpoints\\n\\n## Acceptance Criteria\\n\\n- [ ] User can log in with email and password\\n- [ ] Invalid credentials show appropriate error\\n- [ ] JWT tokens are generated and validated correctly\\n- [ ] Password reset email is sent successfully\\n- [ ] Session expires after 24 hours of inactivity\\n- [ ] All API endpoints require valid authentication\\n\\n## Technical Notes\\n\\nConsider using bcrypt for password hashing and verify token expiration is handled properly. May need to update middleware for protected routes.\\n\\n---\\n\\n**Test Issue:** This issue will verify the Linear workflow integration. When Claude analyzes this, it should post a task analysis comment. When you commit and push, the status should update automatically.\"
       stateId: \"{{todoStateId}}\"
     }) { success issue { id identifier title url } } }"
   }'
@@ -2445,8 +2445,15 @@ curl -X POST https://api.linear.app/graphql \
 ```
 Test issue created: {{ISSUE-ID}}
 
-Title: Test Linear + Claude + GitHub Integration
+Title: Add user authentication to dashboard
 URL: https://linear.app/{{workspace}}/issue/{{ISSUE-ID}}
+
+This test issue has realistic requirements and acceptance criteria for Claude
+to analyze. When you run "Let's get to work on {{ISSUE-ID}}", Claude will:
+  1. Fetch and analyze the issue
+  2. Create a detailed task analysis document
+  3. Post the analysis as a comment to the Linear issue ← 2-way flow!
+  4. Create a feature branch and initial commit
 ```
 
 **Mark TODO as completed.**
@@ -2733,16 +2740,26 @@ All changes have been committed to branch: setup/linear-workflow
 
 🎉 Installation Complete!
 
-Give it a try! Test the workflow before merging:
+Give it a try! Test the 2-way workflow before merging:
+
   • Go to your project directory and ask: "Let's get to work on {{ISSUE-ID}}"
+
+    This will demonstrate the full workflow:
+    ✓ Claude fetches and analyzes the issue from Linear
+    ✓ Creates a detailed task analysis document locally
+    ✓ Posts analysis comment back to Linear (2-way flow!)
+    ✓ Creates feature branch and initial commit
+    ✓ Git hook validates your commit message
+
+    Check the Linear issue to see Claude's analysis comment!
+
   • Try other workflow commands:
       - "Fetch me any recent bugs"
       - "Let's get some high priority items"
       - "What are we busy with?"
 
-Once you've played around and confirmed everything works, you'll need to merge
-the changes for the installation to take effect for all team members and enable
-GitHub status updates.
+Once you've tested and confirmed everything works, merge the changes to activate
+the workflow for all team members and enable GitHub status updates.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
