@@ -1,936 +1,611 @@
 <div align="center">
 
-```
-╔═══════════════════════════════════════════════════════════════════════╗
-║                                                                       ║
-║   ██████╗██╗      █████╗ ██╗   ██╗██████╗ ███████╗                  ║
-║  ██╔════╝██║     ██╔══██╗██║   ██║██╔══██╗██╔════╝                  ║
-║  ██║     ██║     ███████║██║   ██║██║  ██║█████╗                    ║
-║  ██║     ██║     ██╔══██║██║   ██║██║  ██║██╔══╝                    ║
-║  ╚██████╗███████╗██║  ██║╚██████╔╝██████╔╝███████╗                  ║
-║   ╚═════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝                  ║
-║                                                                       ║
-║           LINEAR × GITHUB × AI WORKFLOW AUTOMATION                   ║
-║                                                                       ║
-╚═══════════════════════════════════════════════════════════════════════╝
-```
+<br/>
 
-[![Version](https://img.shields.io/badge/version-1.0.0-00ff41.svg?style=for-the-badge)](https://github.com/YOUR_USERNAME/claude-linear-gh-starter)
-[![License](https://img.shields.io/badge/license-MIT-ff1744.svg?style=for-the-badge)](LICENSE)
-[![Node](https://img.shields.io/badge/node-%3E%3D16-00bcd4.svg?style=for-the-badge&logo=node.js)](https://nodejs.org)
-[![AI](https://img.shields.io/badge/AI-Claude-8a2be2.svg?style=for-the-badge)](https://claude.ai)
-[![Status](https://img.shields.io/badge/status-active-00ff41.svg?style=for-the-badge)](https://github.com/YOUR_USERNAME/claude-linear-gh-starter)
+<img src="https://linear.app/cdn-cgi/image/quality=90,format=auto/front/_next/static/media/logomark-white.ea0b5756.svg" alt="Linear" width="50" height="50" />
+&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="https://avatars.githubusercontent.com/u/54814322?s=200&v=4" alt="Claude AI" width="50" height="50" />
+&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" width="50" height="50" />
 
-**⚡ JACK IN TO THE FUTURE OF DEVELOPMENT WORKFLOWS ⚡**
+<br/><br/>
 
-*Cybernetically enhanced issue tracking that syncs Linear, GitHub, and Claude AI into one seamless neural network*
+# 🔗 Linear + GitHub + Claude Workflow
 
-[🚀 Quick Start](#-initialization-sequence) • [📡 Features](#-neural-augmentations) • [📖 Docs](docs/) • [📝 Changelog](CHANGELOG.md) • [🐛 Issues](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues)
+**Automated issue tracking that actually works** ✨
+
+[![Version](https://img.shields.io/badge/version-1.0.0-5E6AD2?style=for-the-badge&logo=git&logoColor=white)](https://github.com/YOUR_USERNAME/claude-linear-gh-starter)
+[![License](https://img.shields.io/badge/license-MIT-00D084?style=for-the-badge&logo=opensourceinitiative&logoColor=white)](LICENSE)
+[![Node](https://img.shields.io/badge/node-≥16-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
+[![GitHub](https://img.shields.io/badge/GitHub-Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/features/actions)
+
+<br/>
+
+**Production-ready workflow automation that connects Linear issue tracking with GitHub Actions and Claude AI for seamless development operations.**
+
+[🚀 Quick Start](#-quick-start) • [✨ Features](#-key-features) • [📖 Documentation](docs/) • [💬 Support](#-support)
+
+<br/>
 
 </div>
 
 ---
 
-## 🔮 SYSTEM OVERVIEW
+## 🎯 What Is This?
 
-A **next-generation workflow automation matrix** that neurally links **Linear issue tracking**, **Claude AI consciousness**, and **GitHub Actions** into a unified development cyberspace. Push commits, merge PRs, and watch your Linear issues auto-update in real-time through the digital void.
+A **5-minute setup wizard** that automates your entire Linear workflow. Push commits and merge PRs—Linear issues update themselves. No manual work, no context switching, just smooth sailing.
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  ORGANIC DEVELOPER        CLAUDE AI          LINEAR MCP          │
-│       INPUT          ⚡   PROCESSING    ⚡   SYNCHRONIZATION      │
-│         ↓                      ↓                    ↓            │
-│    [ git push ]  →  [ analysis ]  →  [ status update ]          │
-│         ↓                      ↓                    ↓            │
-│    [ PR merge ]  →  [ summary ]   →  [ assignment ]             │
-│         ↓                      ↓                    ↓            │
-│   [ deployment ]  → [ tracking ]  →  [ completion ]             │
-└─────────────────────────────────────────────────────────────────┘
-```
+**Two-pronged integration:**
+- 🤖 **GitHub Actions**: Automates status updates based on git activity
+- 🧠 **Claude AI**: Interactive issue management via Model Context Protocol (MCP)
 
-**Dual Integration Approach:**
-- **GitHub Actions**: Uses Linear API for automated CI/CD status updates
-- **Claude Code**: Uses Linear MCP Server for clean, interactive development tools
+<br/>
 
----
-
-## 🎯 WHY THIS PROJECT
+## ✨ Key Features
 
 <table>
-<tr><td>
+<tr>
+<td width="50%">
 
-### ✅ **PRODUCTION-READY**
-Automated pre-flight checks catch 95% of common issues before installation. Safe installation branch for review before merging.
+### 🔄 Automated Workflow
+- ✅ **Auto Status Updates** — Issues flow through your workflow as code moves
+- 👥 **Smart Assignment** — Auto-assign reviewers, QA leads, and stakeholders
+- 🌿 **Branch Detection** — Monitors git activity and syncs with Linear
 
-</td><td>
+</td>
+<td width="50%">
 
-### ⚡ **5-MINUTE SETUP**
-Interactive wizard handles everything automatically. No manual configuration or complex scripts to write.
+### ⚡ Developer Experience
+- ⏱️ **5-Minute Setup** — Interactive wizard handles everything
+- 🛡️ **Pre-Flight Validation** — Catches 95% of issues before install
+- 🔒 **Safe Installation** — All changes on review branch first
 
-</td></tr>
-<tr><td>
+</td>
+</tr>
+<tr>
+<td width="50%">
 
-### 🔒 **SECURITY-FIRST**
-API keys stored in GitHub secrets and gitignored `.env` files. Never committed to repository. Branch protection compatible.
+### 🔐 Security & Compliance
+- 🔑 **Secrets Management** — API keys in GitHub Secrets, never in code
+- 🛡️ **Branch Protection** — Works with protected branches
+- 📋 **Audit Trail** — Complete history in Linear
 
-</td><td>
+</td>
+<td width="50%">
 
-### 📚 **FULLY DOCUMENTED**
-Comprehensive guides for setup, usage, and troubleshooting. Examples for every workflow pattern. Clear error messages with fixes.
+### 👥 Team Collaboration
+- 🤖 **AI Task Analysis** — Claude analyzes and summarizes issues
+- 🎨 **Flexible Config** — Startup, small team, or enterprise workflows
+- 📚 **Auto-Generated Docs** — Complete workflow docs for your team
 
-</td></tr>
+</td>
+</tr>
 </table>
+
+<br/>
 
 ---
 
-## ⚡ NEURAL AUGMENTATIONS
+## 💡 Use Cases
+
+<div align="center">
+
+| Team Type | Branch Strategy | Status Stages | Setup Time |
+|-----------|----------------|---------------|------------|
+| **🚀 Startup** (1-3 devs) | `main` only | 2 statuses | ~2 min |
+| **👥 Small Team** (3-10 devs) | `main` + `staging` | 4 statuses | ~4 min |
+| **🏢 Enterprise** (10+ devs) | `main` + `staging` + `prod` | 4+ statuses | ~6 min |
+
+</div>
+
+<br/>
+
+---
+
+## 📋 Prerequisites
+
+Before diving in, make sure you have:
 
 <table>
-<tr><td>
-
-### 🤖 **AUTOMATED SYNAPSES**
-Linear issues update automatically based on git activity—no manual intervention required
-
-</td><td>
-
-### 👤 **AUTO-ASSIGNMENT PROTOCOL**
-Issues auto-assign to team members on status transitions—reviewers notified instantly
-
-</td></tr>
-<tr><td>
-
-### 🧠 **AI TASK ANALYSIS**
-Claude analyzes issues and posts structured intelligence reports to your Linear workspace
-
-</td><td>
-
-### 🔌 **LINEAR MCP INTEGRATION**
-Direct Claude Code integration via MCP server—clean tools instead of raw API calls
-
-</td></tr>
-<tr><td>
-
-### 🎯 **FULLY MODULAR**
-Configure team keys, branch strategies, status mappings, and assignment rules—your rules, your way
-
-</td><td>
-
-### 📚 **AUTO-DOCUMENTATION**
-Complete workflow documentation auto-generated for your team's knowledge base
-
-</td></tr>
-<tr><td>
-
-### ⚡ **INSTANT DEPLOYMENT**
-Interactive setup wizard completes configuration in less than 10 minutes
-
-</td><td>
-
-### 🔐 **SECURE BY DEFAULT**
-API keys stored in GitHub secrets, zero credentials in your codebase
-
-</td></tr>
+<tr>
+<th>Requirement</th>
+<th>Version</th>
+<th>Purpose</th>
+</tr>
+<tr>
+<td>🔧 Git</td>
+<td>Latest</td>
+<td>Repository management</td>
+</tr>
+<tr>
+<td>🐙 GitHub CLI</td>
+<td>Latest</td>
+<td>GitHub API access</td>
+</tr>
+<tr>
+<td>📦 Node.js</td>
+<td>16+</td>
+<td>MCP server runtime</td>
+</tr>
+<tr>
+<td>📊 Linear Account</td>
+<td>N/A</td>
+<td>Issue tracking</td>
+</tr>
+<tr>
+<td>🏠 GitHub Repository</td>
+<td>N/A</td>
+<td>Code hosting</td>
+</tr>
 </table>
 
----
-
-## 🌐 DATA FLOW ARCHITECTURE
-
-```diff
-╔══════════════════════════════════════════════════════════════════╗
-║  STAGE 1: FEATURE BRANCH ACTIVATION                              ║
-╠══════════════════════════════════════════════════════════════════╣
-║                                                                  ║
-║  $ git push origin feature/dev-123-neural-link                   ║
-║                                                                  ║
-║  ┌──────────────────────────────────────────────────────────┐   ║
-║  │  GitHub Actions: DETECTING ISSUE ID                       │   ║
-║  │  ✓ Found: DEV-123                                         │   ║
-║  │  ✓ Linear API: UPDATE STATUS → "In Progress"             │   ║
-+ │  ✓ Status: SYNCHRONIZED                                    │   ║
-║  └──────────────────────────────────────────────────────────┘   ║
-╚══════════════════════════════════════════════════════════════════╝
-
-╔══════════════════════════════════════════════════════════════════╗
-║  STAGE 2: PULL REQUEST LINK                                      ║
-╠══════════════════════════════════════════════════════════════════╣
-║                                                                  ║
-║  $ gh pr create --title "DEV-123: Implement neural interface"    ║
-║                                                                  ║
-║  ┌──────────────────────────────────────────────────────────┐   ║
-║  │  PR #42 CREATED                                           │   ║
-+ │  ✓ Linked to Linear issue DEV-123                          │   ║
-║  │  ✓ Status: Remains "In Progress" (awaiting merge)        │   ║
-║  └──────────────────────────────────────────────────────────┘   ║
-╚══════════════════════════════════════════════════════════════════╝
-
-╔══════════════════════════════════════════════════════════════════╗
-║  STAGE 3: MAIN BRANCH INTEGRATION                                ║
-╠══════════════════════════════════════════════════════════════════╣
-║                                                                  ║
-║  $ gh pr merge 42 --merge                                        ║
-║                                                                  ║
-║  ┌──────────────────────────────────────────────────────────┐   ║
-║  │  GitHub Actions: PR MERGED TO MAIN                        │   ║
-+ │  ✓ Linear API: UPDATE STATUS → "Review Required"          │   ║
-+ │  ✓ Auto-assigned → Alice Chen (Code Reviewer)             │   ║
-║  │  ✓ Comment: PR merged to `main` - ready for review       │   ║
-║  └──────────────────────────────────────────────────────────┘   ║
-╚══════════════════════════════════════════════════════════════════╝
-
-╔══════════════════════════════════════════════════════════════════╗
-║  STAGE 4: PRODUCTION DEPLOYMENT                                  ║
-╠══════════════════════════════════════════════════════════════════╣
-║                                                                  ║
-║  $ git checkout prod && git merge main && git push               ║
-║                                                                  ║
-║  ┌──────────────────────────────────────────────────────────┐   ║
-║  │  GitHub Actions: DEPLOYED TO PRODUCTION                   │   ║
-+ │  ✓ Linear API: UPDATE STATUS → "Done"                      │   ║
-+ │  ✓ WORKFLOW COMPLETE - NEURAL LINK SUCCESSFUL              │   ║
-║  └──────────────────────────────────────────────────────────┘   ║
-╚══════════════════════════════════════════════════════════════════╝
-```
-
----
-
-## 🔧 SYSTEM REQUIREMENTS
-
-Before jacking into the matrix, ensure your rig has:
-
-| Component | Requirement | Status |
-|-----------|-------------|--------|
-| **Git Repository** | Initialized local repo | ✅ Required |
-| **GitHub CLI** | `gh` installed + authenticated | ✅ Required |
-| **Node.js** | v16+ (for MCP integration) | ✅ Required |
-| **Claude Access** | Code CLI or Desktop app | ✅ Required |
-| **Linear Account** | API access enabled | ✅ Required |
-| **GitHub Permissions** | Repository admin rights | ✅ Required |
-
-<details>
-<summary>📦 <b>Installation Commands</b></summary>
-
+**Quick Install:**
 ```bash
 # macOS
 brew install gh node
 
 # Linux (Debian/Ubuntu)
-curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg
-sudo apt update && sudo apt install gh nodejs
+sudo apt install gh nodejs
 
-# Windows (via Chocolatey)
+# Windows
 choco install gh nodejs
 
-# Authenticate GitHub CLI
+# Authenticate with GitHub
 gh auth login
 ```
 
-</details>
+<br/>
 
 ---
 
-## 🛡️ PRE-FLIGHT VALIDATION
+## 🚀 Quick Start
 
-**IMPORTANT:** Before running the setup wizard, validate your environment to prevent installation failures.
+### Step 1️⃣: Validate Environment
 
-### Automated Pre-Flight Checks
-
-Run the comprehensive validation script:
+Run pre-flight checks to ensure everything's ready:
 
 ```bash
 ./scripts/preflight-checks.sh
 ```
 
-This checks for:
-- ✅ Git repository
-- ✅ GitHub CLI installation
-- ✅ GitHub CLI authentication **with `workflow` scope**
-- ✅ GitHub repository connection
+This validates:
+- ✅ Git repository initialization
+- ✅ GitHub CLI installation and authentication
+- ✅ Required `workflow` scope for GitHub CLI
+- ✅ Repository access permissions
 - ✅ Node.js installation
-- ✅ Working directory status
-- ✅ Existing workflow detection
 
-**Common Issues:**
+**⚠️ Common Issue:** Missing `workflow` scope
 
-#### Missing `workflow` Scope
-
-If you see:
-```
-⚠️  Missing 'workflow' scope
-```
-
-**Fix:** Use the authentication helper:
-```bash
-./scripts/github-auth-helper.sh
-```
-
-Or manually refresh:
+If you see this warning:
 ```bash
 gh auth refresh --scopes workflow
 ```
 
-**Why this matters:** Without the `workflow` scope, you cannot push files to `.github/workflows/` - the setup will fail when committing workflow files.
+<br/>
 
-See [Troubleshooting Guide](docs/troubleshooting.md) for complete issue resolution.
+### Step 2️⃣: Run Setup Wizard
 
----
-
-## 🚀 INITIALIZATION SEQUENCE
-
-### ▸ STEP 0: PRE-FLIGHT VALIDATION
+From your project directory in Claude Code:
 
 ```bash
-# Validate your environment first
-./scripts/preflight-checks.sh
+# Option 1: Slash command
+/setup-linear
 
-# Fix GitHub authentication if needed
-./scripts/github-auth-helper.sh
+# Option 2: Natural language
+"Setup Linear workflow"
 ```
 
-### ▸ STEP 1: ACQUIRE REPOSITORY
+The wizard guides you through:
+
+1. 📍 **Project Location** - Where to install the workflow
+2. 🌿 **Branch Strategy** - Choose preset profiles or customize
+3. 🔗 **Linear Connection** - Connect to workspace and team
+4. 📊 **Status Mapping** - Map git events to Linear statuses
+5. 📝 **Format Configuration** - Define commit/PR patterns
+6. 👥 **Auto-Assignment** - Configure team assignments
+7. 📈 **Detail Level** - Set update verbosity
+
+<br/>
+
+### Step 3️⃣: Test & Merge
+
+Installation creates a `setup/linear-workflow` branch. Test first, then merge:
 
 ```bash
-# Clone the neural template
-git clone https://github.com/YOUR_USERNAME/claude-linear-gh-starter.git
-cd claude-linear-gh-starter
+# Test the workflow
+"Let's get to work on DEV-123"
 
-# Or use as GitHub template (recommended)
-gh repo create my-project --template YOUR_USERNAME/claude-linear-gh-starter
-```
+# Review changes
+git diff main setup/linear-workflow
 
-### ▸ STEP 2: NAVIGATE TO TARGET WORKSPACE
-
-```bash
-cd /path/to/your/project
-```
-
-### ▸ STEP 3: INITIATE SETUP PROTOCOL
-
-**Option 1: Use Slash Command (Fastest)**
-```bash
-# Launch Claude Code in your project directory
-claude-code
-
-# Execute setup with slash command:
-> /setup-linear
-```
-
-**Option 2: Natural Language**
-```bash
-# Launch Claude Code in your project directory
-claude-code
-
-# Say any of these:
-> "Setup Linear workflow"
-> "Install Linear workflow"
-> /install
-```
-
-### ▸ STEP 4: CONFIGURATION WIZARD
-
-The wizard guides you through configuration in clear, sequential phases:
-
-```
-┌─────────────────────────────────────────────────────────┐
-│ 🎯 QUESTION 1: Project Location                        │
-│ 📊 QUESTION 2: GitHub Authentication                   │
-│ 🌿 QUESTION 3: Branch Strategy                         │
-│ 🔗 QUESTION 4: Linear Configuration                    │
-│ 📝 QUESTION 5: Commit & PR Formats                     │
-│ 🎚️  QUESTION 6: Update Detail Level                    │
-│ 📁 QUESTION 7: Documentation Location                  │
-│ 👥 QUESTION 8: Auto-Assignment Rules                   │
-└─────────────────────────────────────────────────────────┘
-```
-
-### ▸ STEP 5: AUTO-INSTALLATION
-
-**Safety first:** All changes are installed on a new branch `setup/linear-workflow`
-
-```log
-📦 Installing Linear Workflow...
-
-[0/8] Creating installation branch
-      ✓ Branch created: setup/linear-workflow
-
-[1/8] Creating configuration file
-      ✓ .linear-workflow.json created
-
-[2/8] Generating GitHub Actions workflow
-      ✓ .github/workflows/linear-status-update.yml created
-
-[3/8] Building workflow documentation
-      ✓ docs/linear-workflow.md created
-
-[4/8] Configuring MCP integration
-      ✓ .mcp.json created (MCP server config)
-      ✓ .env created (Linear API key)
-      ✓ .env.example created (template for team)
-      ✓ .gitignore updated (excludes .env)
-
-[5/8] Installing git hooks
-      ✓ .git/hooks/commit-msg installed
-
-[6/8] Creating issue documentation folders
-      ✓ docs/issues/ created
-
-[7/8] Setting up GitHub secrets
-      ✓ LINEAR_API_KEY added to repository secrets
-
-[8/8] Creating test issue
-      ✓ Test issue DEV-1608 created
-
-[9/8] Testing workflow
-      ✓ Commit message hook validated
-      ✓ Git push successful
-      ✓ MCP integration verified
-
-[10/8] Committing and pushing changes
-      ✓ All changes committed to setup/linear-workflow
-      ✓ Branch pushed to GitHub
-
-✅ INSTALLATION COMPLETE - READY FOR MERGE
-```
-
-**⚠️ Important:**
-- The test branch (`feature/DEV-1608-test-setup`) was just for testing - you can delete it
-- **Merge the `setup/linear-workflow` branch** to activate the full workflow
-- GitHub Actions will become active once `setup/linear-workflow` is merged to main
-
-**Merge options:**
-- Direct merge: `git checkout main && git merge setup/linear-workflow && git push`
-- Create PR (recommended): `gh pr create --base main --head setup/linear-workflow`
-
-**After merging setup/linear-workflow:** All commits with Linear issue references will automatically update issue statuses!
-
-### ▸ STEP 6: MERGE AND ACTIVATE
-
-**Important:** Merge the `setup/linear-workflow` branch (not the test branch) to activate the workflow.
-
-```bash
 # Option 1: Direct merge
-git checkout main
-git merge setup/linear-workflow
-git push origin main
+git checkout main && git merge setup/linear-workflow && git push
 
-# Option 2: Pull Request (recommended)
-gh pr create --base main --head setup/linear-workflow \
-  --title "feat: Add Linear workflow integration"
-
-# Optional: Clean up test branch
-git branch -d feature/DEV-1608-test-setup
-git push origin --delete feature/DEV-1608-test-setup
+# Option 2: Pull request (recommended)
+gh pr create --base main --head setup/linear-workflow
 ```
 
-**What happens after merge:**
-```log
-✅ WORKFLOW ACTIVATED
+<br/>
 
-✓ GitHub Actions workflow is now active
-✓ Commits with Linear issue IDs will auto-update statuses
-✓ PR merges will trigger status changes
-✓ Linear MCP tools available in Claude Code
-✓ Commit message validation active
+### Step 4️⃣: Start Using
 
-🎯 READY TO CODE - NEURAL LINK ESTABLISHED
-```
+Once merged, the workflow activates automatically:
 
-**Try it out:**
 ```bash
-# Work on a Linear issue
-> "Start work on DEV-123"
+# Work on an issue
+git checkout -b feature/DEV-123-new-feature
+git commit -m "feat: implement feature (DEV-123)"
+git push
+# ✅ Status automatically updates to "In Progress"
 
-# Claude will:
-# 1. Fetch issue from Linear (via MCP)
-# 2. Create feature branch
-# 3. Make commit with issue reference
-# 4. Push to GitHub
-# 5. GitHub Actions updates Linear status → "In Progress"
+# Create and merge PR
+gh pr create --title "DEV-123: Implement new feature"
+gh pr merge --merge
+# ✅ Status automatically updates to "Review Required"
 ```
+
+<br/>
 
 ---
 
-## 📂 INSTALLED COMPONENTS
+## 🔄 How It Works
+
+<div align="center">
 
 ```
-your-project/
-├── .github/
-│   └── workflows/
-│       └── linear-status-update.yml    ⚡ Auto-generated GitHub Actions workflow
-├── .git/
-│   └── hooks/
-│       └── commit-msg                   🔒 Commit message validator
-├── docs/
-│   ├── linear-workflow.md              📖 Complete workflow documentation
-│   └── issues/                         📁 AI-generated issue analysis
-│       ├── DEV-123-feature-name/
-│       └── DEV-124-another-feature/
-├── .mcp.json                           🔌 Linear MCP server configuration
-├── .env                                🔐 Linear API key (gitignored)
-├── .env.example                        📝 Template for team members
-├── .linear-workflow.json               ⚙️  Your configuration matrix
-└── CLAUDE.md                           🤖 Updated with Linear commands
+┌─────────────────────────────────────────────────────────────┐
+│  🌿 Stage 1: Feature Branch                                 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  Developer pushes to feature/DEV-123-feature                │
+│  → GitHub Actions detects issue ID                          │
+│  → Calls Linear API                                         │
+│  → ✅ Updates status to "In Progress"                       │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│  🔄 Stage 2: Pull Request                                   │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  PR merged to main branch                                   │
+│  → GitHub Actions detects merge                             │
+│  → ✅ Updates status to "Code Review"                       │
+│  → 👤 Auto-assigns reviewer (if configured)                │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│  🧪 Stage 3: Staging Deployment                             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  Merged to staging branch                                   │
+│  → ✅ Updates status to "QA Testing"                        │
+│  → 👥 Auto-assigns QA lead (if configured)                 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│  🚀 Stage 4: Production Release                             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  Merged to production branch                                │
+│  → ✅ Updates status to "Done"                              │
+│  → 🎉 Workflow complete                                     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
 ```
+
+</div>
+
+<br/>
 
 ---
 
-## 🎛️ CONFIGURATION SCHEMA
+## ⚙️ Configuration
 
-**`.linear-workflow.json`** — Your neural interface settings:
+### 📊 Workflow Profiles
 
-```json
-{
-  "version": "1.0.0",
-  "project": {
-    "name": "cyberpunk-2077-patch",
-    "path": "/home/netrunner/projects/cyberpunk"
-  },
-  "branches": {
-    "main": "main",
-    "staging": "staging",
-    "prod": "production"
-  },
-  "linear": {
-    "teamKey": "DEV",
-    "teamId": "8f7a3bc1-e9d4-4a21-9c7b-1f5e8d3a9b2c",
-    "teamName": "Neural Development",
-    "workspaceId": "2a8c9f1d-7e3b-4f8a-a9c1-5d7e9f1a3b4c",
-    "workspaceName": "Night City Industries",
-    "statuses": {
-      "inProgress": "In Progress",
-      "inProgressId": "9d7f3a1c-8e2b-4d9a-b7f1-3c8e9d2a5f4b",
-      "review": "Code Review",
-      "reviewId": "7e3b1a9c-5d8f-4e7a-9b3c-1f7e8d3a9c2b",
-      "staging": "QA Testing",
-      "stagingId": "3f9a7c1d-2e8b-4f1a-9c7b-5d3e9f7a1c8b",
-      "done": "Deployed",
-      "doneId": "1c8f9a3d-7e2b-4a9c-8f1b-3d7e9c5a1f8b"
-    }
-  },
-  "formats": {
-    "commit": "conventional-parens",
-    "pr": "issue-prefix",
-    "issuePattern": "[A-Z]+-\\d+",
-    "issueExample": "DEV-2077"
-  },
-  "assignees": {
-    "enabled": true,
-    "onReview": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",     // → Alice (Reviewer)
-    "onStaging": "b2c3d4e5-f6a7-8901-bcde-f12345678901",    // → Bob (QA Lead)
-    "preserveOriginal": true
-  },
-  "detail": "technical",
-  "paths": {
-    "issues": "/docs/issues/",
-    "workflow": "/.github/workflows/linear-status-update.yml"
-  },
-  "installed": "2025-11-11T14:30:00.000Z",
-  "installedBy": "claude-linear-gh-starter"
-}
-```
-
----
-
-## 🎮 COMMAND INTERFACE
-
-### Starting a New Task
-
-```
-You: "Start work on DEV-2077"
-
-Claude: ⚡ NEURAL LINK INITIATED...
-
-        ✓ Issue fetched from Linear API
-        ✓ Analysis document created → /docs/issues/DEV-2077-cyberdeck-upgrade/
-        ✓ Summary posted to Linear
-        ✓ Branch created: feature/dev-2077-cyberdeck-upgrade
-        ✓ Initial commit pushed
-        ✓ Status updated → "In Progress"
-
-        🎯 READY FOR IMPLEMENTATION
-```
-
-### Creating a Pull Request
-
-```
-You: "Create PR for DEV-2077"
-
-Claude: 📡 TRANSMITTING TO GITHUB...
-
-        ✓ PR created: "DEV-2077: Upgrade cyberdeck neural interface"
-        ✓ Summary posted to Linear
-        ✓ Status updated → "Code Review"
-        ✓ Auto-assigned → Alice Chen (Code Reviewer)
-
-        🔗 https://github.com/night-city/project/pull/2077
-```
-
-### Continuing Work
-
-```
-You: "Continue DEV-2077"
-
-Claude: 🔄 RESUMING NEURAL LINK...
-
-        ✓ Issue context fetched
-        ✓ Branch checked out: feature/dev-2077-cyberdeck-upgrade
-        ✓ Previous work reviewed
-        ✓ Ready to continue implementation
-
-        📝 Last checkpoint: Implemented basic encryption layer
-```
-
----
-
-## 🌊 WORKFLOW VARIANTS
+Choose from pre-configured profiles during setup:
 
 <table>
-<tr><th>🏢 DEPLOYMENT TYPE</th><th>🌿 BRANCH STRATEGY</th><th>📊 STATUS PIPELINE</th></tr>
 <tr>
-<td>
+<td width="33%">
 
-**🏃 STARTUP**
-*Move fast, ship faster*
-
-</td>
-<td>
-
-```
-main
-```
+**🚀 Startup Profile**
+- Branches: `main` only
+- Statuses: In Progress → Done
+- Best for: Solo devs, rapid prototyping
+- Setup time: ~2 minutes
 
 </td>
-<td>
+<td width="33%">
 
-```
-Todo
-  ↓
-In Progress
-  ↓
-Done
-```
+**👥 Small Team Profile**
+- Branches: `main` + `staging`
+- Statuses: In Progress → Code Review → QA → Done
+- Best for: Teams of 3-10 developers
+- Setup time: ~4 minutes
 
 </td>
-</tr>
-<tr>
-<td>
+<td width="33%">
 
-**👥 SMALL TEAM**
-*Balanced velocity*
-
-</td>
-<td>
-
-```
-main
-  ↓
-staging
-```
-
-</td>
-<td>
-
-```
-Todo
-  ↓
-In Progress
-  ↓
-Code Review
-  ↓
-Done
-```
-
-</td>
-</tr>
-<tr>
-<td>
-
-**🏢 ENTERPRISE**
-*Full pipeline control*
-
-</td>
-<td>
-
-```
-main
-  ↓
-staging
-  ↓
-production
-```
-
-</td>
-<td>
-
-```
-Todo
-  ↓
-In Progress
-  ↓
-Code Review
-  ↓
-QA Testing
-  ↓
-Done
-```
+**🏢 Enterprise Profile**
+- Branches: `main` + `staging` + `prod`
+- Statuses: Full workflow with gates
+- Best for: Large teams, regulated industries
+- Setup time: ~6 minutes
 
 </td>
 </tr>
 </table>
 
----
+<br/>
 
-## 📡 DOCUMENTATION MATRIX
+### 👥 Auto-Assignment
 
-| Document | Description | Link |
-|----------|-------------|------|
-| **Prerequisites** | System requirements & installation | [→ View](docs/prerequisites.md) |
-| **Linear Setup** | Workspace & API configuration | [→ View](docs/linear-setup.md) |
-| **GitHub Setup** | Repository secrets & permissions | [→ View](docs/github-setup.md) |
-| **MCP Setup** | Model Context Protocol integration | [→ View](docs/mcp-setup.md) |
-| **Auto-Assignment** | Team member assignment rules | [→ View](docs/auto-assignment.md) |
-| **Troubleshooting** | Common issues & solutions | [→ View](docs/troubleshooting.md) |
-| **Contributing** | Development guidelines | [→ View](CONTRIBUTING.md) |
+Configure automatic assignment when status changes:
 
----
-
-## 🔬 EXAMPLE WORKFLOWS
-
-<details>
-<summary><b>📱 Startup Workflow</b> — Simple main-only deployment</summary>
-
-```bash
-# Developer workflow
-git checkout -b feature/app-123-new-feature
-git commit -m "feat: add new feature (APP-123)"
-git push origin feature/app-123-new-feature
-
-# Status: APP-123 → "In Progress"
-
-gh pr create --title "APP-123: Add new feature"
-gh pr merge 123 --merge
-
-# Status: APP-123 → "Done"
-# Simple, fast, effective
+```json
+{
+  "autoAssignment": {
+    "enabled": true,
+    "preserveOriginal": true,
+    "assignments": {
+      "reviewRequired": {
+        "userId": "reviewer-user-id",
+        "userName": "Alex Acton"
+      }
+    }
+  }
+}
 ```
 
-[→ Full Example](docs/examples/startup-workflow.md)
+**Benefits:**
+- ✅ Reviewers notified automatically when PR ready
+- ✅ QA team alerted when code reaches staging
+- ✅ Clear ownership at each stage
+- ✅ Original assignee retained for visibility
 
-</details>
-
-<details>
-<summary><b>🏢 Standard Workflow</b> — Main + Staging pipeline</summary>
-
-```bash
-# Feature development
-git checkout -b feature/eng-456-api-endpoint
-git commit -m "feat(api): add user endpoint (ENG-456)"
-git push
-
-# Status: ENG-456 → "In Progress"
-
-# Code review
-gh pr create --title "ENG-456: Add user API endpoint" --base main
-gh pr merge 456 --merge
-
-# Status: ENG-456 → "Code Review"
-# Auto-assigned: Alice (Reviewer)
-
-# QA testing
-git checkout staging
-git merge main
-git push
-
-# Status: ENG-456 → "QA Testing"
-# Auto-assigned: Bob (QA Lead)
-
-# Production
-git checkout production
-git merge staging
-git push
-
-# Status: ENG-456 → "Done"
-```
-
-[→ Full Example](docs/examples/standard-workflow.md)
-
-</details>
-
-<details>
-<summary><b>🚀 Enterprise Workflow</b> — Full pipeline with gates</summary>
-
-```bash
-# Multi-stage deployment with approval gates
-# Full example with testing, staging, and production environments
-```
-
-[→ Full Example](docs/examples/enterprise-workflow.md)
-
-</details>
+<br/>
 
 ---
 
-## 🛠️ TROUBLESHOOTING
+## ✅ Validation & Testing
+
+The setup includes comprehensive validation:
+
+### 🛡️ Pre-Flight Checks
+- Environment validation before installation
+- GitHub authentication scope verification
+- Repository access confirmation
+- Branch protection rule analysis
+
+### 🧪 Installation Testing
+- Commit message hook validation (7 automated tests)
+- Linear API connectivity check
+- GitHub Actions workflow syntax validation
+- Repository permission verification
+- Configuration file validation
+
+### 🎯 Pattern Validation
+- Issue ID patterns tested against actual Linear issues
+- Auto-detection of team-specific formats
+- Mismatch warnings with auto-fix suggestions
+
+<br/>
+
+---
+
+## 📚 Documentation
+
+Complete guides available in `/docs`:
+
+<div align="center">
+
+| 📖 Guide | Description |
+|-------|-------------|
+| [Prerequisites](docs/prerequisites.md) | System requirements and installation |
+| [Linear Setup](docs/linear-setup.md) | Workspace configuration and API access |
+| [GitHub Setup](docs/github-setup.md) | Repository secrets and permissions |
+| [MCP Setup](docs/mcp-setup.md) | Claude AI integration via MCP |
+| [Auto-Assignment](docs/auto-assignment.md) | Team member assignment configuration |
+| [Troubleshooting](docs/troubleshooting.md) | Common issues and solutions |
+
+</div>
+
+<br/>
+
+---
+
+## 🔧 Troubleshooting
 
 <details>
-<summary><b>🔴 Linear API Connection Failed</b></summary>
+<summary><b>❌ Linear API Not Connecting</b></summary>
 
+**Symptoms:** Status updates not appearing in Linear
+
+**Solutions:**
 ```bash
-# Check API key
-echo $LINEAR_API_KEY
-
-# Verify key in GitHub secrets
-gh secret list | grep LINEAR
+# Verify API key exists
+gh secret list | grep LINEAR_API_KEY
 
 # Test connection
-curl -H "Authorization: YOUR_KEY" https://api.linear.app/graphql \
-  -d '{"query":"{ viewer { id name } }"}'
-```
+node scripts/validate-secrets.js
 
-[→ Full Guide](docs/troubleshooting.md#linear-api-issues)
-
-</details>
-
-<details>
-<summary><b>🔴 GitHub Actions Not Triggering</b></summary>
-
-```bash
-# Check workflow file syntax
-gh workflow list
-
-# View recent runs
+# Check workflow logs
 gh run list --workflow=linear-status-update.yml
-
-# Check branch protection rules
-gh api repos/:owner/:repo/branches/main/protection
 ```
-
-[→ Full Guide](docs/troubleshooting.md#github-actions-issues)
-
 </details>
 
 <details>
-<summary><b>🔴 Issues Not Auto-Assigning</b></summary>
+<summary><b>❌ GitHub Actions Not Running</b></summary>
 
+**Symptoms:** Workflow doesn't trigger on push/merge
+
+**Solutions:**
 ```bash
-# Verify user IDs
-node scripts/linear-helpers.js team-members YOUR_TEAM_ID
+# Verify workflow file exists
+ls .github/workflows/linear-status-update.yml
 
-# Check configuration
-cat .linear-workflow.json | jq .assignees
+# Check recent runs
+gh run list
 
-# View workflow logs
-gh run view --log | grep "Auto-assignment"
+# Validate workflow syntax
+gh workflow list
 ```
-
-[→ Full Guide](docs/troubleshooting.md#auto-assignment-issues)
-
 </details>
 
----
+<details>
+<summary><b>❌ Commit Hook Rejecting Messages</b></summary>
 
-## 🤝 CONTRIBUTING TO THE MATRIX
+**Symptoms:** Git commits fail with validation error
 
-We welcome patches, enhancements, and bug reports!
-
+**Solutions:**
 ```bash
-# Fork the repository
-gh repo fork YOUR_USERNAME/claude-linear-gh-starter --clone
+# Test hook installation
+node scripts/test-git-hook.js
 
-# Create a feature branch
-git checkout -b feature/neural-enhancement
+# Verify issue pattern
+cat .linear-workflow.json | grep issuePattern
 
-# Make your changes
-git add .
-git commit -m "feat: add quantum encryption module"
-
-# Push and create PR
-git push origin feature/neural-enhancement
-gh pr create
+# Check hook permissions
+ls -la .git/hooks/commit-msg
 ```
+</details>
 
-**See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines**
+[→ **Full Troubleshooting Guide**](docs/troubleshooting.md)
+
+<br/>
 
 ---
 
-## 📜 LICENSE
+## 🔐 Security Considerations
 
-```
-MIT License
+### 🔑 API Key Storage
+- **GitHub Secrets**: `LINEAR_API_KEY` stored encrypted in repository
+- **Local .env**: Automatically added to `.gitignore`
+- **Never Committed**: Pre-commit hooks prevent accidental commits
 
-Copyright (c) 2025 MatchDay Live
+### 🛡️ Branch Protection
+- Compatible with protected branches
+- Works with required status checks
+- Supports approval workflows
+- Setup validates protection rules
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software to use, modify, merge, publish, distribute, sublicense, and/or
-sell copies of the Software, subject to standard MIT terms.
-```
+### 📋 Audit Trail
+- All automated updates logged in Linear
+- GitHub Actions logs retained
+- Commit messages reference issues
+- Full traceability maintained
 
-[→ Full License](LICENSE)
+<br/>
 
 ---
 
-## 🏆 CREDITS
+## 🏢 Enterprise Features
+
+<table>
+<tr>
+<td width="33%">
+
+### 📋 Compliance
+- Automated audit logs
+- Deployment gates at each stage
+- Required approval workflows
+- Multi-environment support
+
+</td>
+<td width="33%">
+
+### 👥 Team Management
+- Role-based auto-assignment
+- Configurable notification rules
+- Team-specific workflows
+- Centralized configuration
+
+</td>
+<td width="33%">
+
+### 🔗 Integration
+- Works with existing CI/CD pipelines
+- Compatible with deployment tools
+- Supports custom status mappings
+- Flexible webhook configuration
+
+</td>
+</tr>
+</table>
+
+<br/>
+
+---
+
+## 💬 Support
+
+### 🆘 Getting Help
+
+- **📖 Documentation**: Comprehensive guides in [`/docs`](docs/)
+- **🐛 Issues**: Report bugs or request features on [GitHub Issues](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues)
+- **💬 Discussions**: Ask questions in [GitHub Discussions](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/discussions)
+
+### 🤝 Contributing
+
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for:
+- Development setup
+- Coding standards
+- Pull request process
+- Release procedures
+
+<br/>
+
+---
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) for details
+
+Copyright © 2025 [MatchDay Live](https://matchdaylive.com)
+
+<br/>
+
+---
+
+## 🙏 Acknowledgments
 
 <div align="center">
 
-**Forged in the digital foundries of [MatchDay Live](https://matchdaylive.com)**
+Built with:
 
-*Originally built for our internal neural network, now open-sourced for the global dev community*
+<img src="https://avatars.githubusercontent.com/u/54814322?s=200&v=4" alt="Claude AI" width="40" height="40" />
+**Anthropic Claude AI** for intelligent automation
 
-### Core Team
+<img src="https://linear.app/cdn-cgi/image/quality=90,format=auto/front/_next/static/media/logomark-white.ea0b5756.svg" alt="Linear" width="40" height="40" />
+**Linear API** for issue tracking integration
 
-| Avatar | Name | Role |
-|--------|------|------|
-| 🧠 | **The Architects** | Neural network design |
-| ⚡ | **The Engineers** | System implementation |
-| 🎨 | **The Interface Designers** | UX optimization |
+<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" width="40" height="40" />
+**GitHub Actions** for CI/CD infrastructure
 
----
+<br/>
 
-### Special Thanks
-
-- **Anthropic** for Claude AI capabilities
-- **Linear** for the incredible API
-- **GitHub** for Actions infrastructure
-- **The Open Source Community** for endless inspiration
+Originally developed for internal use at [MatchDay Live](https://matchdaylive.com),
+now open-sourced for the community. 💙
 
 </div>
 
----
-
-## 💬 SUPPORT CHANNELS
-
-<div align="center">
-
-| Channel | Purpose | Link |
-|---------|---------|------|
-| 📖 **Documentation** | Complete guides & references | [docs/](docs/) |
-| 🐛 **Issue Tracker** | Bug reports & feature requests | [→ Issues](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues) |
-| 💬 **Discussions** | Q&A, ideas, show & tell | [→ Discussions](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/discussions) |
-| 🔔 **Announcements** | Release notes & updates | [→ Releases](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/releases) |
-
-</div>
+<br/>
 
 ---
 
 <div align="center">
 
-```
-╔═══════════════════════════════════════════════════════════════════╗
-║                                                                   ║
-║                    ⚡ JACK IN. CODE FAST. SHIP FASTER. ⚡         ║
-║                                                                   ║
-║                      The future is automated.                    ║
-║                                                                   ║
-╚═══════════════════════════════════════════════════════════════════╝
-```
+**Questions?** Check the [📖 documentation](docs/) or [🐛 open an issue](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues)
 
-**⭐ Star us on GitHub** • **🔱 Fork for your team** • **📡 Share the neural link**
+**Ready to get started?** Run `/setup-linear` in Claude Code ⚡
 
-[![Star on GitHub](https://img.shields.io/github/stars/YOUR_USERNAME/claude-linear-gh-starter?style=social)](https://github.com/YOUR_USERNAME/claude-linear-gh-starter)
-[![Follow](https://img.shields.io/github/followers/YOUR_USERNAME?style=social&label=Follow)](https://github.com/YOUR_USERNAME)
-[![Tweet](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2FYOUR_USERNAME%2Fclaude-linear-gh-starter)](https://twitter.com/intent/tweet?text=Check%20out%20this%20awesome%20Linear%2BClaude%2BGitHub%20workflow%20automation!&url=https%3A%2F%2Fgithub.com%2FYOUR_USERNAME%2Fclaude-linear-gh-starter)
+<br/>
 
-*Built with 🖤 by netrunners, for netrunners*
+Made with ❤️ by developers, for developers
 
 </div>
