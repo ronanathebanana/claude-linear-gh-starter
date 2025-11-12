@@ -64,9 +64,87 @@ The wizard will:
 Would you like to continue? (Y/n)
 ```
 
-**After user says yes, explain the setup process:**
+**After user says yes, IMMEDIATELY confirm project location:**
 
 ```
+Great! Let's get started.
+
+First, where would you like to install the Linear workflow?
+
+Current directory: /Users/username/projects/my-app
+
+Options:
+1. Install in current directory [Recommended]
+   → /Users/username/projects/my-app
+
+2. Install in a different directory
+   → You'll specify the path
+
+Your choice [1]: _____
+```
+
+**If option 2 (different directory):**
+
+```
+Please provide the full path to your project directory:
+
+Path: _____
+```
+
+**After getting path, verify it exists:**
+
+```bash
+# Verify directory in one command (batched with upcoming checks)
+test -d "/path/to/project" && cd "/path/to/project" && echo "✓ Directory confirmed: $(pwd)" || echo "✗ Directory not found"
+```
+
+**If directory doesn't exist:**
+
+```
+✗ Directory not found: /path/to/project
+
+Would you like to:
+1. Create this directory
+2. Choose a different directory
+3. Cancel setup
+
+Your choice [2]: _____
+```
+
+**Important validation - Detect if installing in setup tool repository:**
+
+If the directory is `claude-linear-gh-starter` (the setup tool itself), warn:
+
+```
+⚠️  WARNING: Installing in setup tool repository
+
+Current directory: /path/to/claude-linear-gh-starter
+
+This is the setup TOOL repository. Most users want to install
+the workflow in their own project directory, not in the tool itself.
+
+This is typically only done for:
+  • Testing the setup wizard
+  • Contributing to claude-linear-gh-starter
+  • Demo purposes
+
+Is this intentional?
+
+1. Yes, install here anyway (for testing/development)
+2. No, let me choose my actual project directory
+
+Your choice [2]: _____
+```
+
+**After confirming location, show summary:**
+
+```
+✓ Installation location confirmed
+
+Project directory: /Users/username/projects/my-app
+Git repository: ✓ Detected
+Remote: https://github.com/username/my-app
+
 Perfect! Here's what will happen:
 
 Setup Overview:
@@ -95,6 +173,8 @@ Let's begin!
 ## Setup Wizard Flow
 
 ### Phase 1: Initialize TODO List
+
+**[Step 1 of 11 | Automatic | ~5 seconds]**
 
 **IMMEDIATELY after user approves setup, use TodoWrite to create the installation checklist:**
 
@@ -129,54 +209,202 @@ Installation Progress:
 ...
 ```
 
-### Phase 2: Confirm Project Location
+### Phase 1.5: Check for Existing Installation & Version
 
-**CRITICAL:** Before running any pre-flight checks, confirm where the workflow should be installed.
-
-**Ask the user:**
-
-```
-Where would you like to install the Linear workflow?
-
-Current directory: /path/to/user/project
-
-Options:
-1. Install in current directory
-2. Install in a different directory
-
-Your choice [1]: _____
-```
-
-**If option 2:**
-```
-Please provide the full path to your project directory:
-
-Path: _____
-```
-
-**After getting the path, verify it exists (batched into one command):**
+**IMMEDIATELY after TODO list creation, check for existing workflow:**
 
 ```bash
-# Verify and confirm directory in one command
-test -d "/path/to/project" && cd "/path/to/project" && echo "✓ Directory exists: $(pwd)" || echo "✗ Directory not found"
+node scripts/version-manager.js check
 ```
 
-**Important notes:**
-- This repository (claude-linear-gh-starter) is the setup TOOL itself
-- Users typically want to install the workflow in their OWN project
-- If they choose the current directory and it's the setup tool repo, warn them:
-  ```
-  ⚠️  Warning: You're installing in the setup tool repository itself.
+**If no existing workflow found:**
+```
+Status: No workflow installed
 
-  This is typically used for testing. Most users want to install
-  the workflow in their own project directory instead.
+Proceeding with fresh installation...
+```
 
-  Continue with current directory? (Y/n)
-  ```
+Continue to Phase 2.
 
-**Mark TODO as completed after confirming location.**
+**If existing workflow found - IDEMPOTENT SETUP:**
 
-### Phase 3: Create Installation Branch
+```
+═══════════════════════════════════════════════════════════════
+Workflow Version Check
+═══════════════════════════════════════════════════════════════
+
+Installed Version: 1.0.0
+Latest Version:    1.1.0
+
+📦 Update available!
+
+1 migration(s) available:
+
+  1.0.0 → 1.1.0
+  Add auto-assignment enhancements and dry-run mode
+
+  Changes:
+    • New: Dry-run mode for preview before installation
+    • New: Enhanced auto-assignment with per-status configuration
+    • New: Workflow health check command
+    • Improved: Better error messages in GitHub Actions workflow
+    • Fixed: Rate limiting in Linear API calls
+
+To upgrade, run:
+  node scripts/version-manager.js upgrade --to 1.1.0
+
+Installation Details:
+─────────────────────────────────────────────────────────────
+Installed: 2025-01-10T14:30:00Z
+Last Migration: Never
+Project: my-project
+Linear Team: DEV - Development
+```
+
+**Present options to user:**
+
+```
+⚠️  Existing Linear workflow detected (v1.0.0)
+
+What would you like to do?
+
+1. Update configuration only
+   → Modify settings without changing workflow files
+   → Keeps your current version (1.0.0)
+   → Quick reconfiguration
+
+2. Upgrade to latest version (1.1.0) [Recommended]
+   → Applies 1 migration with new features
+   → Backs up existing files
+   → Updates workflow files and configuration
+   → Non-breaking changes
+
+3. Reinstall everything
+   → Complete fresh installation
+   → Backs up and replaces all files
+   → Use this if workflow is broken
+
+4. Cancel
+   → Exit without making changes
+
+Your choice [2]: _____
+```
+
+**Option 1: Update Configuration Only**
+
+```
+Updating configuration...
+
+What would you like to reconfigure?
+
+1. Branch strategy (currently: main + staging)
+2. Linear team (currently: DEV - Development)
+3. Status mappings
+4. Commit/PR formats
+5. Auto-assignment rules
+6. All of the above
+
+Your choice: _____
+```
+
+Then run through relevant configuration questions from Phase 5, save updated `.linear-workflow.json`, and exit.
+
+**Option 2: Upgrade to Latest Version**
+
+```
+Starting upgrade from 1.0.0 to 1.1.0...
+
+Migration Plan:
+─────────────────────────────────────────────────────────────
+1.0.0 → 1.1.0
+  Add auto-assignment enhancements and dry-run mode
+
+This upgrade will:
+  ✓ Backup existing workflow files
+  ✓ Update .linear-workflow.json
+  ✓ Update .github/workflows/linear-status-update.yml
+  ✓ Preserve your configuration settings
+  ✓ Add new features
+
+⚠️  Your project will be safe - all changes are backed up.
+
+Proceed with upgrade? (Y/n)
+```
+
+If yes:
+
+```bash
+node scripts/version-manager.js upgrade --to 1.1.0
+```
+
+Shows:
+
+```
+Executing migrations...
+
+Migrating 1.0.0 → 1.1.0
+  Add auto-assignment enhancements and dry-run mode
+  ✓ Migration completed
+
+✓ Backup created: .linear-workflow.json.backup
+✓ Configuration updated
+
+═══════════════════════════════════════════════════════════════
+✅ Upgrade Complete!
+═══════════════════════════════════════════════════════════════
+
+Upgraded from 1.0.0 to 1.1.0
+
+Next steps:
+  1. Review changes in .linear-workflow.json
+  2. Test workflow: node scripts/test-integration.js
+  3. Commit changes: git commit -m "chore: Upgrade workflow to v1.1.0"
+```
+
+Then exit wizard - upgrade is complete!
+
+**Option 3: Reinstall Everything**
+
+```
+⚠️  WARNING: Complete Reinstallation
+
+This will:
+  ✓ Backup all existing workflow files
+  ✓ Delete current installation
+  ✓ Run fresh installation wizard
+  ✓ You'll need to reconfigure everything
+
+This is typically used when:
+  - Workflow is broken or corrupted
+  - You want to start completely fresh
+  - Migration failed
+
+Are you sure? (y/N)
+```
+
+If yes:
+1. Backup existing files
+2. Delete `.linear-workflow.json`, `.mcp.json`, workflow files
+3. Continue to Phase 2 (fresh installation)
+
+**Option 4: Cancel**
+
+```
+Installation cancelled. No changes made.
+```
+
+Exit wizard.
+
+**IMPORTANT:** Always detect existing installations before starting setup. This prevents:
+- Accidental overwriting of custom configurations
+- Breaking working workflows
+- User confusion about versions
+
+**NOTE:** Project location is now confirmed at the very beginning (before showing installation plan). This ensures users know where things will be installed before committing to the setup process.
+
+### Phase 2: Create Installation Branch
+
+**[Step 2 of 11 | Interactive | ~10 seconds]**
 
 **IMPORTANT:** Before making any changes, create a new branch for the installation.
 
@@ -212,7 +440,9 @@ Your choice [1]:
 
 **Mark TODO as completed after branch created.**
 
-### Phase 4: Pre-Flight Checks (AUTOMATIC)
+### Phase 3: Pre-Flight Checks (AUTOMATIC)
+
+**[Step 3 of 11 | Automatic | ~30 seconds]**
 
 **CRITICAL:** When the user triggers "Setup Linear workflow", AUTOMATICALLY run pre-flight checks FIRST.
 
@@ -236,7 +466,8 @@ cd "/path/to/project" && \
   echo "=== GIT STATUS ===" && git status --porcelain && \
   echo "=== GIT REMOTES ===" && git remote -v && \
   echo "=== EXISTING WORKFLOW ===" && (test -f .linear-workflow.json && cat .linear-workflow.json || echo "No existing workflow") && \
-  echo "=== GITHUB REPO ===" && gh repo view --json nameWithOwner,isPrivate 2>&1
+  echo "=== GITHUB REPO ===" && gh repo view --json nameWithOwner,isPrivate 2>&1 && \
+  echo "=== BRANCH PROTECTION ===" && gh api repos/:owner/:repo/branches/main/protection --jq '.required_status_checks.checks[]?.context' 2>&1 || echo "No protection"
 
 # Batch 2: Global tool checks (one approval)
 echo "=== GITHUB CLI ===" && gh --version && \
@@ -275,6 +506,10 @@ Checking LINEAR_API_KEY... ⚠
 
 Checking for existing workflow... ✓
   No existing workflow (clean install)
+
+Checking branch protection rules... ⚠
+  Checking main branch protection...
+  Checking if GitHub Actions can run...
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✅ All checks passed!
@@ -393,11 +628,106 @@ Display the device code flow and wait for completion, then verify and continue.
 **Blockers vs Warnings:**
 - **BLOCKERS (must auto-fix):** No gh auth, missing workflow scope
 - **BLOCKERS (must guide):** No git, no gh CLI, no repo access
-- **WARNINGS (can continue):** No Node.js, dirty working directory
+- **WARNINGS (can continue):** No Node.js, dirty working directory, branch protection issues
 
 **For auth BLOCKERS:** Automatically offer to fix them inline. Do not proceed until resolved.
 **For install BLOCKERS:** Guide user to install, then retry checks.
 **For WARNINGS:** Display but allow user to continue.
+
+---
+
+**Example: Branch Protection Warning - INFORMATIONAL FLOW**
+
+When branch protection is detected, INFORM the user about potential workflow behavior:
+
+```
+Checking branch protection rules... ⚠
+
+⚠️  Branch Protection Detected
+
+Your main branch has protection rules configured:
+  • Required status checks: 2
+  • Required approvals: 1
+  • Restrict pushes: Yes
+
+Impact on Linear Workflow:
+  ✓ GitHub Actions will run normally
+  ⚠  Workflow requires approval before merge
+  ⚠  Status updates happen AFTER merge (not on PR open)
+
+This means:
+  • PRs to main will need approval before merging
+  • Linear status updates when PR merges (not when opened)
+  • Workflow will work correctly, just with approval gate
+
+This is normal and recommended for protected branches!
+```
+
+**If no branch protection found:**
+```
+Checking branch protection rules... ✓
+  No branch protection on main branch
+  GitHub Actions workflow will run without restrictions
+```
+
+**If branch protection blocks GitHub Actions:**
+```
+Checking branch protection rules... ❌
+
+⚠️  CRITICAL: GitHub Actions Blocked
+
+Your branch protection rules may prevent GitHub Actions from running:
+  • Branch requires status checks to pass
+  • But no status checks are configured
+  • Workflow: "linear-status-update" is not in required checks
+
+This will cause the Linear workflow to fail!
+
+To fix, add the workflow to required status checks:
+
+Option 1: Via GitHub UI (Recommended)
+  1. Go to: https://github.com/{{owner}}/{{repo}}/settings/branches
+  2. Edit protection rules for 'main' branch
+  3. Under "Require status checks", add:
+     • "linear-status-update"
+  4. Save changes
+
+Option 2: Via GitHub CLI
+  gh api repos/{{owner}}/{{repo}}/branches/main/protection \
+    --method PUT \
+    -f required_status_checks='{"strict":true,"checks":[{"context":"linear-status-update"}]}'
+
+Option 3: Continue setup, fix later
+  (Workflow will be installed but may not trigger until fixed)
+
+Would you like to:
+1. Open GitHub settings in browser (then continue after fix)
+2. Continue setup (fix manually later)
+3. Cancel setup
+
+Your choice [1]: _____
+```
+
+**If user chooses 1:**
+```bash
+# Open browser to branch protection settings
+gh repo view --web --branch main
+```
+
+Then wait for user confirmation:
+```
+After configuring branch protection, say "done" or "ready" to continue.
+```
+
+**If user chooses 2 (continue):**
+```
+⚠️  Continuing with setup
+
+The workflow will be installed, but you'll need to configure branch
+protection before it can run properly.
+
+Reminder saved to installation summary.
+```
 
 ---
 
@@ -407,9 +737,121 @@ Display the device code flow and wait for completion, then verify and continue.
 - Fix auth issues inline and continue automatically
 - One continuous flow from start to finish
 
-### Phase 5: Configuration Wizard
+### Phase 4: Configuration Wizard
+
+**[Step 4 of 11 | Interactive | ~2-5 minutes]**
 
 Ask the user these questions **one at a time**, storing answers in memory:
+
+#### Question 0: Configuration Profile (NEW!)
+
+**FIRST QUESTION - Offer preset profiles for quick setup:**
+
+```
+Choose your workflow configuration:
+
+🚀 1. Startup
+   Move fast, ship faster - minimal overhead
+
+   Best for:
+   • Solo developers or small startups (1-3 developers)
+   • Rapid prototyping and MVP development
+   • Minimal process overhead
+
+   Workflow:
+   • Branches: main only
+   • Statuses: In Progress → Done
+   • Review: Optional
+   • Setup time: ~2 minutes
+
+👥 2. Small Team [Recommended]
+   Balanced velocity with code review process
+
+   Best for:
+   • Small teams (3-10 developers)
+   • Startups with QA process
+   • Projects requiring code review
+
+   Workflow:
+   • Branches: main + staging
+   • Statuses: In Progress → Code Review → QA Testing → Done
+   • Review: Required
+   • Setup time: ~4 minutes
+
+🏢 3. Enterprise
+   Full pipeline control with multiple environments
+
+   Best for:
+   • Large teams (10+ developers)
+   • Enterprise organizations
+   • Regulated industries
+
+   Workflow:
+   • Branches: main + staging + production
+   • Statuses: In Progress → Code Review → QA → Deployed
+   • Review: Required + approvals
+   • Setup time: ~6 minutes
+
+⚙️  4. Custom
+   Full control - configure everything manually
+
+   Best for:
+   • Unique workflows
+   • Specific requirements
+   • Advanced users
+
+   Workflow: You decide
+   Setup time: ~10 minutes
+
+Your choice [2]: _____
+```
+
+**Store the selected profile for later use.**
+
+**If user selects 1, 2, or 3 (preset profile):**
+
+```
+✓ Profile selected: {{Profile Name}}
+
+I'll use these defaults and ask you to customize key settings:
+  • Linear team and workspace (required)
+  • Team member assignments (if applicable)
+  • Issue ID pattern (optional - can use defaults)
+
+This will save you time by pre-configuring:
+  • Branch strategy
+  • Status mappings
+  • Commit/PR formats
+  • Detail levels
+
+Let's get started!
+```
+
+Then **skip** or **pre-fill** questions based on profile:
+- Question 2 (Branch Strategy) → Pre-filled from profile, skip
+- Question 4 (Commit & PR Formats) → Pre-filled from profile, skip
+- Question 5 (Update Detail Level) → Pre-filled from profile, skip
+- Question 6 (Documentation Location) → Pre-filled from profile, skip
+
+**Only ask:**
+- Question 1: GitHub Authentication (always ask)
+- Question 3: Linear Configuration (always ask - customize team/statuses)
+- Question 7: Auto-Assignment (always ask - customize assignees)
+
+**If user selects 4 (Custom):**
+
+```
+✓ Custom configuration selected
+
+I'll guide you through all configuration options step by step.
+This gives you complete control over your workflow.
+
+Let's start!
+```
+
+Then ask **all questions** (Question 1-7).
+
+---
 
 #### Question 1: GitHub Authentication
 ```
@@ -483,6 +925,216 @@ Which status when PR merged to main? [4]: _____
 Which status when PR merged to prod? [6]: _____
 ```
 
+#### Question 3.5: Define Status Meanings (NEW!)
+
+**After fetching workflow states, help the user define what each status means in their workflow.**
+
+This context helps Claude understand when to update statuses during development and validates that status mappings make sense.
+
+```
+Let's define what each status means in your workflow.
+
+This helps me understand when to update statuses automatically and
+ensures your workflow mappings make sense.
+
+For each status, I'll ask:
+  • What this status represents
+  • When issues should move to this status
+  • Whether it's automated or manual
+
+This takes ~2 minutes but makes the workflow much smarter.
+
+Continue? [Y/n]: _____
+```
+
+**For each status in the team's workflow, ask these two questions:**
+
+```
+Status: {{Status Name}} (currently: {{count}} issues)
+
+1. What does "{{Status Name}}" mean in your workflow?
+
+   Common examples:
+   • "Low priority / nice to have features"
+   • "New issues, not yet analyzed"
+   • "Analyzed and ready to start work"
+   • "Actively working, branch checked out"
+   • "Waiting for code review"
+   • "Deployed to production"
+
+   Your definition: _____
+
+2. When does an issue move to "{{Status Name}}"?
+
+   Common examples:
+   • "When issue is created"
+   • "After Claude completes analysis with no blockers"
+   • "When developer pushes to feature branch"
+   • "When PR is merged"
+   • "After manual approval"
+
+   Your trigger: _____
+```
+
+**Store both the meaning and trigger for each status.**
+
+**Recommended status definitions (suggest these as defaults):**
+
+Common Linear workflow statuses and their typical meanings:
+
+- **Backlog**: "Low priority or nice to have features" | Trigger: "Manual triage as low priority"
+- **To Do**: "New issues, not yet analyzed" | Trigger: "When issue is created or imported"
+- **Ready for Development**: "Analyzed by Claude, no blockers, ready to start" | Trigger: "After Claude completes analysis with no blockers"
+- **Feedback Required**: "Analyzed but has blockers or needs clarification" | Trigger: "When blockers or questions discovered during analysis"
+- **In Progress**: "Actively working on issue, branch checked out" | Trigger: "Push to feature branch"
+- **On Hold**: "User paused work on this issue" | Trigger: "User says 'pause work on this'"
+- **In Review**: "Someone is actively reviewing the code" | Trigger: "Manual - when reviewer starts review"
+- **Review Required**: "PR merged to staging, needs code review" | Trigger: "Merge to staging/testing branch"
+- **Approved**: "Ready for production release" | Trigger: "Manual approval after review"
+- **Released**: "Deployed to production, monitoring for issues" | Trigger: "Merge to production branch"
+- **Done**: "Completed and verified, no issues after release" | Trigger: "Manual - 30 days after release with no feedback"
+- **Canceled**: "Issue no longer relevant or needed" | Trigger: "Manual - when issue is cancelled"
+
+**Example interaction:**
+
+```
+Status: Backlog (currently: 12 issues)
+
+1. What does "Backlog" mean in your workflow?
+   [Low priority / nice to have features]
+
+2. When does an issue move to "Backlog"?
+   [User manually triages as low priority]
+
+✓ Backlog defined
+
+────────────────────────────────────────────
+
+Status: To Do (currently: 8 issues)
+
+1. What does "To Do" mean in your workflow?
+   [New issues, not yet analyzed]
+
+2. When does an issue move to "To Do"?
+   [When issue is created]
+
+✓ To Do defined
+
+────────────────────────────────────────────
+
+Status: Ready for Development (currently: 3 issues)
+
+1. What does "Ready for Development" mean in your workflow?
+   [Claude analyzed issue, no blockers, ready to start]
+
+2. When does an issue move to "Ready for Development"?
+   [After Claude completes analysis with no blockers]
+
+✓ Ready for Development defined
+
+────────────────────────────────────────────
+
+[Continue for all statuses...]
+```
+
+**After all statuses defined, validate the workflow mappings:**
+
+```
+Validating your workflow configuration...
+
+Checking status mappings against definitions:
+
+✓ Push to feature branch → "In Progress"
+  Definition: "Actively working on issue, branch checked out"
+  Analysis: Perfect match! This status means active work.
+
+✓ Merge to main → "Review Required"
+  Definition: "PR merged to staging, needs code review"
+  Analysis: Good match. Issue needs review after merge.
+
+⚠️  Warning: Merge to prod → "Released"
+  Definition: "Deployed to production, monitoring for issues"
+  Trigger: "Merge to production branch"
+
+  Note: You have this mapped correctly, but consider adding "Approved"
+  status before release if you need manual approval gates.
+
+Would you like to adjust any mappings? [y/N]: _____
+```
+
+**Scenario-based validation examples:**
+
+**Scenario 1: Logical mismatch detected**
+
+```
+❌ Potential Issue Detected
+
+You mapped: Push to feature branch → "To Do"
+
+But you defined "To Do" as:
+  • Meaning: "New issues, not yet analyzed"
+  • Trigger: "When issue is created"
+
+This doesn't make sense! When you push to a feature branch, you're
+actively working on the issue, not creating a new one.
+
+Recommended mapping: "In Progress" (Actively working, branch checked out)
+
+Would you like to:
+1. Change mapping to "In Progress" (recommended)
+2. Keep "To Do" (not recommended)
+3. Redefine what "To Do" means
+
+Your choice [1]: _____
+```
+
+**Scenario 2: Missing important status**
+
+```
+💡 Suggestion
+
+I notice you have "Ready for Development" status but it's not mapped
+to any git events.
+
+Based on your definition:
+  • "Analyzed by Claude, no blockers, ready to start"
+  • Trigger: "After Claude completes analysis"
+
+This is perfect for Claude to use when analyzing issues!
+
+I'll automatically update issues to "Ready for Development" after
+completing analysis (when no blockers found).
+
+If blockers are found, which status should I use?
+
+Your statuses:
+1. Feedback Required (has blockers/questions)  ← Recommended
+2. To Do (new issues, not analyzed)
+3. On Hold (user paused)
+4. Keep in current status
+
+Your choice [1]: _____
+```
+
+**After validation complete:**
+
+```
+✓ Status definitions complete!
+
+Summary:
+  • {{count}} statuses defined
+  • {{automated}} automated transitions
+  • {{manual}} manual transitions
+
+These definitions will help Claude:
+  ✓ Update statuses appropriately during development
+  ✓ Validate that git events map to correct statuses
+  ✓ Generate accurate team documentation
+  ✓ Provide context-aware workflow guidance
+
+Let's continue with the next configuration step...
+```
+
 #### Question 4: Commit & PR Formats
 ```
 Choose your commit message format:
@@ -517,6 +1169,186 @@ Pattern (regex): [A-Z]+-\d+
 Test your pattern with an example: _____
 ```
 
+**After user provides pattern and example, VALIDATE against actual Linear issues:**
+
+```
+Testing pattern against your Linear workspace...
+```
+
+**Fetch a sample issue from their Linear team:**
+
+```bash
+curl -X POST https://api.linear.app/graphql \
+  -H "Authorization: $LINEAR_API_KEY" \
+  -d '{
+    "query": "query { team(id: \"{{teamId}}\") { issues(first: 1) { nodes { identifier } } } }"
+  }'
+```
+
+**Test the pattern:**
+
+```javascript
+// Test if provided pattern matches actual Linear issue ID
+const actualIssueId = "DEV-123"; // From API response
+const userPattern = "[A-Z]+-\d+";
+const userExample = "DEV-123";
+
+// Convert pattern to JavaScript RegExp
+const regex = new RegExp(userPattern);
+
+// Test both the example and actual issue
+const exampleMatches = regex.test(userExample);
+const actualMatches = regex.test(actualIssueId);
+```
+
+**Scenario 1: Pattern matches (Success)**
+
+```
+✓ Pattern validated successfully!
+
+  Your pattern: [A-Z]+-\d+
+  Your example: DEV-123 ✓ Matches
+  Linear issue: DEV-123 ✓ Matches
+
+Your commit messages will correctly reference Linear issues.
+```
+
+**Scenario 2: Example matches but actual doesn't (Warning)**
+
+```
+⚠️  Pattern Validation Warning
+
+  Your pattern: [A-Z]+-\d+
+  Your example: DEV-123 ✓ Matches
+  Linear issue: DEV-1234 ✗ Does NOT match
+
+Your pattern might be too specific!
+
+Issue detected:
+  • Your pattern expects exactly 3 digits (\d+)
+  • But Linear uses variable-length numbers (DEV-1, DEV-123, DEV-1234)
+
+Recommended pattern: [A-Z]+-[0-9]+
+
+Would you like to:
+1. Use recommended pattern (recommended)
+2. Keep your pattern
+3. Enter a different pattern
+
+Your choice [1]: _____
+```
+
+**Scenario 3: Example doesn't match pattern (Error)**
+
+```
+❌ Pattern Validation Failed
+
+  Your pattern: [A-Z]+-\d+
+  Your example: dev-123 ✗ Does NOT match
+
+Your example doesn't match your own pattern!
+
+Common issues:
+  • Pattern expects uppercase [A-Z] but example is lowercase
+  • Pattern expects different format than example
+  • Typo in pattern or example
+
+Please check your pattern and example.
+
+Would you like to:
+1. Try again with corrected pattern/example
+2. Auto-detect pattern from Linear (recommended)
+3. Use default pattern: [A-Z]+-[0-9]+
+
+Your choice [2]: _____
+```
+
+**Scenario 4: Auto-detect pattern (Option)**
+
+If user chooses auto-detect:
+
+```
+Analyzing your Linear issues to detect pattern...
+
+Fetching sample issues from {{teamName}}...
+```
+
+**Fetch multiple issues to detect pattern:**
+
+```bash
+curl -X POST https://api.linear.app/graphql \
+  -H "Authorization: $LINEAR_API_KEY" \
+  -d '{
+    "query": "query { team(id: \"{{teamId}}\") { issues(first: 10) { nodes { identifier } } } }"
+  }'
+```
+
+**Analyze and detect pattern:**
+
+```
+Detected pattern from 10 issues:
+
+  DEV-1
+  DEV-12
+  DEV-123
+  DEV-456
+  DEV-789
+  DEV-1001
+  DEV-1234
+  DEV-2000
+  DEV-3456
+  DEV-10000
+
+Pattern detected: {{teamKey}}-[0-9]+
+Example: {{teamKey}}-123
+
+This pattern matches all your existing Linear issues.
+
+Use this pattern? (Y/n): _____
+```
+
+**If yes:**
+```
+✓ Pattern auto-configured
+  Pattern: {{teamKey}}-[0-9]+
+  Example: {{teamKey}}-123
+
+This pattern will match all Linear issues in your {{teamName}} team.
+```
+
+**If no, go back to manual entry.**
+
+**Scenario 5: Team key mismatch (Critical)**
+
+```
+❌ CRITICAL: Team Key Mismatch
+
+  Your pattern: PROJ-[0-9]+
+  Your example: PROJ-123
+  Linear team: DEV (uses DEV-xxx format)
+
+Your pattern will NEVER match your Linear issues!
+
+Linear issues in team "{{teamName}}" use format: {{teamKey}}-123
+
+Would you like to:
+1. Auto-fix pattern to match Linear team (recommended)
+2. Enter a different pattern
+3. Cancel setup (wrong Linear team selected?)
+
+Your choice [1]: _____
+```
+
+**If user chooses auto-fix:**
+```
+✓ Pattern auto-fixed to match your Linear team
+
+  Pattern: {{teamKey}}-[0-9]+
+  Example: {{teamKey}}-123
+
+This matches all issues in team "{{teamName}}".
+```
+
 #### Question 5: Update Detail Level
 ```
 How detailed should Linear updates be?
@@ -546,43 +1378,300 @@ Your choice [1]: _____
 ```
 
 #### Question 7: Auto-Assignment
+
+**First, explain auto-assignment with real-world examples:**
+
 ```
-Would you like to automatically assign issues to team members when status changes?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Auto-Assignment: Notify the Right People Automatically
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-This helps notify the right people (e.g., reviewers, QA engineers) when an issue needs their attention.
+Auto-assignment automatically assigns (or reassigns) Linear issues to specific
+team members when issue status changes. This ensures the right people are
+notified at each stage.
 
-Enable auto-assignment? (Y/n): _____
+📖 Real-World Examples:
+
+Example 1: Code Review Workflow
+  • Developer Alice pushes code → Issue moves to "Code Review"
+  • Issue auto-assigned to Senior Dev Bob
+  • Bob gets notification → reviews promptly
+
+Example 2: QA Handoff
+  • PR merged to staging → Issue moves to "QA Testing"
+  • Issue auto-assigned to QA Lead Carol
+  • Carol gets notification → starts testing
+
+Example 3: Team Lead Oversight
+  • Issue completed → Status moves to "Done"
+  • Issue auto-assigned to Team Lead David
+  • David reviews and closes issue
+
+💡 Benefits:
+  ✓ No manual reassignment needed
+  ✓ Clear ownership at each stage
+  ✓ Faster handoffs between team members
+  ✓ Better visibility into who's working on what
+  ✓ Reduced bottlenecks in the workflow
+
+⚠️  Best for teams with:
+  • Defined roles (reviewer, QA lead, etc.)
+  • Clear workflow stages
+  • Multiple people working on issues
+
+Skip if:
+  • Solo developer or very small team
+  • Ad-hoc assignments work better
+  • Don't want automatic reassignment
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Would you like to enable auto-assignment? (Y/n): _____
 ```
 
-**If yes:**
+**If user says no:**
 ```
-Fetching team members from Linear...
+✓ Auto-assignment disabled
 
-Team Members:
-1. Alice Smith - alice@company.com
-2. Bob Jones - bob@company.com
-3. Carol White - carol@company.com
-4. None (skip)
+Issues will remain assigned to their original assignee throughout the workflow.
+You can always enable this later by editing .linear-workflow.json.
+```
 
-When issue moves to "In Progress", assign to: _____
-When issue moves to "Review Required", assign to: _____
-When issue moves to "QA", assign to: _____
+**If user says yes:**
 
-If an issue is already assigned, should we:
-1. Replace with configured assignee
-2. Keep original assignee (skip auto-assignment)
+```
+Great! Let's configure auto-assignment for your workflow.
+
+Fetching team members from Linear workspace...
+```
+
+**Fetch team members via Linear API:**
+
+```bash
+curl -X POST https://api.linear.app/graphql \
+  -H "Authorization: $LINEAR_API_KEY" \
+  -d '{
+    "query": "query { organization { users { nodes { id name email active } } } }"
+  }'
+```
+
+**Display team members with status indicators:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Team Members ({{teamName}}):
+
+Active Members:
+  1. Alice Smith - alice@company.com (Active)
+  2. Bob Jones - bob@company.com (Active)
+  3. Carol White - carol@company.com (Active)
+  4. David Chen - david@company.com (Active)
+  5. Emma Wilson - emma@company.com (Active)
+
+  0. None / Skip this status
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Let's configure assignments for each workflow stage.
+
+You'll assign a team member (or skip) for each status transition.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**For each status in the workflow, ask individually:**
+
+**Status 1: "In Progress" (when pushed to feature branch)**
+
+```
+[1/{{statusCount}}] Status: "{{linear.statuses.inProgress}}"
+
+Triggered when: Developer pushes code to feature branch
+
+Typical use case:
+  • Assign to original developer (skip auto-assignment)
+  • Or assign to team lead for oversight
+
+Who should be assigned when issue moves to "{{linear.statuses.inProgress}}"?
+
+Options:
+  1. Alice Smith - alice@company.com
+  2. Bob Jones - bob@company.com
+  3. Carol White - carol@company.com
+  4. David Chen - david@company.com
+  5. Emma Wilson - emma@company.com
+  0. None (keep current assignee)
+
+Your choice [0]: _____
+```
+
+**Status 2: "Code Review" (when PR opened/merged to main)**
+
+```
+[2/{{statusCount}}] Status: "{{linear.statuses.review}}"
+
+Triggered when: PR merged to {{branches.main}} branch
+
+Typical use case:
+  • Assign to senior developer or tech lead
+  • Assign to specific code reviewer
+  • Rotate between reviewers (configure later)
+
+💡 Tip: Choose your most experienced reviewer or team lead
+
+Who should be assigned when issue moves to "{{linear.statuses.review}}"?
+
+Options:
+  1. Alice Smith - alice@company.com
+  2. Bob Jones - bob@company.com ⭐ (Tech Lead)
+  3. Carol White - carol@company.com
+  4. David Chen - david@company.com
+  5. Emma Wilson - emma@company.com
+  0. None (keep current assignee)
 
 Your choice [2]: _____
 ```
 
-**If no:**
+**Status 3: "QA Testing" (when merged to staging)**
+
 ```
-✓ Auto-assignment disabled
+[3/{{statusCount}}] Status: "{{linear.statuses.staging}}"
+
+Triggered when: PR merged to {{branches.staging}} branch
+
+Typical use case:
+  • Assign to QA engineer or QA lead
+  • Assign to dedicated tester
+  • Assign to product manager for UAT
+
+💡 Tip: Choose the person responsible for testing/validation
+
+Who should be assigned when issue moves to "{{linear.statuses.staging}}"?
+
+Options:
+  1. Alice Smith - alice@company.com
+  2. Bob Jones - bob@company.com
+  3. Carol White - carol@company.com ⭐ (QA Lead)
+  4. David Chen - david@company.com
+  5. Emma Wilson - emma@company.com
+  0. None (keep current assignee)
+
+Your choice [3]: _____
+```
+
+**Status 4: "Done" (when merged to production)**
+
+```
+[4/{{statusCount}}] Status: "{{linear.statuses.done}}"
+
+Triggered when: PR merged to {{branches.prod}} branch (or final stage)
+
+Typical use case:
+  • Assign to team lead for verification
+  • Assign to release manager
+  • Assign to project manager
+  • Keep with original developer
+
+💡 Tip: Choose who verifies completion or skip to keep with developer
+
+Who should be assigned when issue moves to "{{linear.statuses.done}}"?
+
+Options:
+  1. Alice Smith - alice@company.com
+  2. Bob Jones - bob@company.com
+  3. Carol White - carol@company.com
+  4. David Chen - david@company.com ⭐ (Team Lead)
+  5. Emma Wilson - emma@company.com
+  0. None (keep current assignee)
+
+Your choice [0]: _____
+```
+
+**After all status assignments configured, ask about preservation:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+One more question: Original Assignee Handling
+
+When auto-assignment triggers, what should happen to the original assignee?
+
+1. ✅ Keep original assignee (Recommended)
+   • Adds new assignee alongside original
+   • Both people can track the issue
+   • Original developer stays informed
+
+   Example: Issue assigned to Alice (dev)
+            → Moves to Code Review
+            → Now assigned to: Alice + Bob (reviewer)
+
+2. 🔄 Replace original assignee
+   • Removes original assignee completely
+   • Only new assignee is assigned
+   • Original assignee loses visibility
+
+   Example: Issue assigned to Alice (dev)
+            → Moves to Code Review
+            → Now assigned to: Bob (reviewer only)
+
+💡 Recommendation: Choose option 1 to keep everyone in the loop
+
+Your choice [1]: _____
+```
+
+**After all configuration, show summary:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Auto-Assignment Configuration
+
+Status Transitions:
+  "{{linear.statuses.inProgress}}" → No change (keeps current assignee)
+  "{{linear.statuses.review}}" → Assigned to Bob Jones (bob@company.com)
+  "{{linear.statuses.staging}}" → Assigned to Carol White (carol@company.com)
+  "{{linear.statuses.done}}" → No change (keeps current assignee)
+
+Preservation: Keep original assignee ✓
+
+📖 How it works:
+
+  1. Developer Alice starts work on DEV-123
+     Issue: DEV-123 (Alice)
+
+  2. Alice pushes code, PR merged to main
+     Issue: DEV-123 (Alice + Bob) ← Bob auto-assigned for review
+
+  3. Bob approves, PR merged to staging
+     Issue: DEV-123 (Alice + Bob + Carol) ← Carol auto-assigned for QA
+
+  4. Testing complete, PR merged to prod
+     Issue: DEV-123 (Alice + Bob + Carol) ← All stay assigned
+
+💡 All team members stay informed throughout the workflow
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Is this configuration correct? (Y/n): _____
+```
+
+**If user confirms, save configuration. If user says no, offer to reconfigure:**
+
+```
+Would you like to:
+1. Reconfigure auto-assignment
+2. Disable auto-assignment
+3. Keep current configuration
+
+Your choice [1]: _____
 ```
 
 **See:** [Auto-Assignment Documentation](docs/auto-assignment.md) for details on this feature.
 
-### Phase 6: Configuration Summary
+### Phase 5: Configuration Summary
+
+**[Step 5 of 11 | Review | ~1 minute]**
 
 Display complete configuration and confirm:
 
@@ -619,9 +1708,206 @@ Is this correct? [Y/n]: _____
 
 If no, ask which section to edit.
 
-### Phase 7: Installation
+### Phase 5: Installation Safety & Rollback
 
-Once confirmed, execute installation:
+**CRITICAL:** Before starting installation, explain the safety mechanisms:
+
+```
+🛡️  Installation Safety Features
+
+This installation is protected by automatic rollback:
+
+1. All existing files will be backed up before modification
+2. Installation state is tracked at each phase
+3. If any phase fails, all changes are automatically reverted
+4. You can manually rollback at any time
+
+Installation phases:
+  [1/7] Create installation branch
+  [2/7] Create configuration file
+  [3/7] Generate GitHub Actions workflow
+  [4/7] Create workflow documentation
+  [5/7] Configure MCP integration
+  [6/7] Install git hooks
+  [7/7] Create documentation folders
+
+If installation fails at any phase, your project will be restored
+to its previous state automatically.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔍 DRY-RUN MODE AVAILABLE
+
+Would you like to preview the installation without making changes?
+
+Options:
+1. Dry-run first (preview changes, no files modified)
+2. Install now (apply changes immediately)
+
+Your choice [1]: _____
+```
+
+**If user chooses Option 1 (Dry-run):**
+
+Run installation in dry-run mode:
+
+```bash
+node scripts/setup-orchestrator.js install --config .linear-workflow.json --dry-run
+```
+
+**Dry-Run Output:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 Linear Workflow Installation
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔍 DRY RUN MODE - No files will be modified
+
+[1/7] Create installation branch
+  [DRY RUN] Would create branch: setup/linear-workflow
+
+[2/7] Create configuration file
+  [DRY RUN] Would create: .linear-workflow.json
+  Preview (first 500 chars):
+  {
+    "version": "1.0.0",
+    "project": {
+      "name": "my-project",
+      "path": "/path/to/project"
+    },
+    ...
+  }
+
+[3/7] Generate GitHub Actions workflow
+  [DRY RUN] Would create: .github/workflows/linear-status-update.yml
+  Preview (first 500 chars):
+  name: Update Linear Issue Status
+
+  on:
+    pull_request:
+      types: [closed]
+    ...
+
+[4/7] Create workflow documentation
+  [DRY RUN] Would create: docs/linear-workflow.md
+
+[5/7] Configure MCP integration
+  [DRY RUN] Would create: .mcp.json, .env.example
+
+[6/7] Install git hooks
+  [DRY RUN] Would install: .git/hooks/commit-msg
+
+[7/7] Create documentation folders
+  [DRY RUN] Would create: docs/issues/
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ DRY-RUN COMPLETE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Files that would be created:
+  • .linear-workflow.json
+  • .github/workflows/linear-status-update.yml
+  • docs/linear-workflow.md
+  • .mcp.json
+  • .env.example
+  • .git/hooks/commit-msg
+  • docs/issues/ (directory)
+
+Files that would be backed up:
+  (none - no existing files will be modified)
+
+No changes were made to your project.
+```
+
+**After dry-run, ask:**
+
+```
+Review complete. Everything looks good?
+
+Options:
+1. Proceed with installation
+2. Edit configuration and re-run dry-run
+3. Cancel installation
+
+Your choice [1]: _____
+```
+
+**If user chooses "Proceed with installation":**
+
+```
+Proceeding with installation...
+(Continue to normal installation flow)
+```
+
+**If user chooses Option 2 (Install now):**
+
+Skip dry-run and proceed directly to installation.
+
+**During Installation:**
+
+Use the setup orchestrator to execute installation with automatic rollback:
+
+```bash
+node scripts/setup-orchestrator.js install --config .linear-workflow.json
+```
+
+The orchestrator will:
+- Track each phase completion in `.linear-workflow-state.json`
+- Create backups of any files before modifying them
+- Track all newly created files
+- Automatically rollback on any error
+- Provide clear error messages with recovery instructions
+
+**If Installation Fails:**
+
+The orchestrator automatically performs rollback:
+
+```
+❌ Installation Failed
+
+Error in phase: Generate GitHub Actions workflow
+Message: Permission denied: .github/workflows/
+
+Rolling back changes...
+
+  ✓ Restored: .github/workflows/linear-status-update.yml
+  ✓ Deleted: .linear-workflow.json
+  ✓ Deleted: .mcp.json
+
+✓ Rollback complete - project restored to previous state
+
+To retry installation:
+  1. Fix the error (check permissions on .github/)
+  2. Run: node scripts/setup-orchestrator.js install --config .linear-workflow.json
+```
+
+**Manual Rollback:**
+
+If needed, user can manually rollback at any time:
+
+```bash
+node scripts/setup-orchestrator.js rollback
+```
+
+**Check Installation Status:**
+
+```bash
+node scripts/setup-orchestrator.js status
+```
+
+Shows:
+- Current installation phase
+- Completed phases
+- Failed phase (if any)
+- Files created
+- Backups made
+
+### Phase 6: Installation
+
+**[Step 6 of 11 | Automatic | ~1-2 minutes]**
+
+Once confirmed, execute installation via the orchestrator:
 
 ```
 📦 Installing Linear Workflow...
@@ -642,15 +1928,100 @@ Once confirmed, execute installation:
 
 5. Installing git hooks
    ✓ .git/hooks/commit-msg installed
+   ⏳ Testing hook...
+   ✓ Hook validation passed (7/7 tests)
 
 6. Creating issue documentation folder
    ✓ docs/issues/ created
 
 7. Setting up GitHub secrets
    ✓ LINEAR_API_KEY added to repository secrets
+   ⏳ Validating secret...
+   ✓ Secret validated - Linear API connection successful
 
 ✅ Installation complete!
 ```
+
+**Secret Validation Details:**
+
+After setting the LINEAR_API_KEY GitHub secret, IMMEDIATELY validate it:
+
+```bash
+node scripts/validate-secrets.js --api-key $LINEAR_API_KEY
+```
+
+The validation script will:
+1. Test the API key against Linear's GraphQL API
+2. Verify you have workspace access
+3. List accessible teams
+4. Confirm permissions are correct
+
+**Successful Validation:**
+
+```
+═══════════════════════════════════════════════════════════════
+GitHub Secrets Validation
+═══════════════════════════════════════════════════════════════
+
+[1/3] Checking GitHub repository secrets...
+  ✓ LINEAR_API_KEY secret is set in GitHub
+
+[2/3] Checking secret accessibility in workflows...
+  ✓ Secret is accessible in GitHub Actions workflows
+
+[3/3] Validating Linear API connection...
+  ✓ Linear API key is valid
+
+Connection Details:
+─────────────────────────────────────────────────────────────
+User: Alice Chen (alice@company.com)
+Workspace: Acme Inc
+
+Accessible Teams:
+  • DEV - Development
+  • ENG - Engineering
+
+═══════════════════════════════════════════════════════════════
+✅ All validations passed!
+═══════════════════════════════════════════════════════════════
+
+Your LINEAR_API_KEY is properly configured and functional.
+```
+
+**If Validation Fails:**
+
+```
+[3/3] Validating Linear API connection...
+  ✗ Linear API key is invalid
+
+Error Details:
+─────────────────────────────────────────────────────────────
+Authentication failed
+
+Common Issues:
+  • API key was revoked or deleted in Linear
+  • API key has incorrect format (should start with lin_api_)
+  • Typo when setting the GitHub secret
+  • Network connectivity issues
+
+To fix:
+  1. Create a new API key: https://linear.app/settings/api
+  2. Update GitHub secret: gh secret set LINEAR_API_KEY
+  3. Run this script again to validate
+
+═══════════════════════════════════════════════════════════════
+❌ Validation failed
+═══════════════════════════════════════════════════════════════
+```
+
+**If validation fails:**
+1. DO NOT proceed with installation
+2. Create a new Linear API key at https://linear.app/settings/api
+3. Set it again: `gh secret set LINEAR_API_KEY`
+4. Re-run validation until it passes
+5. Then retry installation from Phase 7
+
+**IMPORTANT:** Never skip secret validation - invalid secrets cause silent failures in GitHub Actions!
 
 **MCP Integration Details:**
 
@@ -688,11 +2059,163 @@ Create reference files for team documentation (Claude Desktop users):
 
 **IMPORTANT:** Do NOT create `.env` file - it's not needed for Claude Code's MCP setup.
 
-### Phase 8: Configure Linear MCP Server
+### Phase 6.5: Test Git Hook
 
-**CRITICAL:** This phase requires user interaction and cannot be automated.
+**[Automatic during Phase 6 | ~15 seconds]**
 
-**After files are created, configure MCP server for Claude Code:**
+**CRITICAL:** After installing the git hook, IMMEDIATELY test it to ensure proper validation.
+
+**Run automatic hook testing:**
+
+```bash
+node scripts/test-git-hook.js
+```
+
+**Successful Test Output:**
+
+```
+═══════════════════════════════════════════════════════════════
+Git Hook Validation Tests
+═══════════════════════════════════════════════════════════════
+
+[1/4] Checking configuration...
+  ✓ Configuration loaded
+  Pattern: [A-Z]+-\d+
+  Example: DEV-123
+
+[2/4] Checking hook installation...
+  ✓ Hook is installed
+  Location: .git/hooks/commit-msg
+
+[3/4] Verifying hook configuration...
+  ✓ Hook is configured correctly
+
+[4/4] Running validation tests...
+
+  ✓ Valid commit with issue in parens
+  ✓ Valid commit with issue prefix
+  ✓ Valid commit with issue in scope
+  ✓ Invalid commit without issue
+  ✓ Invalid commit with wrong format
+  ✓ Merge commit (should skip validation)
+  ✓ Revert commit (should skip validation)
+
+═══════════════════════════════════════════════════════════════
+Test Results
+═══════════════════════════════════════════════════════════════
+
+Passed: 7/7
+Failed: 0/7
+
+✅ All tests passed!
+
+Your commit-msg hook is working correctly.
+All commits will now be validated for Linear issue IDs.
+```
+
+**What the tests verify:**
+1. **Valid formats accepted:**
+   - `feat: Add feature (DEV-123)` ✓
+   - `DEV-123: Fix bug` ✓
+   - `fix(DEV-123): Resolve issue` ✓
+
+2. **Invalid formats rejected:**
+   - `feat: Add feature` ✗ (no issue ID)
+   - `Random commit message` ✗ (no issue ID)
+
+3. **Special commits allowed:**
+   - Merge commits ✓ (no validation)
+   - Revert commits ✓ (no validation)
+
+**If tests fail:**
+
+```
+❌ Some tests failed
+
+Your commit-msg hook may not be working correctly.
+
+To fix:
+  1. Check hook permissions: ls -la .git/hooks/commit-msg
+  2. Verify configuration: cat .linear-workflow.json
+  3. Reinstall hook: Run setup wizard
+
+For detailed output, run:
+  node scripts/test-git-hook.js --verbose
+```
+
+**Troubleshooting failed tests:**
+
+1. **Hook not executable:**
+   ```bash
+   chmod +x .git/hooks/commit-msg
+   ```
+
+2. **Pattern mismatch:**
+   - Check `.linear-workflow.json` has correct `formats.issuePattern`
+   - Re-render hook template with updated config
+
+3. **Hook file corrupted:**
+   ```bash
+   # Re-copy from template
+   node scripts/apply-config.js apply \
+     templates/commit-msg.template \
+     .git/hooks/commit-msg \
+     .linear-workflow.json
+
+   chmod +x .git/hooks/commit-msg
+   ```
+
+**Manual test (optional):**
+
+```bash
+# Try a test commit
+git add .
+git commit -m "test: Verify hook (DEV-123)"
+
+# Should show:
+# ✓ Valid commit message
+#   Issue: DEV-123
+```
+
+**IMPORTANT:** Do NOT proceed to Phase 7 if hook tests fail. A broken commit-msg hook will:
+- Allow commits without issue IDs (breaking workflow automation)
+- Cause confusion when status updates don't work
+- Require manual cleanup of commit history
+
+### Phase 7: Configure Linear MCP Server
+
+**[Step 7 of 11 | Requires Browser Authentication | ~1-2 minutes]**
+
+**BEFORE STARTING THIS PHASE:**
+
+Show the user what to expect:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📡 Next: Linear MCP Server Setup (Step 7 of 11)
+
+⏱️  Estimated time: 1-2 minutes
+🌐 Requires: Browser authentication with Linear
+
+What will happen:
+  1. I'll add the Linear MCP server to your Claude config (~5 seconds)
+  2. You'll type /mcp to start OAuth authentication (~10 seconds)
+  3. Your browser will open to Linear login page (~30 seconds)
+  4. You'll authorize Claude Code access (~20 seconds)
+  5. I'll verify the connection (~10 seconds)
+
+⚠️  IMPORTANT: This is an interactive step - I cannot proceed without your input.
+
+Why we need this:
+  • Enables real-time Linear integration in Claude Code
+  • Required for "Let's get to work on DEV-123" workflow commands
+  • Allows creating/updating issues directly from Claude
+
+Ready to set up MCP authentication? (Y/n)
+```
+
+**After user confirms (or if they say yes), proceed:**
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -701,7 +2224,7 @@ Create reference files for team documentation (Claude Desktop users):
 
 For Claude Code (CLI):
 
-Step 1: Adding Linear MCP server to your configuration...
+[1/2] Adding Linear MCP server to your configuration...
 ```
 
 **Run the command:**
@@ -717,7 +2240,9 @@ claude mcp add --transport http linear-server https://mcp.linear.app/mcp
   URL: https://mcp.linear.app/mcp
   Config: ~/.claude.json
 
-Step 2: Authentication Required
+[2/2] Authentication Required (Browser)
+
+⏱️  This step requires ~1 minute of your time
 
 To complete setup, you need to authenticate with Linear.
 
@@ -726,26 +2251,26 @@ Please type: /mcp
 This will:
   1. Open a browser window
   2. Prompt you to log in to Linear
-  3. Grant Claude Code access to your Linear workspace
+  3. Ask you to grant Claude Code access to your Linear workspace
 
 ⚠️  I cannot proceed until you authenticate. Please run /mcp now.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-After you authenticate, say "done" or "authenticated" to continue.
+After you complete authentication in your browser, say "done" or "authenticated" to continue.
 ```
 
 **Wait for user to:**
 1. Type `/mcp` in Claude Code
 2. Complete OAuth authentication in browser
-3. Confirm they're authenticated
+3. Confirm they're authenticated by saying "done" or "authenticated"
 
 **When user confirms authentication, verify it worked:**
 
 ```
 ✅ MCP Server Authentication Complete!
 
-Verifying connection...
+[3/3] Verifying connection... (this will take ~10 seconds)
 ```
 
 **Test the connection by attempting to use a Linear MCP tool (e.g., list teams):**
@@ -754,8 +2279,20 @@ If successful:
 ```
 ✓ Linear MCP server connected successfully
 ✓ Can access workspace: {{workspaceName}}
+✓ Found {{teamCount}} accessible teams
 
-Continuing with template creation...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ MCP Setup Complete! (Step 7 of 11 complete)
+
+Total time: ~{{actual_time}} (estimated: 1-2 minutes)
+
+You can now use Linear workflow commands like:
+  • "Let's get to work on DEV-123"
+  • "Create a blocker for this"
+  • "Ready for review"
+
+Continuing with Linear template creation...
 ```
 
 If failed:
@@ -763,11 +2300,21 @@ If failed:
 ❌ MCP authentication failed or incomplete
 
 Please ensure you:
-  1. Ran /mcp command
-  2. Completed OAuth flow in browser
-  3. Granted all required permissions
+  1. Ran /mcp command in Claude Code
+  2. Completed OAuth flow in your browser
+  3. Granted all required permissions to Linear workspace
+
+Common issues:
+  • Browser was closed before completing OAuth
+  • Linear permissions were declined
+  • Network connectivity issue during authentication
 
 Try again? (Y/n)
+
+If you continue to have issues:
+  • Check https://linear.app/settings/api to verify API access
+  • Try: claude mcp remove linear-server
+  • Then restart from this phase
 ```
 
 **Documentation Reference:**
@@ -790,7 +2337,9 @@ Then restart Claude Desktop application.
 
 **Mark TODO as completed after MCP authentication successful.**
 
-### Phase 9: Create Linear Issue Templates
+### Phase 8: Create Linear Issue Templates
+
+**[Step 8 of 11 | Automatic | ~30 seconds]**
 
 **After installation completes, automatically create Linear templates:**
 
@@ -853,7 +2402,9 @@ curl -X POST https://api.linear.app/graphql \
 
 **Mark TODO as completed after templates are created.**
 
-### Phase 10: Create Test Issue
+### Phase 9: Create Test Issue
+
+**[Step 9 of 11 | Automatic | ~10 seconds]**
 
 **After templates are created, create a test issue using Linear API:**
 
@@ -889,34 +2440,134 @@ URL: https://linear.app/{{workspace}}/issue/{{ISSUE-ID}}
 
 **Mark TODO as completed.**
 
-### Phase 11: Test the Workflow
+### Phase 10: Test the Workflow
 
-**After test issue is created, prompt user to test the complete workflow:**
+**[Step 10 of 11 | Automatic Validation + Optional Full Test | ~1-3 minutes]**
 
-**CRITICAL:** Do NOT run git commands automatically. Instead, guide the user to trigger the workflow naturally.
+**After test issue is created, AUTOMATICALLY run validation tests:**
+
+**Part A: Automatic Validation (No user input required)**
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-✅ Setup Complete - Ready for Testing!
+🧪 Running Automated Tests...
 
-I've created a test issue to verify the workflow:
-  {{ISSUE-ID}}: Test Linear + Claude + GitHub Integration
-  URL: https://linear.app/{{workspace}}/issue/{{ISSUE-ID}}
+[1/5] Testing Linear MCP connection...
+      Fetching test issue {{ISSUE-ID}}...
+```
+
+**Use Linear MCP tools to fetch the test issue:**
+
+```javascript
+// Use get_issue MCP tool
+const issue = await getIssue(issueId);
+```
+
+If successful:
+```
+      ✓ Linear MCP connection working
+      ✓ Can fetch issue: {{ISSUE-ID}}
+      ✓ Issue title: "Test Linear + Claude + GitHub Integration"
+
+[2/5] Validating configuration file...
+```
+
+**Read and validate .linear-workflow.json:**
+
+```bash
+node scripts/validate-config.js .linear-workflow.json
+```
+
+If successful:
+```
+      ✓ Configuration file valid
+      ✓ All required fields present
+      ✓ Issue pattern matches: {{issuePattern}}
+
+[3/5] Checking GitHub Actions workflow...
+```
+
+**Validate workflow YAML syntax:**
+
+```bash
+# Check if workflow file exists and is valid YAML
+test -f .github/workflows/linear-status-update.yml && \
+  node -e "const yaml = require('js-yaml'); const fs = require('fs'); \
+  yaml.load(fs.readFileSync('.github/workflows/linear-status-update.yml', 'utf8')); \
+  console.log('✓ Workflow YAML is valid');"
+```
+
+If successful:
+```
+      ✓ Workflow file exists
+      ✓ YAML syntax valid
+      ✓ Required secrets configured
+
+[4/5] Verifying git hook installation...
+```
+
+**Check hook is executable and working:**
+
+```bash
+# Already tested in Phase 6.5, just confirm status
+test -x .git/hooks/commit-msg && echo "✓ Hook is executable"
+```
+
+```
+      ✓ Git hook installed at .git/hooks/commit-msg
+      ✓ Hook is executable
+      ✓ Hook validation passed (7/7 tests)
+
+[5/5] Testing GitHub repository access...
+```
+
+**Verify can push to repository:**
+
+```bash
+gh repo view --json nameWithOwner,viewerPermission
+```
+
+If successful:
+```
+      ✓ Repository accessible
+      ✓ User has push permissions
+      ✓ Can push to setup/linear-workflow branch
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ All Automated Tests Passed! (5/5)
+
+Setup validation complete:
+  ✓ Linear MCP connection working
+  ✓ Configuration file valid
+  ✓ GitHub Actions workflow ready
+  ✓ Git commit hook working
+  ✓ Repository access confirmed
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Part B: Optional Full Workflow Test**
+
+After automatic validation passes, offer the complete workflow test:
+
+```
+🎯 Optional: Test Complete Workflow
+
+The installation is validated and ready to use. You can optionally test
+the complete workflow end-to-end right now.
+
+Test issue: {{ISSUE-ID}}
+URL: https://linear.app/{{workspace}}/issue/{{ISSUE-ID}}
 
 ⚠️  IMPORTANT: The GitHub Actions workflow won't be active until you merge
    the setup/linear-workflow branch to main. However, we can test the Linear
-   MCP integration right now!
+   MCP integration and git hooks right now!
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+To run the full test, say: "Let's get to work on {{ISSUE-ID}}"
 
-🧪 Let's test it out!
-
-To test, say: "Let's get to work on {{ISSUE-ID}}"
-
-This will trigger the full Linear workflow:
+This will:
   1. Fetch issue details using Linear MCP tools
   2. Create task analysis document in /docs/issues/
   3. Post summary comment to Linear issue
@@ -926,14 +2577,16 @@ This will trigger the full Linear workflow:
   7. Verify commit message hook validation
   8. Test Linear MCP integration end-to-end
 
-After testing successfully, we'll commit the installation and you can merge.
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Ready to test? Say "Let's get to work on {{ISSUE-ID}}" or "skip" to finalize installation.
+Options:
+1. Run full workflow test (recommended)
+2. Skip and finalize installation
+
+Your choice [1]: _____
 ```
 
-**If user triggers workflow ("Let's get to work on..."):**
+**If user chooses 1 or triggers workflow ("Let's get to work on..."):**
 
 Follow the complete Linear workflow as documented in docs/linear-workflow.md:
 1. Fetch issue with MCP tools (get_issue, list_comments)
@@ -981,15 +2634,27 @@ Ready to finalize the installation? (Y/n)
 
 **Mark TODO as completed.**
 
-**If user skips testing:**
+**If user chooses 2 (skips full workflow test):**
 
 ```
-No problem! You can test the workflow after installation.
+✓ Automated validation complete (5/5 tests passed)
+
+The installation is ready to finalize. You can test the complete workflow
+anytime after installation by saying "Let's get to work on {{ISSUE-ID}}".
+
+All critical components have been validated:
+  ✓ Linear MCP connection
+  ✓ Configuration file
+  ✓ GitHub Actions workflow
+  ✓ Git commit hook
+  ✓ Repository access
 
 Let's finalize the installation.
 ```
 
-### Phase 12: Commit and Push Installation
+### Phase 11: Commit and Push Installation
+
+**[Step 11 of 11 | Automatic | ~30 seconds]**
 
 **After testing is complete (or skipped), switch back to setup branch and commit all installation files:**
 
@@ -1137,6 +2802,268 @@ What would you like to do?
 
 Your choice [1]: _____
 ```
+
+## Status-Aware Automation
+
+**Understanding and Using Status Definitions**
+
+After configuration, you have detailed information about what each status means in the team's workflow. Use these definitions to make intelligent decisions about when to update issue statuses automatically.
+
+### Accessing Status Definitions
+
+Status definitions are stored in `.linear-workflow.json` under `linear.statuses`. Each status includes:
+
+- **name**: Display name of the status
+- **id**: Linear status ID
+- **meaning**: What this status represents in the workflow
+- **trigger**: When issues should move to this status
+- **automated**: Whether this is automated or manual
+- **gitEvent** (optional): Specific git event that triggers this status
+
+### Status-Aware Decision Making
+
+**When starting work on an issue ("Let's get to work on..."):**
+
+1. **Check current status and validate it makes sense:**
+
+```javascript
+// Example status checks
+const currentStatus = issue.state.name;
+const statusDef = config.linear.statuses[currentStatus.toLowerCase().replace(/\s+/g, '')];
+
+// Validate based on meaning
+if (statusDef?.meaning?.includes('Low priority') || statusDef?.meaning?.includes('Backlog')) {
+  // Warn user: "This issue is in Backlog (low priority). Do you want to continue?"
+}
+
+if (statusDef?.meaning?.includes('Feedback') || statusDef?.meaning?.includes('blockers')) {
+  // Check: "This issue needs feedback. Has the blocker been resolved?"
+}
+
+if (statusDef?.meaning?.includes('Hold') || statusDef?.meaning?.includes('paused')) {
+  // Ask: "This issue is on hold. Ready to resume?"
+}
+```
+
+2. **After completing analysis, update to appropriate status:**
+
+```javascript
+// Find the appropriate status based on analysis outcome
+const hasBlockers = /* check if blockers found */;
+
+if (hasBlockers) {
+  // Find "Feedback Required" or similar status
+  const feedbackStatus = Object.values(config.linear.statuses).find(s =>
+    s.meaning?.includes('blockers') ||
+    s.meaning?.includes('clarification') ||
+    s.meaning?.includes('Feedback')
+  );
+
+  if (feedbackStatus) {
+    updateIssue(issueId, { stateId: feedbackStatus.id });
+    // Post comment explaining blockers
+  }
+} else {
+  // Find "Ready for Development" or similar status
+  const readyStatus = Object.values(config.linear.statuses).find(s =>
+    s.meaning?.includes('ready to start') ||
+    s.meaning?.includes('Ready for Development') ||
+    s.meaning?.includes('no blockers')
+  );
+
+  if (readyStatus) {
+    updateIssue(issueId, { stateId: readyStatus.id });
+    // Post comment with analysis summary
+  }
+}
+```
+
+**When user pauses work ("pause work on this"):**
+
+```javascript
+// Find "On Hold" or similar status
+const onHoldStatus = Object.values(config.linear.statuses).find(s =>
+  s.meaning?.includes('paused') ||
+  s.meaning?.includes('On Hold') ||
+  s.trigger?.includes('pause')
+);
+
+if (onHoldStatus) {
+  // Update to On Hold
+  updateIssue(issueId, { stateId: onHoldStatus.id });
+  // Post pause comment with reason
+}
+```
+
+**When marking as blocked:**
+
+```javascript
+// Check if they have "Feedback Required" or similar status
+const blockedStatus = Object.values(config.linear.statuses).find(s =>
+  s.meaning?.includes('blockers') ||
+  s.meaning?.includes('clarification') ||
+  s.meaning?.includes('Feedback')
+);
+
+if (blockedStatus) {
+  updateIssue(issueId, { stateId: blockedStatus.id });
+  // Post detailed blocker information
+} else {
+  // Fallback to "On Hold" if no feedback status exists
+  const onHoldStatus = Object.values(config.linear.statuses).find(s =>
+    s.meaning?.includes('Hold')
+  );
+  if (onHoldStatus) {
+    updateIssue(issueId, { stateId: onHoldStatus.id });
+  }
+}
+```
+
+### Status Validation During Configuration
+
+**When mapping git events to statuses, validate they make sense:**
+
+```javascript
+// Example validation logic
+const statusMapping = {
+  gitEvent: 'push_feature_branch',
+  selectedStatus: config.linear.statuses.inProgress
+};
+
+// Check if meaning aligns with git event
+if (statusMapping.gitEvent === 'push_feature_branch') {
+  const expectedMeanings = ['actively working', 'in progress', 'branch checked out'];
+  const actualMeaning = statusMapping.selectedStatus.meaning.toLowerCase();
+
+  const isGoodMatch = expectedMeanings.some(expected =>
+    actualMeaning.includes(expected)
+  );
+
+  if (!isGoodMatch) {
+    // Warn user about potential mismatch
+    console.log(`⚠️  Warning: "${statusMapping.selectedStatus.name}" may not be the best choice for pushing to feature branch.`);
+    console.log(`   Meaning: "${statusMapping.selectedStatus.meaning}"`);
+    console.log(`   Expected: Status meaning "actively working" or "in progress"`);
+  }
+}
+```
+
+### Common Status Patterns
+
+**Pattern 1: Analysis Workflow**
+
+```
+To Do (new, not analyzed)
+  ↓ (Claude analyzes)
+Ready for Development (analyzed, no blockers) OR Feedback Required (has blockers)
+  ↓ (developer starts)
+In Progress (actively working)
+```
+
+**Pattern 2: Review Workflow**
+
+```
+In Progress (actively working)
+  ↓ (PR created and merged)
+Review Required (needs code review)
+  ↓ (reviewer approves)
+Approved (ready for release)
+```
+
+**Pattern 3: Release Workflow**
+
+```
+Approved (ready for release)
+  ↓ (deployed to production)
+Released (monitoring for issues)
+  ↓ (30 days, no issues)
+Done (completed successfully)
+```
+
+### Example Implementation
+
+**Full workflow when starting an issue:**
+
+```javascript
+async function startWorkOnIssue(issueId, config) {
+  // 1. Fetch issue
+  const issue = await getIssue(issueId);
+  const currentStatus = issue.state.name;
+
+  // 2. Check current status against definitions
+  const currentStatusDef = findStatusByName(config.linear.statuses, currentStatus);
+
+  // 3. Validate it makes sense to start work
+  if (currentStatusDef?.meaning?.includes('Low priority')) {
+    const confirm = await ask("This issue is low priority. Continue anyway?");
+    if (!confirm) return;
+  }
+
+  if (currentStatusDef?.meaning?.includes('Feedback')) {
+    const confirm = await ask("This issue needs feedback. Has it been resolved?");
+    if (!confirm) return;
+  }
+
+  // 4. Perform analysis
+  const analysis = await analyzeIssue(issue);
+  const hasBlockers = analysis.blockers.length > 0;
+
+  // 5. Update to appropriate status based on analysis
+  if (hasBlockers) {
+    const feedbackStatus = Object.values(config.linear.statuses).find(s =>
+      s.meaning?.includes('blockers') || s.meaning?.includes('Feedback')
+    );
+
+    if (feedbackStatus) {
+      await updateIssue(issueId, { stateId: feedbackStatus.id });
+      await postComment(issueId, formatBlockerComment(analysis.blockers));
+      console.log(`Status updated to "${feedbackStatus.name}" (has blockers)`);
+    }
+  } else {
+    const readyStatus = Object.values(config.linear.statuses).find(s =>
+      s.meaning?.includes('ready to start') || s.meaning?.includes('Ready for Development')
+    );
+
+    if (readyStatus) {
+      await updateIssue(issueId, { stateId: readyStatus.id });
+      await postComment(issueId, formatAnalysisSummary(analysis));
+      console.log(`Status updated to "${readyStatus.name}" (ready to start)`);
+    }
+
+    // 6. Create feature branch
+    await createFeatureBranch(issueId, issue.title);
+
+    // 7. Push initial commit (will trigger GitHub Actions to update to "In Progress")
+    await pushInitialCommit(issueId);
+  }
+}
+
+function findStatusByName(statuses, name) {
+  return Object.values(statuses).find(s => s.name === name);
+}
+```
+
+### Best Practices
+
+1. **Always check status definitions before updating**
+   - Don't hardcode status names
+   - Use meaning and trigger to find the right status
+
+2. **Provide context in comments when updating status**
+   - Explain why the status changed
+   - Include relevant information (blockers, progress, etc.)
+
+3. **Validate mappings make sense**
+   - Check that git events align with status meanings
+   - Warn user if configuration seems illogical
+
+4. **Handle missing statuses gracefully**
+   - Not all teams have all statuses
+   - Have fallbacks (e.g., "On Hold" if no "Feedback Required")
+
+5. **Respect manual statuses**
+   - Don't automatically update statuses marked as `automated: false`
+   - These require user decision (Approved, Done, Canceled)
 
 ## Commands After Installation
 
@@ -1655,6 +3582,337 @@ Which would you like to continue? (or "start new issue")
 
 ---
 
+### Query & Reporting Commands
+
+These commands help discover, triage, and understand what's happening across the team.
+
+#### Fetch Recent Bugs
+
+**Trigger phrases:**
+- "Fetch me any recent bugs"
+- "Show me new bugs"
+- "What bugs need analysis?"
+- "Are there any unanalyzed bugs?"
+
+**Claude should:**
+1. Use Linear MCP to search for issues with:
+   - Label/tag contains "bug" OR title contains "[BUG]"
+   - Status is "To Do" OR any status where `meaning` includes "not yet analyzed"
+   - Created within last 7 days (or ask user for timeframe)
+
+2. For each bug found, check:
+   - Has Claude analysis been posted? (check comments)
+   - Current status and what it means
+   - Priority level
+
+3. Present bugs grouped by priority
+
+4. Offer to analyze any bug
+
+**Display format:**
+```
+🐛 Recent Bugs (7 days)
+
+High Priority:
+  1. DEV-456: Login fails on Safari [To Do]
+     Created: 2 days ago
+     Status: Not yet analyzed
+
+  2. DEV-478: Data loss in checkout flow [To Do]
+     Created: 4 days ago
+     Status: Not yet analyzed
+
+Normal Priority:
+  3. DEV-489: Button alignment off on mobile [To Do]
+     Created: 1 day ago
+     Status: Not yet analyzed
+
+Low Priority:
+  4. DEV-492: Typo in error message [Backlog]
+     Created: 5 days ago
+     Status: Low priority
+
+Total: 4 bugs need analysis
+
+Would you like me to analyze any of these? (say "analyze DEV-456" or "analyze all")
+```
+
+**Status-aware filtering:**
+```javascript
+// Use status definitions to find "not analyzed" issues
+const unanalyzedStatuses = Object.values(config.linear.statuses).filter(s =>
+  s.meaning?.includes('not yet analyzed') ||
+  s.meaning?.includes('not analyzed') ||
+  s.meaning?.includes('New issues') ||
+  s.name === 'To Do'
+);
+
+// Find bugs in those statuses
+const bugs = await searchIssues({
+  filter: {
+    state: { in: unanalyzedStatuses.map(s => s.id) },
+    labels: { some: { name: { containsIgnoreCase: 'bug' } } },
+    createdAt: { gte: sevenDaysAgo }
+  }
+});
+```
+
+#### Fetch High Priority Items
+
+**Trigger phrases:**
+- "Let's get some high priority items"
+- "Show me high priority issues"
+- "What's urgent?"
+- "Give me the important stuff"
+
+**Claude should:**
+1. Use Linear MCP to search for issues with:
+   - Priority: Urgent (1) or High (2)
+   - Status is NOT "Done" or "Canceled"
+   - Status is NOT in any status where `meaning` includes "completed"
+
+2. Group by status using status definitions:
+   - **Needs Analysis**: Status meaning includes "not analyzed"
+   - **Ready to Start**: Status meaning includes "ready to start" or "no blockers"
+   - **Blocked**: Status meaning includes "blockers" or "feedback"
+   - **In Progress**: Status meaning includes "actively working"
+   - **Review**: Status meaning includes "review"
+   - **Other**: Everything else
+
+3. Show which ones you can start immediately
+
+4. Offer to start work on any issue
+
+**Display format:**
+```
+⚡ High Priority Items
+
+🔴 Urgent (Priority 1):
+
+  Ready to Start:
+    1. DEV-401: Fix payment gateway timeout [Ready for Development]
+       Analyzed 1 day ago, no blockers
+
+  In Progress:
+    2. DEV-423: Implement 2FA authentication [In Progress]
+       Started 3 hours ago by @alice
+       Branch: feature/DEV-423-2fa
+
+🟠 High (Priority 2):
+
+  Needs Analysis:
+    3. DEV-445: Optimize database queries [To Do]
+       Created 2 days ago, not yet analyzed
+
+  Blocked:
+    4. DEV-467: Add export to CSV feature [Feedback Required]
+       Blocked: Waiting on API design from backend team
+
+  Review:
+    5. DEV-489: Update user permissions UI [Review Required]
+       PR #234 merged to staging, needs review
+
+Total: 5 high priority items
+  • 1 ready to start immediately
+  • 1 needs analysis
+  • 1 blocked
+  • 2 in progress/review
+
+Recommendation: Start with DEV-401 (payment gateway fix)
+
+Would you like to work on any of these? (say "start DEV-401")
+```
+
+**Status-aware grouping:**
+```javascript
+// Use status definitions to intelligently group issues
+function categorizeByStatus(issues, statusDefinitions) {
+  const categories = {
+    needsAnalysis: [],
+    readyToStart: [],
+    blocked: [],
+    inProgress: [],
+    review: [],
+    other: []
+  };
+
+  for (const issue of issues) {
+    const statusDef = findStatusByName(statusDefinitions, issue.state.name);
+
+    if (statusDef.meaning?.includes('not analyzed') || statusDef.meaning?.includes('not yet analyzed')) {
+      categories.needsAnalysis.push(issue);
+    } else if (statusDef.meaning?.includes('ready to start') || statusDef.meaning?.includes('no blockers')) {
+      categories.readyToStart.push(issue);
+    } else if (statusDef.meaning?.includes('blockers') || statusDef.meaning?.includes('feedback')) {
+      categories.blocked.push(issue);
+    } else if (statusDef.meaning?.includes('actively working') || statusDef.meaning?.includes('in progress')) {
+      categories.inProgress.push(issue);
+    } else if (statusDef.meaning?.includes('review')) {
+      categories.review.push(issue);
+    } else {
+      categories.other.push(issue);
+    }
+  }
+
+  return categories;
+}
+```
+
+#### What Are We Busy With (Team Status)
+
+**Trigger phrases:**
+- "What are we busy with?"
+- "What's the team working on?"
+- "Show all active work"
+- "What's in progress?"
+
+**Claude should:**
+1. Use Linear MCP to search for ALL issues (not just mine) with:
+   - Status where `meaning` includes "actively working" or "in progress"
+   - Include assignee information
+
+2. Group by:
+   - Team member (if multiple people)
+   - Priority level
+   - Time in status
+
+3. Identify:
+   - Issues stuck too long (> 3 days in progress with no commits)
+   - Blocked issues that weren't moved to correct status
+   - High priority items
+
+4. Provide team overview
+
+**Display format:**
+```
+👥 Team Activity - In Progress Issues
+
+Alice (@alice):
+  1. DEV-423: Implement 2FA authentication [High Priority]
+     In progress for: 3 hours
+     Last commit: 45 minutes ago
+     Branch: feature/DEV-423-2fa
+
+  2. DEV-445: Optimize database queries [Normal Priority]
+     In progress for: 2 days
+     Last commit: 2 days ago ⚠️  No recent activity
+     Branch: feature/DEV-445-optimize
+
+Bob (@bob):
+  3. DEV-467: Add CSV export [Normal Priority]
+     In progress for: 1 day
+     Last commit: 3 hours ago
+     Branch: feature/DEV-467-csv-export
+
+Carol (@carol):
+  4. DEV-489: Update permissions UI [High Priority]
+     In progress for: 4 hours
+     Last commit: 30 minutes ago
+     Branch: feature/DEV-489-permissions
+
+Unassigned:
+  5. DEV-501: Fix mobile layout [Normal Priority] ⚠️
+     In progress for: 5 days
+     No assignee, no branch found
+
+Summary:
+  • Total: 5 issues in progress
+  • High priority: 2
+  • ⚠️  Attention needed: 2 (no recent activity or unassigned)
+
+Potential issues:
+  • DEV-445: No commits in 2 days - blocked?
+  • DEV-501: 5 days in progress with no assignee - stale?
+
+Would you like to:
+  • Start new work
+  • Check on stalled issues
+  • Review team capacity
+```
+
+**Status-aware team query:**
+```javascript
+// Find all "in progress" issues using status definitions
+const inProgressStatuses = Object.values(config.linear.statuses).filter(s =>
+  s.meaning?.includes('actively working') ||
+  s.meaning?.includes('in progress') ||
+  s.meaning?.includes('branch checked out')
+);
+
+// Get all team's active work
+const activeIssues = await searchIssues({
+  filter: {
+    state: { in: inProgressStatuses.map(s => s.id) },
+    team: { id: { eq: config.linear.teamId } }
+  },
+  includeArchived: false
+});
+
+// For each issue, check for:
+// 1. Git branch existence
+// 2. Last commit time
+// 3. Comments/activity
+// 4. Time in current status
+
+const enrichedIssues = await Promise.all(
+  activeIssues.map(async issue => {
+    const branch = await findBranch(issue.identifier);
+    const lastCommit = branch ? await getLastCommitTime(branch) : null;
+    const timeInStatus = Date.now() - new Date(issue.stateUpdatedAt);
+
+    return {
+      ...issue,
+      branch,
+      lastCommit,
+      timeInStatus,
+      needsAttention: timeInStatus > 3 * 24 * 60 * 60 * 1000 || !branch // > 3 days or no branch
+    };
+  })
+);
+```
+
+**Smart recommendations:**
+```javascript
+// Provide intelligent recommendations based on team status
+function generateRecommendations(issues, config) {
+  const recommendations = [];
+
+  // Find stalled issues
+  const stalledIssues = issues.filter(i => i.needsAttention);
+  if (stalledIssues.length > 0) {
+    recommendations.push({
+      type: 'stalled',
+      message: `${stalledIssues.length} issue(s) may be stalled (no recent activity)`,
+      action: 'Check if these should be moved to "On Hold" or "Feedback Required"'
+    });
+  }
+
+  // Find high priority items
+  const highPriorityCount = issues.filter(i => i.priority <= 2).length;
+  if (highPriorityCount > 3) {
+    recommendations.push({
+      type: 'capacity',
+      message: `${highPriorityCount} high priority issues in progress`,
+      action: 'Consider if team is overloaded or if priorities need adjustment'
+    });
+  }
+
+  // Find unassigned issues
+  const unassignedCount = issues.filter(i => !i.assignee).length;
+  if (unassignedCount > 0) {
+    recommendations.push({
+      type: 'unassigned',
+      message: `${unassignedCount} issue(s) in progress with no assignee`,
+      action: 'These may have been auto-updated but not started yet'
+    });
+  }
+
+  return recommendations;
+}
+```
+
+---
+
 ### Quick Actions
 
 #### Ready for Review
@@ -1811,12 +4069,93 @@ The `.linear-workflow.json` file structure:
     "workspaceId": "uuid-here",
     "workspaceName": "Acme Inc",
     "statuses": {
-      "inProgress": "In Progress",
-      "inProgressId": "uuid-here",
-      "review": "Review Required",
-      "reviewId": "uuid-here",
-      "done": "Done",
-      "doneId": "uuid-here"
+      "backlog": {
+        "name": "Backlog",
+        "id": "uuid-here",
+        "meaning": "Low priority / nice to have features",
+        "trigger": "User manually triages as low priority",
+        "automated": false
+      },
+      "todo": {
+        "name": "To Do",
+        "id": "uuid-here",
+        "meaning": "New issues, not yet analyzed",
+        "trigger": "When issue is created or imported",
+        "automated": true
+      },
+      "readyForDev": {
+        "name": "Ready for Development",
+        "id": "uuid-here",
+        "meaning": "Claude analyzed issue, no blockers, ready to start",
+        "trigger": "After Claude completes analysis with no blockers",
+        "automated": true
+      },
+      "feedbackRequired": {
+        "name": "Feedback Required",
+        "id": "uuid-here",
+        "meaning": "Claude analyzed but found blockers/needs clarification",
+        "trigger": "When blockers or questions discovered during analysis",
+        "automated": true
+      },
+      "inProgress": {
+        "name": "In Progress",
+        "id": "uuid-here",
+        "meaning": "Actively working on issue, branch checked out",
+        "trigger": "Push to feature branch",
+        "automated": true,
+        "gitEvent": "push_feature_branch"
+      },
+      "onHold": {
+        "name": "On Hold",
+        "id": "uuid-here",
+        "meaning": "User paused work on this issue",
+        "trigger": "User says 'pause work on this'",
+        "automated": true
+      },
+      "inReview": {
+        "name": "In Review",
+        "id": "uuid-here",
+        "meaning": "Someone is actively reviewing the code",
+        "trigger": "Manual - when reviewer starts review",
+        "automated": false
+      },
+      "reviewRequired": {
+        "name": "Review Required",
+        "id": "uuid-here",
+        "meaning": "PR merged to staging, needs code review",
+        "trigger": "Merge to staging/testing branch",
+        "automated": true,
+        "gitEvent": "merge_to_staging"
+      },
+      "approved": {
+        "name": "Approved",
+        "id": "uuid-here",
+        "meaning": "Ready for production release",
+        "trigger": "Manual approval after review",
+        "automated": false
+      },
+      "released": {
+        "name": "Released",
+        "id": "uuid-here",
+        "meaning": "Deployed to production, monitoring for issues",
+        "trigger": "Merge to production branch",
+        "automated": true,
+        "gitEvent": "merge_to_prod"
+      },
+      "done": {
+        "name": "Done",
+        "id": "uuid-here",
+        "meaning": "Completed and verified, no issues after release",
+        "trigger": "Manual - 30 days after release with no feedback",
+        "automated": false
+      },
+      "canceled": {
+        "name": "Canceled",
+        "id": "uuid-here",
+        "meaning": "Issue no longer relevant or needed",
+        "trigger": "Manual - when issue is cancelled",
+        "automated": false
+      }
     }
   },
   "formats": {

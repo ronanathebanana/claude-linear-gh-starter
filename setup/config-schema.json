@@ -171,6 +171,36 @@
         }
       }
     },
+    "assignees": {
+      "type": "object",
+      "description": "Auto-assignment configuration for status changes",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable auto-assignment on status changes"
+        },
+        "onInProgress": {
+          "type": "string",
+          "description": "Linear user ID to assign when moving to In Progress (optional)"
+        },
+        "onReview": {
+          "type": "string",
+          "description": "Linear user ID to assign when moving to Review (optional)"
+        },
+        "onStaging": {
+          "type": "string",
+          "description": "Linear user ID to assign when moving to Staging/QA (optional)"
+        },
+        "onDone": {
+          "type": "string",
+          "description": "Linear user ID to assign when moving to Done (optional)"
+        },
+        "preserveOriginal": {
+          "type": "boolean",
+          "description": "If true, keep original assignee if already assigned"
+        }
+      }
+    },
     "installed": {
       "type": "string",
       "format": "date-time",

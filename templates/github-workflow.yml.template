@@ -173,7 +173,7 @@ jobs:
 
             LOOKUP_QUERY=$(jq -n \
               --arg number "$ISSUE_NUMBER" \
-              '{query: "query LookupIssue($number: Float!) { issues(filter: { number: { eq: $number } }) { nodes { id identifier title state { name } } } }", variables: {number: ($number | tonumber)}}')
+              '{query: "query LookupIssue($number: Float!) { issues(filter: { number: { eq: $number } }) { nodes { id identifier title state { name } assignee { id name email } } } }", variables: {number: ($number | tonumber)}}')
 
             ISSUE_RESPONSE=$(curl -s -X POST https://api.linear.app/graphql \
               -H "Content-Type: application/json" \
@@ -232,6 +232,64 @@ jobs:
               [ -n "$ERROR" ] && echo "   Error: $ERROR"
               continue
             fi
+
+{{#assignees.enabled}}
+            # Auto-assignment logic
+            ASSIGNEE_ID=""
+            ASSIGNEE_NAME=""
+
+            # Determine assignee based on target status
+            if [ "$TARGET_STATUS_NAME" == "{{linear.statuses.inProgress}}" ]; then
+              ASSIGNEE_ID="{{assignees.onInProgress}}"
+              ASSIGNEE_NAME="onInProgress"
+            elif [ "$TARGET_STATUS_NAME" == "{{linear.statuses.review}}" ]; then
+              ASSIGNEE_ID="{{assignees.onReview}}"
+              ASSIGNEE_NAME="onReview"{{#branches.staging}}
+            elif [ "$TARGET_STATUS_NAME" == "{{linear.statuses.staging}}" ]; then
+              ASSIGNEE_ID="{{assignees.onStaging}}"
+              ASSIGNEE_NAME="onStaging"{{/branches.staging}}{{#branches.prod}}
+            elif [ "$TARGET_STATUS_NAME" == "{{linear.statuses.done}}" ]; then
+              ASSIGNEE_ID="{{assignees.onDone}}"
+              ASSIGNEE_NAME="onDone"{{/branches.prod}}
+            fi
+
+            # Perform assignment if configured
+            if [ -n "$ASSIGNEE_ID" ] && [ "$ASSIGNEE_ID" != "null" ]; then
+              echo "👤 Auto-assignment configured for $ASSIGNEE_NAME"
+
+{{#assignees.preserveOriginal}}
+              # Check if issue already has an assignee
+              CURRENT_ASSIGNEE=$(echo "$ISSUE_RESPONSE" | jq -r '.data.issues.nodes[0].assignee.id // empty')
+
+              if [ -n "$CURRENT_ASSIGNEE" ] && [ "$CURRENT_ASSIGNEE" != "null" ]; then
+                echo "   ℹ️  Issue already assigned - preserving original assignee"
+              else
+{{/assignees.preserveOriginal}}
+                # Update assignee
+                ASSIGN_MUTATION=$(jq -n \
+                  --arg id "$ISSUE_UUID" \
+                  --arg assigneeId "$ASSIGNEE_ID" \
+                  '{query: "mutation UpdateAssignee($id: String!, $assigneeId: String!) { issueUpdate(id: $id, input: { assigneeId: $assigneeId }) { success issue { identifier assignee { name email } } } }", variables: {id: $id, assigneeId: $assigneeId}}')
+
+                ASSIGN_RESPONSE=$(curl -s -X POST https://api.linear.app/graphql \
+                  -H "Content-Type: application/json" \
+                  -H "Authorization: $LINEAR_API_KEY" \
+                  -d "$ASSIGN_MUTATION")
+
+                ASSIGN_SUCCESS=$(echo "$ASSIGN_RESPONSE" | jq -r '.data.issueUpdate.success // false')
+
+                if [ "$ASSIGN_SUCCESS" == "true" ]; then
+                  ASSIGNED_TO=$(echo "$ASSIGN_RESPONSE" | jq -r '.data.issueUpdate.issue.assignee.name // "Unknown"')
+                  echo "   ✅ Assigned to: $ASSIGNED_TO"
+                else
+                  ASSIGN_ERROR=$(echo "$ASSIGN_RESPONSE" | jq -r '.errors[0].message // "Unknown error"')
+                  echo "   ⚠️  Failed to assign: $ASSIGN_ERROR"
+                fi
+{{#assignees.preserveOriginal}}
+              fi
+{{/assignees.preserveOriginal}}
+            fi
+{{/assignees.enabled}}
 
             # Create simple comment reference based on event type
             if [ "$EVENT_NAME" == "push" ]; then
