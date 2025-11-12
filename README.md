@@ -8,7 +8,7 @@
 
 # 🔗 Linear + GitHub + Claude Workflow
 
-**Automated issue tracking that actually works** ✨
+**Issue tracking that doesn't make you want to quit** ✨
 
 [![Version](https://img.shields.io/badge/version-1.0.0-5E6AD2?style=for-the-badge&logo=git&logoColor=white)](https://github.com/YOUR_USERNAME/claude-linear-gh-starter)
 [![License](https://img.shields.io/badge/license-MIT-00D084?style=for-the-badge&logo=opensourceinitiative&logoColor=white)](LICENSE)
