@@ -2246,24 +2246,35 @@ claude mcp add --transport http linear-server https://mcp.linear.app/mcp
 
 To complete setup, you need to authenticate with Linear.
 
-Please type: /mcp
+⚠️  IMPORTANT: Claude Code must be restarted to load the new MCP configuration.
 
-This will:
+Please follow these steps:
+
+  1. Exit Claude Code (Ctrl+C or type 'exit')
+  2. Open a NEW terminal in your project directory:
+     {{project.path}}
+  3. Start Claude Code again in that directory
+  4. Type: /mcp
+
+When you run /mcp, it will:
   1. Open a browser window
   2. Prompt you to log in to Linear
   3. Ask you to grant Claude Code access to your Linear workspace
 
-⚠️  I cannot proceed until you authenticate. Please run /mcp now.
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-After you complete authentication in your browser, say "done" or "authenticated" to continue.
+📝 Note: Your installation progress is saved on the setup/linear-workflow branch.
+After authenticating with /mcp in your new terminal, return here and say "done"
+or "authenticated" to continue the setup.
 ```
 
 **Wait for user to:**
-1. Type `/mcp` in Claude Code
-2. Complete OAuth authentication in browser
-3. Confirm they're authenticated by saying "done" or "authenticated"
+1. Exit current Claude Code session
+2. Open new terminal in project directory
+3. Start Claude Code in that directory
+4. Type `/mcp` in the new Claude Code session
+5. Complete OAuth authentication in browser
+6. Return to this setup and confirm they're authenticated by saying "done" or "authenticated"
 
 **When user confirms authentication, verify it worked:**
 
@@ -2720,36 +2731,50 @@ All changes have been committed to branch: setup/linear-workflow
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-🚀 Ready to merge?
+🎉 Installation Complete!
 
-⚠️  IMPORTANT: Merge the setup/linear-workflow branch (NOT the test branch)
+Give it a try! Test the workflow before merging:
+  • Go to your project directory and ask: "Let's get to work on {{ISSUE-ID}}"
+  • Try other workflow commands:
+      - "Fetch me any recent bugs"
+      - "Let's get some high priority items"
+      - "What are we busy with?"
 
-   The test branch (feature/{{ISSUE-ID}}-test-setup) was just for testing.
-   You need to merge setup/linear-workflow to activate the workflow!
+Once you've played around and confirmed everything works, you'll need to merge
+the changes for the installation to take effect for all team members and enable
+GitHub status updates.
 
-⚠️  After merging: The GitHub Actions workflow will become active and all
-   commits with Linear issue references will automatically update issue statuses!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Option 1 - Direct merge (if you've reviewed and approved):
+⚠️  IMPORTANT: Merge the setup/linear-workflow branch to activate the workflow
+
+After merging: The GitHub Actions workflow will become active and all
+commits with Linear issue references will automatically update issue statuses!
+
+Option 1 - Create a Pull Request (recommended for team review):
+
+  gh pr create --base main --head setup/linear-workflow \
+    --title "feat: Add Linear workflow integration ({{ISSUE-ID}})" \
+    --body "Adds complete Linear + GitHub + Claude workflow automation.
+
+See docs/linear-workflow.md for usage guide.
+
+Configuration:
+- Profile: {{profile}}
+- Team: {{linear.teamName}}
+- Auto-assignment: {{autoAssignmentSummary}}
+- Issue pattern: {{formats.issuePattern}}"
+
+Option 2 - Direct merge (if you've reviewed and approved):
+
   git checkout main
   git merge setup/linear-workflow
   git push origin main
 
-Option 2 - Create a Pull Request (recommended for team review):
-  gh pr create --base main --head setup/linear-workflow \
-    --title "feat: Add Linear workflow integration" \
-    --body "Adds complete Linear + GitHub + Claude workflow automation.
-
-See docs/linear-workflow.md for usage guide."
-
-After merging setup/linear-workflow to main:
+After merging to main:
   ✓ GitHub Actions workflow will be active
-  ✓ All commits with {{formats.issueExample}} will update Linear
-  ✓ Team can start using the workflow immediately
-
-Optional cleanup:
-  git branch -d feature/{{ISSUE-ID}}-test-setup
-  git push origin --delete feature/{{ISSUE-ID}}-test-setup
+  ✓ All commits with {{formats.issueExample}} will update Linear automatically
+  ✓ Team can start using workflow commands immediately
 
 Need help merging? Just ask!
 
