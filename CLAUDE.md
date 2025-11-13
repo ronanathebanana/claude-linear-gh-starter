@@ -271,7 +271,7 @@ Would you like me to open Linear's integration settings now? (y/N)
 
 ### Phase 1: Initialize TODO List
 
-**[Step 1 of 11 | Automatic | ~5 seconds]**
+**[Step 1 of 12 | Automatic | ~5 seconds]**
 
 **IMMEDIATELY after user approves setup, use TodoWrite to create the installation checklist:**
 
@@ -280,7 +280,7 @@ Show progress bar at the start:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Linear Workflow Setup
 
-Progress: [█_________] 1/11 steps complete
+Progress: [█_________] 1/12 steps complete
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
@@ -290,7 +290,7 @@ Progress: [█_________] 1/11 steps complete
 **Progress Bar Format:**
 - Use █ for completed sections
 - Use _ for incomplete sections
-- Always show: [█████_____] X/11 steps complete
+- Always show: [█████_____] X/12 steps complete
 - Update after each phase completion
 
 Display format:
@@ -298,22 +298,23 @@ Display format:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Linear Workflow Setup
 
-Progress: [███_______] 3/11 steps complete
+Progress: [████______] 4/12 steps complete
 
 Completed:
   ✓ Confirm project location
   ✓ Create installation branch
   ✓ Run pre-flight environment checks
+  ✓ Initialize Claude Code in project
 
 Current:
-  ⟳ Configure Linear workspace connection
+  ⟳ Authenticate with Linear via MCP
 
 Remaining:
+  • Configure workflow settings
   • Set up branch strategy and status mappings
   • Configure commit and PR formats
   • Install workflow files and documentation
-  • Set up GitHub secrets and git hooks
-  • Configure Linear MCP server
+  • Set up git hooks
   • Create Linear issue templates
   • Create test issue
   • Test the workflow
@@ -562,7 +563,7 @@ Exit wizard.
 
 ### Phase 2: Create Installation Branch
 
-**[Step 2 of 11 | Interactive | ~10 seconds]**
+**[Step 2 of 12 | Interactive | ~10 seconds]**
 
 **Show progress:**
 
@@ -570,7 +571,7 @@ Exit wizard.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Linear Workflow Setup
 
-Progress: [██________] 2/11 steps complete
+Progress: [██________] 2/12 steps complete
 
 Completed:
   ✓ Confirm project location
@@ -580,12 +581,13 @@ Current:
 
 Remaining:
   • Run pre-flight environment checks
-  • Configure Linear workspace connection
+  • Initialize Claude Code in project
+  • Authenticate with Linear via MCP
+  • Configure workflow settings
   • Set up branch strategy and status mappings
   • Configure commit and PR formats
   • Install workflow files and documentation
-  • Set up GitHub secrets and git hooks
-  • Configure Linear MCP server
+  • Set up git hooks
   • Create Linear issue templates
   • Create test issue
   • Test the workflow
@@ -632,7 +634,7 @@ Your choice [1]:
 
 ### Phase 3: Pre-Flight Checks (AUTOMATIC)
 
-**[Step 3 of 11 | Automatic | ~30 seconds]**
+**[Step 3 of 12 | Automatic | ~30 seconds]**
 
 **CRITICAL:** When the user triggers "Setup Linear workflow", AUTOMATICALLY run pre-flight checks FIRST.
 
@@ -652,7 +654,7 @@ This prevents installation failures by catching issues upfront and fixing them a
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Linear Workflow Setup
 
-Progress: [███_______] 3/11 steps complete
+Progress: [███_______] 3/12 steps complete
 
 Running pre-flight environment checks...
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -946,9 +948,328 @@ Reminder saved to installation summary.
 - Fix auth issues inline and continue automatically
 - One continuous flow from start to finish
 
-### Phase 4: Linear MCP Authentication (MCP-FIRST!)
+### Phase 4: Initialize Claude Code in Target Project
 
-**[Step 4 of 11 | Interactive | Requires Browser | ~1-2 minutes]**
+**[Step 4 of 12 | Automatic | ~10 seconds]**
+
+**CRITICAL:** Initialize Claude Code in the target project to provide project-specific context, custom commands, and team onboarding documentation.
+
+**Show progress:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Linear Workflow Setup
+
+Progress: [████______] 4/12 steps complete
+
+Completed:
+  ✓ Confirm project location
+  ✓ Create installation branch
+  ✓ Run pre-flight environment checks
+
+Current:
+  ⟳ Initialize Claude Code in project
+
+Remaining:
+  • Authenticate with Linear via MCP
+  • Configure workflow settings
+  • Set up branch strategy and status mappings
+  • Configure commit and PR formats
+  • Install workflow files and documentation
+  • Set up git hooks
+  • Create Linear issue templates
+  • Create test issue
+  • Optionally configure GitHub Actions
+  • Test the workflow
+  • Commit and push installation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Check if Claude Code is already initialized:**
+
+```bash
+# Check if .claude directory exists
+test -d .claude && echo "Claude Code already initialized" || echo "Claude Code not initialized"
+```
+
+**If already initialized:**
+
+```
+✓ Claude Code already initialized
+
+Found existing .claude/ directory
+
+Options:
+1. Keep existing setup (recommended if you have custom commands)
+2. Merge workflow documentation with existing setup
+3. Overwrite with workflow configuration
+
+Your choice [1]: _____
+```
+
+**If user chooses 1 (keep existing):**
+- Skip Claude Code initialization
+- Continue to next phase
+
+**If user chooses 2 (merge):**
+- Add workflow documentation to existing CLAUDE.md
+- Add workflow-specific commands to .claude/commands/
+- Keep existing configuration
+
+**If user chooses 3 (overwrite):**
+- Backup existing .claude/ to .claude.backup/
+- Proceed with full initialization
+
+**If NOT initialized, create Claude Code structure:**
+
+```
+Initializing Claude Code in project...
+
+[1/4] Creating .claude directory structure...
+      ✓ .claude/ created
+      ✓ .claude/commands/ created
+
+[2/4] Creating project instructions (CLAUDE.md)...
+      ✓ CLAUDE.md created
+
+[3/4] Adding workflow custom commands...
+      ✓ .claude/commands/start-issue.md created
+      ✓ .claude/commands/create-pr.md created
+      ✓ .claude/commands/progress-update.md created
+
+[4/4] Updating .gitignore...
+      ✓ .gitignore updated (if needed)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Claude Code initialized!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Created:
+  • .claude/commands/ - Custom workflow commands
+  • CLAUDE.md - Project instructions for Claude
+
+Custom commands available after setup:
+  • /start-issue - Start work on a Linear issue
+  • /create-pr - Create pull request with Linear integration
+  • /progress-update - Post progress update to Linear
+
+These commands will work for all team members using Claude Code!
+```
+
+**CLAUDE.md Template Content:**
+
+Create `CLAUDE.md` in the project root with workflow-specific instructions:
+
+```markdown
+# {{project.name}} - Claude Code Instructions
+
+This project uses the Linear + GitHub + Claude Code workflow integration.
+
+## Linear Workflow
+
+This project uses Linear for issue tracking with automated GitHub integration.
+
+### Team Configuration
+
+- **Linear Team**: {{linear.teamName}} ({{linear.teamKey}})
+- **Workspace**: {{linear.workspaceName}}
+- **Issue Pattern**: `{{formats.issuePattern}}`
+
+### Workflow Statuses
+
+{{#each linear.statuses}}
+- **{{name}}**: {{meaning}}
+  - Trigger: {{trigger}}
+  {{#if gitEvent}}- Git Event: {{gitEvent}}{{/if}}
+{{/each}}
+
+### Branch Strategy
+
+- **Main Branch**: `{{branches.main}}`
+{{#if branches.staging}}- **Staging Branch**: `{{branches.staging}}`{{/if}}
+{{#if branches.prod}}- **Production Branch**: `{{branches.prod}}`{{/if}}
+
+### Commit Message Format
+
+All commits must reference a Linear issue:
+
+**Format**: `{{formats.issueReferenceKeyword}}: {{formats.issueExample}}`
+
+**Examples**:
+```
+feat: Add user authentication ({{formats.issueReferenceKeyword}}: {{formats.issueExample}})
+{{formats.issueReferenceKeyword}}: {{formats.issueExample}} - Fix login bug
+fix({{formats.issueExample}}): Resolve timeout issue
+```
+
+### Working with Linear Issues
+
+#### Starting Work
+
+**Command**: `/start-issue` or say "Let's get to work on {{formats.issueExample}}"
+
+This will:
+1. Fetch issue details from Linear
+2. Create task analysis document
+3. Post analysis summary to Linear
+4. Create feature branch
+5. Make initial commit
+
+#### Creating Pull Requests
+
+**Command**: `/create-pr` or say "Ready for review"
+
+This will:
+1. Create PR with proper title format
+2. Post PR summary to Linear
+3. Update issue status automatically
+
+#### Progress Updates
+
+**Command**: `/progress-update` or say "Add progress update"
+
+This will:
+1. Analyze recent commits
+2. Check acceptance criteria
+3. Post structured update to Linear
+
+### Custom Commands
+
+- `/start-issue` - Start work on a Linear issue
+- `/create-pr` - Create pull request with Linear integration
+- `/progress-update` - Post progress update to Linear
+
+See `.claude/commands/` for full command definitions.
+
+### Team Guidelines
+
+{{#if autoAssignment.enabled}}
+#### Auto-Assignment
+
+Issues are automatically assigned based on workflow stage:
+
+{{#each autoAssignment.statusMappings}}
+- **{{status}}** → {{assignee.name}} ({{assignee.email}})
+{{/each}}
+
+{{#if autoAssignment.preserveOriginal}}
+Original assignees are preserved alongside new assignees.
+{{/if}}
+{{/if}}
+
+### Documentation
+
+- **Workflow Guide**: `docs/linear-workflow.md`
+- **Issue Analysis**: `{{paths.issues}}`
+- **Configuration**: `.linear-workflow.json`
+
+### GitHub Actions
+
+{{#if githubActions.enabled}}
+✓ GitHub Actions enabled - Issues update automatically on PR merge
+
+**Workflow**: `.github/workflows/linear-status-update.yml`
+
+Status updates happen when:
+- PR merged to `{{branches.main}}` → "{{linear.statuses.review}}"
+{{#if branches.staging}}- PR merged to `{{branches.staging}}` → "{{linear.statuses.staging}}"{{/if}}
+{{#if branches.prod}}- PR merged to `{{branches.prod}}` → "{{linear.statuses.done}}"{{/if}}
+{{else}}
+ℹ️  GitHub Actions not enabled - Use Claude Code commands for status updates
+{{/if}}
+
+### Getting Help
+
+For workflow issues or questions:
+1. Check `docs/linear-workflow.md` for detailed usage
+2. Ask Claude: "How do I use the Linear workflow?"
+3. Review `.linear-workflow.json` for configuration
+
+---
+
+Generated with [Claude Code](https://claude.com/claude-code)
+```
+
+**Custom Command Templates:**
+
+**`.claude/commands/start-issue.md`:**
+```markdown
+Start work on a Linear issue.
+
+Usage:
+  /start-issue {{formats.issueExample}}
+  /start-issue
+
+If no issue ID provided, you'll be prompted to enter one.
+
+This command will:
+1. Fetch issue details from Linear (via MCP)
+2. Create comprehensive task analysis document
+3. Post analysis summary as Linear comment
+4. Create feature branch: feature/{{formats.issueExample}}-description
+5. Make initial commit with issue reference
+6. Update issue status to "{{linear.statuses.inProgress}}"
+
+Example:
+  /start-issue {{formats.issueExample}}
+```
+
+**`.claude/commands/create-pr.md`:**
+```markdown
+Create a pull request with Linear integration.
+
+Usage:
+  /create-pr
+  /create-pr {{formats.issueExample}}
+
+This command will:
+1. Commit any pending changes
+2. Push feature branch to origin
+3. Create PR with proper title format: "{{formats.issueExample}}: Description"
+4. Post PR summary to Linear issue
+5. Status updates via GitHub Actions (if enabled)
+
+The PR will include:
+- Summary of changes
+- Link to Linear issue
+- Testing notes
+- Review checklist
+
+Example:
+  /create-pr
+```
+
+**`.claude/commands/progress-update.md`:**
+```markdown
+Post a progress update to Linear.
+
+Usage:
+  /progress-update
+  /progress-update {{formats.issueExample}}
+
+This command will:
+1. Analyze recent commits since last update
+2. Check current file changes
+3. Review acceptance criteria progress
+4. Generate structured update
+5. Post to Linear issue as comment
+
+Update includes:
+- Completed items
+- Current work in progress
+- Next steps
+- Any blockers
+
+Example:
+  /progress-update
+```
+
+**Mark TODO as completed after initialization.**
+
+### Phase 5: Linear MCP Authentication (MCP-FIRST!)
+
+**[Step 5 of 12 | Interactive | Requires Browser | ~1-2 minutes]**
 
 **CRITICAL:** This is the first step that requires Linear access. We authenticate via MCP BEFORE asking configuration questions, so we can use MCP tools to fetch teams, statuses, and other Linear data during configuration.
 
@@ -958,12 +1279,13 @@ Reminder saved to installation summary.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Linear Workflow Setup
 
-Progress: [████______] 4/11 steps complete
+Progress: [█████_____] 5/12 steps complete
 
 Completed:
   ✓ Confirm project location
   ✓ Create installation branch
   ✓ Run pre-flight environment checks
+  ✓ Initialize Claude Code in project
 
 Current:
   ⟳ Authenticate with Linear via MCP
@@ -1122,9 +1444,9 @@ If you continue to have issues:
 
 **Mark TODO as completed after MCP authentication successful.**
 
-### Phase 5: Configuration Wizard
+### Phase 6: Configuration Wizard
 
-**[Step 5 of 11 | Interactive | ~2-5 minutes]**
+**[Step 6 of 12 | Interactive | ~2-5 minutes]**
 
 **Show progress:**
 
@@ -1132,12 +1454,13 @@ If you continue to have issues:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Linear Workflow Setup
 
-Progress: [█████_____] 5/11 steps complete
+Progress: [██████____] 6/12 steps complete
 
 Completed:
   ✓ Confirm project location
   ✓ Create installation branch
   ✓ Run pre-flight environment checks
+  ✓ Initialize Claude Code in project
   ✓ Authenticate with Linear via MCP
 
 Current:
@@ -1150,7 +1473,6 @@ Remaining:
   • Set up git hooks
   • Create Linear issue templates
   • Create test issue
-  • Optionally configure GitHub Actions
   • Test the workflow
   • Commit and push installation
 
@@ -2314,9 +2636,9 @@ Your choice [1]: _____
 
 **See:** [Auto-Assignment Documentation](docs/auto-assignment.md) for details on this feature.
 
-### Phase 5: Configuration Summary
+### Configuration Summary
 
-**[Step 5 of 11 | Review | ~1 minute]**
+**[Step 6 of 12 | Review | ~1 minute]**
 
 **Show progress:**
 
@@ -2324,14 +2646,15 @@ Your choice [1]: _____
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Linear Workflow Setup
 
-Progress: [█████_____] 5/11 steps complete
+Progress: [██████____] 6/12 steps complete
 
 Completed:
   ✓ Confirm project location
   ✓ Create installation branch
   ✓ Run pre-flight environment checks
-  ✓ Configure Linear workspace connection
-  ✓ Set up branch strategy and status mappings
+  ✓ Initialize Claude Code in project
+  ✓ Authenticate with Linear via MCP
+  ✓ Configure workflow settings
 
 Current:
   ⟳ Review configuration
@@ -2391,7 +2714,7 @@ Is this correct? [Y/n]: _____
 
 If no, ask which section to edit.
 
-### Phase 5: Installation Safety & Rollback
+### Installation Safety & Rollback
 
 **CRITICAL:** Before starting installation, explain the safety mechanisms:
 
@@ -2586,9 +2909,9 @@ Shows:
 - Files created
 - Backups made
 
-### Phase 6: Installation
+### Phase 7: Installation
 
-**[Step 6 of 11 | Automatic | ~1-2 minutes]**
+**[Step 7 of 12 | Automatic | ~1-2 minutes]**
 
 Once confirmed, execute installation via the orchestrator:
 
@@ -2597,7 +2920,7 @@ Show progress at the start of installation:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Linear Workflow Setup
 
-Progress: [██████____] 6/11 steps complete
+Progress: [███████___] 7/12 steps complete
 
 Installing workflow files...
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -2774,9 +3097,9 @@ Create reference files for team documentation (Claude Desktop users):
 
 **IMPORTANT:** Do NOT create `.env` file - it's not needed for Claude Code's MCP setup.
 
-### Phase 6.5: Test Git Hook
+### Phase 7.5: Test Git Hook
 
-**[Automatic during Phase 6 | ~15 seconds]**
+**[Automatic during Phase 7 | ~15 seconds]**
 
 **CRITICAL:** After installing the git hook, IMMEDIATELY test it to ensure proper validation.
 
@@ -2899,9 +3222,9 @@ git commit -m "test: Verify hook (DEV-123)"
 - Cause confusion when status updates don't work
 - Require manual cleanup of commit history
 
-### Phase 7: Create Linear Issue Templates
+### Phase 8: Create Linear Issue Templates
 
-**[Step 7 of 11 | Automatic | ~30 seconds]**
+**[Step 8 of 12 | Automatic | ~30 seconds]**
 
 **IMPORTANT:** Use MCP tools to create templates - no API key needed!
 
@@ -2911,17 +3234,17 @@ git commit -m "test: Verify hook (DEV-123)"
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Linear Workflow Setup
 
-Progress: [████████__] 8/11 steps complete
+Progress: [████████__] 8/12 steps complete
 
 Completed:
   ✓ Confirm project location
   ✓ Create installation branch
   ✓ Run pre-flight environment checks
-  ✓ Configure Linear workspace connection
-  ✓ Set up branch strategy and status mappings
+  ✓ Initialize Claude Code in project
+  ✓ Authenticate with Linear via MCP
+  ✓ Configure workflow settings
   ✓ Review configuration
   ✓ Install workflow files and documentation
-  ✓ Configure Linear MCP server
 
 Current:
   ⟳ Create Linear issue templates
@@ -3018,9 +3341,9 @@ Continuing with test issue creation...
 
 **Mark TODO as completed after templates are created.**
 
-### Phase 8: Create Test Issue
+### Phase 9: Create Test Issue
 
-**[Step 8 of 11 | Automatic | ~10 seconds]**
+**[Step 9 of 12 | Automatic | ~10 seconds]**
 
 **IMPORTANT:** Use MCP tools to create test issue!
 
@@ -3030,17 +3353,17 @@ Continuing with test issue creation...
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Linear Workflow Setup
 
-Progress: [█████████_] 9/11 steps complete
+Progress: [█████████_] 9/12 steps complete
 
 Completed:
   ✓ Confirm project location
   ✓ Create installation branch
   ✓ Run pre-flight environment checks
-  ✓ Configure Linear workspace connection
-  ✓ Set up branch strategy and status mappings
+  ✓ Initialize Claude Code in project
+  ✓ Authenticate with Linear via MCP
+  ✓ Configure workflow settings
   ✓ Review configuration
   ✓ Install workflow files and documentation
-  ✓ Configure Linear MCP server
   ✓ Create Linear issue templates
 
 Current:
@@ -3119,9 +3442,9 @@ to analyze. When you run "Let's get to work on {{ISSUE-ID}}", Claude will:
 
 **Mark TODO as completed.**
 
-### Phase 9: Test the Workflow
+### Phase 10: Test the Workflow
 
-**[Step 9 of 11 | Automatic Validation + Optional Full Test | ~1-3 minutes]**
+**[Step 10 of 12 | Automatic Validation + Optional Full Test | ~1-3 minutes]**
 
 **Show progress:**
 
@@ -3129,17 +3452,17 @@ to analyze. When you run "Let's get to work on {{ISSUE-ID}}", Claude will:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Linear Workflow Setup
 
-Progress: [██████████] 10/11 steps complete
+Progress: [██████████] 10/12 steps complete
 
 Completed:
   ✓ Confirm project location
   ✓ Create installation branch
   ✓ Run pre-flight environment checks
-  ✓ Configure Linear workspace connection
-  ✓ Set up branch strategy and status mappings
+  ✓ Initialize Claude Code in project
+  ✓ Authenticate with Linear via MCP
+  ✓ Configure workflow settings
   ✓ Review configuration
   ✓ Install workflow files and documentation
-  ✓ Configure Linear MCP server
   ✓ Create Linear issue templates
   ✓ Create test issue
 
@@ -3360,9 +3683,9 @@ All critical components have been validated:
 Let's finalize the installation.
 ```
 
-### Phase 10: Commit and Push Installation
+### Phase 11: Commit and Push Installation
 
-**[Step 10 of 11 | Automatic | ~30 seconds]**
+**[Step 11 of 12 | Automatic | ~30 seconds]**
 
 **Show progress:**
 
@@ -3370,17 +3693,17 @@ Let's finalize the installation.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Linear Workflow Setup
 
-Progress: [███████████] 11/11 steps complete
+Progress: [███████████] 11/12 steps complete
 
 Completed:
   ✓ Confirm project location
   ✓ Create installation branch
   ✓ Run pre-flight environment checks
-  ✓ Configure Linear workspace connection
-  ✓ Set up branch strategy and status mappings
+  ✓ Initialize Claude Code in project
+  ✓ Authenticate with Linear via MCP
+  ✓ Configure workflow settings
   ✓ Review configuration
   ✓ Install workflow files and documentation
-  ✓ Configure Linear MCP server
   ✓ Create Linear issue templates
   ✓ Create test issue
   ✓ Test the workflow
@@ -3411,7 +3734,7 @@ cd "/path/to/project" && \
   echo "✓ Switched to setup/linear-workflow" && \
   echo "" && \
   echo "Staging workflow files..." && \
-  git add .linear-workflow.json .mcp.json .env .env.example .gitignore .github/ docs/ .git/hooks/commit-msg && \
+  git add .linear-workflow.json .mcp.json .env .env.example .gitignore .github/ docs/ .git/hooks/commit-msg .claude/ CLAUDE.md && \
   echo "✓ Files staged for commit" && \
   echo "" && \
   echo "Creating commit..." && \
@@ -3443,6 +3766,8 @@ All changes have been committed to branch: setup/linear-workflow
 
 📋 What was installed:
 
+  ✓ CLAUDE.md - Project instructions for Claude Code
+  ✓ .claude/commands/ - Custom workflow commands (/start-issue, /create-pr, /progress-update)
   ✓ .linear-workflow.json - Workflow configuration
   ✓ .github/workflows/linear-status-update.yml - GitHub Actions workflow (if enabled)
   ✓ docs/linear-workflow.md - Complete documentation
@@ -3502,6 +3827,9 @@ Give it a try! Test the 2-way workflow before merging:
     Check the Linear issue to see Claude's analysis comment!
 
   • Try other workflow commands:
+      - /start-issue {{ISSUE-ID}}
+      - /create-pr
+      - /progress-update
       - "Fetch me any recent bugs"
       - "Let's get some high priority items"
       - "What are we busy with?"
