@@ -1102,6 +1102,9 @@ Initializing Claude Code in project...
       ✓ .claude/commands/bug-linear.md created
       ✓ .claude/commands/improvement-linear.md created
       ✓ .claude/commands/feature-linear.md created
+      ✓ .claude/commands/get-feedback-linear.md created
+      ✓ .claude/commands/pause-linear.md created
+      ✓ .claude/commands/my-work-linear.md created
       ✓ .claude/commands/start-issue.md created
       ✓ .claude/commands/create-pr.md created
       ✓ .claude/commands/progress-update.md created
@@ -1118,11 +1121,18 @@ Created:
   • CLAUDE.md - Project instructions for Claude
 
 Custom commands available after setup:
-  • /create-linear-issue - Create a new Linear issue and optionally start work
-  • /bug-linear - Quick bug report creation (skips template selection)
+
+  Issue Creation:
+  • /bug-linear - Quick bug report creation
   • /improvement-linear - Quick improvement issue creation
   • /feature-linear - Quick feature request creation
-  • /start-issue - Start work on an existing Linear issue
+  • /create-linear-issue - Create any issue with template selection
+
+  Workflow & Status:
+  • /start-issue - Start work on an existing issue
+  • /get-feedback-linear - Request feedback and mark as needs clarification
+  • /pause-linear - Pause work and safely commit WIP
+  • /my-work-linear - Show your active/paused/blocked issues
   • /create-pr - Create pull request with Linear integration
   • /progress-update - Post progress update to Linear
 
@@ -1300,18 +1310,23 @@ This will:
 
 ### Custom Commands
 
-**Issue Creation (Quick Shortcuts):**
-- `/bug-linear` - Create bug report (auto-uses Bug template)
-- `/improvement-linear` - Create improvement (auto-uses Improvement template)
-- `/feature-linear` - Create feature request (auto-uses Feature template)
+**Issue Creation:**
+- `/bug-linear` - Quick bug report (auto-uses Bug template)
+- `/improvement-linear` - Quick improvement (auto-uses Improvement template)
+- `/feature-linear` - Quick feature request (auto-uses Feature template)
 - `/create-linear-issue` - Create any issue with template selection
 
-**Workflow Commands:**
-- `/start-issue` - Start work on an existing Linear issue
+**Workflow & Status:**
+- `/start-issue` - Start work on an existing issue
+- `/get-feedback-linear` - Request feedback and mark as needs clarification
+- `/pause-linear` - Pause work and commit WIP safely
+- `/my-work-linear` - Show your active/paused/blocked issues
+
+**Progress & Delivery:**
 - `/create-pr` - Create pull request with Linear integration
 - `/progress-update` - Post progress update to Linear
 
-See `.claude/commands/` for full command definitions.
+See `.claude/commands/` for full command definitions and examples.
 
 ### Team Guidelines
 
