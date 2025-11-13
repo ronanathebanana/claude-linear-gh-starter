@@ -391,7 +391,7 @@ Latest Version:    1.1.0
     • Improved: Better documentation of Linear native integration
 
 To upgrade, run:
-  node scripts/version-manager.js upgrade --to 1.1.0
+  node scripts/version-manager.js upgrade --to 1.1.0 --create-branch
 
 Installation Details:
 ─────────────────────────────────────────────────────────────
@@ -484,12 +484,30 @@ Proceed with upgrade? (Y/n)
 If yes:
 
 ```bash
-node scripts/version-manager.js upgrade --to 1.1.0
+node scripts/version-manager.js upgrade --to 1.1.0 --create-branch
 ```
 
 Shows:
 
 ```
+═══════════════════════════════════════════════════════════════
+Workflow Upgrade
+═══════════════════════════════════════════════════════════════
+
+Current Version: 1.0.0
+Target Version:  1.1.0
+
+Migration Plan:
+─────────────────────────────────────────────────────────────
+1.0.0 → 1.1.0
+  Add commit reference options and fix workflow bugs
+
+Creating upgrade branch...
+
+✓ On branch: upgrade/linear-workflow-v1.1.0
+
+Starting upgrade...
+
 Executing migrations...
 
 Migrating 1.0.0 → 1.1.0
@@ -518,32 +536,53 @@ Migrating 1.0.0 → 1.1.0
 ✓ Configuration updated: .linear-workflow.json
 ✓ Workflow file fixed: .github/workflows/linear-status-update.yml
 
+Committing upgrade changes...
+
+✓ Changes committed
+✓ Branch pushed to remote
+
+Pushing upgrade/linear-workflow-v1.1.0 to remote...
+
 ═══════════════════════════════════════════════════════════════
 ✅ Upgrade Complete!
 ═══════════════════════════════════════════════════════════════
 
 Upgraded from 1.0.0 to 1.1.0
 
-New Features Available:
-  • Commit reference customization (formats.issueReference)
-  • Linear magic word conflict warnings (linearAutomations)
-  • Optional GitHub Actions (githubActions.enabled)
-  • Fixed workflow branches syntax
-
-Configuration Changes:
-  Added to .linear-workflow.json:
-    • formats.issueReference: "related"
-    • formats.issueReferenceKeyword: "Related"
-    • linearAutomations.magicWordsEnabled: false
-    • githubActions.enabled: true
-    • githubActions.apiKeyConfigured: true
+Branch Details:
+  Branch: upgrade/linear-workflow-v1.1.0
+  Remote: origin/upgrade/linear-workflow-v1.1.0
 
 Next steps:
-  1. Review changes in .linear-workflow.json
-  2. Optional: Change commit reference method if desired
-  3. Test workflow: node scripts/test-integration.js
-  4. Commit changes: git commit -m "chore: Upgrade workflow to v1.1.0"
+  1. Review changes: git diff main
+  2. Test workflow: node scripts/test-integration.js
+  3. Create PR:
+
+     gh pr create --base main --head upgrade/linear-workflow-v1.1.0 \
+       --title "chore: Upgrade Linear workflow to v1.1.0" \
+       --body "Upgrades Linear workflow from 1.0.0 to 1.1.0
+
+1.0.0 → 1.1.0: Add commit reference options and fix workflow bugs
+  • ✨ New: Commit message reference options (Related/Closes/Fixes)
+  • ✨ New: Linear magic word automation detection and conflict warnings
+  • ✨ New: GitHub Actions is now optional (MCP-first approach)
+  • 🐛 Fix: GitHub Actions workflow branches syntax error
+  • 🔧 Improved: MCP-first authentication flow (no API key required for setup)
+  • 📝 Improved: Better documentation of Linear native integration vs workflow"
+
+  4. Merge when ready!
 ```
+
+**Upgrade Flow Summary:**
+
+The `--create-branch` flag automates:
+1. ✓ Creates `upgrade/linear-workflow-v1.1.0` branch
+2. ✓ Runs all migrations and updates files
+3. ✓ Commits changes with detailed changelog
+4. ✓ Pushes branch to remote
+5. ✓ Provides PR creation command
+
+This follows the same safe pattern as initial installation - team reviews changes before activating.
 
 Then exit wizard - upgrade is complete!
 

@@ -14,6 +14,7 @@
 
 const fs = require('fs').promises;
 const path = require('path');
+const { execSync } = require('child_process');
 
 // ============================================================================
 // Version Constants
@@ -260,6 +261,113 @@ function getMigrationPath(fromVersion, toVersion) {
 }
 
 // ============================================================================
+// Git Branch Management
+// ============================================================================
+
+/**
+ * Create upgrade branch for version changes
+ */
+async function createUpgradeBranch(targetVersion) {
+  const branchName = `upgrade/linear-workflow-v${targetVersion}`;
+
+  console.log('Creating upgrade branch...');
+  console.log('');
+
+  try {
+    // Check if branch already exists
+    try {
+      execSync(`git rev-parse --verify ${branchName}`, { stdio: 'pipe' });
+
+      // Branch exists, ask what to do
+      console.log(`⚠️  Branch '${branchName}' already exists`);
+      console.log('');
+      console.log('Options:');
+      console.log('  1. Use existing branch (will overwrite changes)');
+      console.log('  2. Choose different branch name');
+      console.log('  3. Cancel upgrade');
+      console.log('');
+      console.log('Defaulting to option 1 (use existing branch)');
+      console.log('');
+
+      execSync(`git checkout ${branchName}`, { stdio: 'inherit' });
+
+    } catch {
+      // Branch doesn't exist, create it
+      execSync(`git checkout -b ${branchName}`, { stdio: 'inherit' });
+    }
+
+    console.log(`✓ On branch: ${branchName}`);
+    console.log('');
+
+    return branchName;
+
+  } catch (error) {
+    throw new Error(`Failed to create upgrade branch: ${error.message}`);
+  }
+}
+
+/**
+ * Commit upgrade changes
+ */
+async function commitUpgrade(version, config) {
+  const branchName = `upgrade/linear-workflow-v${version}`;
+
+  console.log('Committing upgrade changes...');
+  console.log('');
+
+  try {
+    // Stage changes
+    execSync('git add .linear-workflow.json .github/ docs/', { stdio: 'inherit' });
+
+    // Create commit with detailed message
+    const commitMessage = `chore: Upgrade Linear workflow to v${version}
+
+Upgraded from ${config.version || '1.0.0'} to ${version}
+
+Changes:
+${getUpgradeChangelog(config.version || '1.0.0', version)}
+
+Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>`;
+
+    execSync(`git commit -m "${commitMessage.replace(/"/g, '\\"')}"`, { stdio: 'inherit' });
+
+    console.log('✓ Changes committed');
+    console.log('');
+
+    // Push branch
+    console.log(`Pushing ${branchName} to remote...`);
+    execSync(`git push -u origin ${branchName}`, { stdio: 'inherit' });
+
+    console.log('✓ Branch pushed to remote');
+    console.log('');
+
+    return branchName;
+
+  } catch (error) {
+    throw new Error(`Failed to commit upgrade: ${error.message}`);
+  }
+}
+
+/**
+ * Get changelog for upgrade
+ */
+function getUpgradeChangelog(fromVersion, toVersion) {
+  const migrations = getMigrationPath(fromVersion, toVersion);
+
+  let changelog = '';
+  migrations.forEach(migration => {
+    changelog += `\n${migration.fromVersion} → ${migration.toVersion}: ${migration.description}\n`;
+    migration.changes.forEach(change => {
+      changelog += `  • ${change}\n`;
+    });
+  });
+
+  return changelog.trim();
+}
+
+// ============================================================================
 // Migration Execution
 // ============================================================================
 
@@ -405,7 +513,7 @@ async function checkVersion(projectPath = process.cwd()) {
 }
 
 async function upgrade(options = {}) {
-  const { from, to, projectPath = process.cwd() } = options;
+  const { from, to, projectPath = process.cwd(), createBranch = false } = options;
 
   console.log('═══════════════════════════════════════════════════════════════');
   console.log('Workflow Upgrade');
@@ -460,7 +568,12 @@ async function upgrade(options = {}) {
   });
   console.log('');
 
-  // In production, we would prompt for confirmation here
+  // Create upgrade branch if requested
+  let branchName = null;
+  if (createBranch) {
+    branchName = await createUpgradeBranch(targetVersion);
+  }
+
   console.log('Starting upgrade...');
   console.log('');
 
@@ -471,17 +584,41 @@ async function upgrade(options = {}) {
     // Save updated config
     await saveConfig(upgradedConfig, projectPath);
 
+    // Commit and push if branch was created
+    if (createBranch) {
+      await commitUpgrade(targetVersion, config);
+    }
+
     console.log('═══════════════════════════════════════════════════════════════');
     console.log('✅ Upgrade Complete!');
     console.log('═══════════════════════════════════════════════════════════════');
     console.log('');
     console.log(`Upgraded from ${currentVersion} to ${upgradedConfig.version}`);
     console.log('');
-    console.log('Next steps:');
-    console.log('  1. Review changes in .linear-workflow.json');
-    console.log('  2. Test workflow: node scripts/test-integration.js');
-    console.log('  3. Commit changes: git commit -m "chore: Upgrade workflow to v' + upgradedConfig.version + '"');
-    console.log('');
+
+    if (createBranch) {
+      console.log('Branch Details:');
+      console.log(`  Branch: ${branchName}`);
+      console.log(`  Remote: origin/${branchName}`);
+      console.log('');
+      console.log('Next steps:');
+      console.log('  1. Review changes: git diff main');
+      console.log('  2. Test workflow: node scripts/test-integration.js');
+      console.log('  3. Create PR:');
+      console.log('');
+      console.log(`     gh pr create --base main --head ${branchName} \\`);
+      console.log(`       --title "chore: Upgrade Linear workflow to v${upgradedConfig.version}" \\`);
+      console.log(`       --body "Upgrades Linear workflow from ${currentVersion} to ${upgradedConfig.version}\\n\\n${getUpgradeChangelog(currentVersion, upgradedConfig.version).replace(/\n/g, '\\n')}"`);
+      console.log('');
+      console.log('  4. Merge when ready!');
+      console.log('');
+    } else {
+      console.log('Next steps:');
+      console.log('  1. Review changes in .linear-workflow.json');
+      console.log('  2. Test workflow: node scripts/test-integration.js');
+      console.log('  3. Commit changes: git commit -m "chore: Upgrade workflow to v' + upgradedConfig.version + '"');
+      console.log('');
+    }
 
   } catch (error) {
     console.error('');
@@ -497,6 +634,14 @@ async function upgrade(options = {}) {
     console.error('To restore:');
     console.error('  mv .linear-workflow.json.backup .linear-workflow.json');
     console.error('');
+
+    // If we created a branch, offer to delete it
+    if (createBranch && branchName) {
+      console.error('To delete the upgrade branch:');
+      console.error(`  git checkout main && git branch -D ${branchName}`);
+      console.error('');
+    }
+
     process.exit(1);
   }
 }
@@ -541,8 +686,9 @@ async function main() {
       case 'upgrade': {
         const toIndex = args.indexOf('--to');
         const to = toIndex !== -1 ? args[toIndex + 1] : CURRENT_VERSION;
+        const createBranch = args.includes('--create-branch');
 
-        await upgrade({ to });
+        await upgrade({ to, createBranch });
         break;
       }
 
@@ -555,13 +701,21 @@ async function main() {
         console.log('');
         console.log('Usage:');
         console.log('  node scripts/version-manager.js check');
-        console.log('  node scripts/version-manager.js upgrade [--to <version>]');
+        console.log('  node scripts/version-manager.js upgrade [--to <version>] [--create-branch]');
         console.log('  node scripts/version-manager.js list-migrations');
         console.log('');
         console.log('Commands:');
         console.log('  check            - Check installed version and available updates');
         console.log('  upgrade          - Upgrade to latest or specified version');
         console.log('  list-migrations  - List all available migrations');
+        console.log('');
+        console.log('Options:');
+        console.log('  --to <version>   - Target version (default: latest)');
+        console.log('  --create-branch  - Create upgrade branch, commit, and push (recommended)');
+        console.log('');
+        console.log('Examples:');
+        console.log('  node scripts/version-manager.js upgrade --create-branch');
+        console.log('  node scripts/version-manager.js upgrade --to 1.2.0 --create-branch');
         console.log('');
         process.exit(1);
     }
