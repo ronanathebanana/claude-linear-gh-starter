@@ -1,0 +1,92 @@
+Show high priority Linear issues across the team.
+
+## Usage
+
+```
+/high-priority-linear
+/high-priority-linear urgent
+/high-priority-linear mine
+```
+
+## Description
+
+Quick view of high-priority work across the team. Helps identify what needs immediate attention.
+
+Perfect for:
+- Morning priority check
+- Identifying urgent work
+- Finding what to work on next
+- Sprint/daily planning
+- Emergency triage
+
+## Display
+
+```
+⚡ High Priority Items - {{linear.teamName}}
+
+🔴 Urgent (Priority 1):
+
+  {{formats.issueExample}}: Fix payment gateway timeout
+  Status: In Progress (3 hours)
+  Assigned: @alice
+  Last updated: 30 minutes ago
+
+  DEV-457: Database migration failing in production
+  Status: To Do ⚠️  UNASSIGNED
+  Created: 2 hours ago
+
+🟠 High (Priority 2):
+
+  DEV-458: Add user authentication
+  Status: Ready for Development
+  Assigned: @bob
+  Analyzed: Yes, no blockers
+
+  DEV-459: Optimize query performance
+  Status: In Progress (2 days)
+  Assigned: @carol
+  Last commit: 1 day ago ⚠️
+
+──────────────────────────────────────────────
+
+Summary:
+  • 2 urgent issues (1 unassigned!)
+  • 2 high priority issues
+
+Needs Attention:
+  ⚠️  DEV-457 - Urgent and unassigned!
+  ⚠️  DEV-459 - No activity in 1 day
+
+Recommendations:
+  • Assign DEV-457 immediately
+  • Check on DEV-459 progress
+  • DEV-458 is ready to start
+
+What would you like to do?
+1. Start work on DEV-458 (ready to go)
+2. Assign DEV-457 to me
+3. Check on DEV-459 with @carol
+4. Show all issues (not just high priority)
+```
+
+## Benefits
+
+- **Focus** - See only what matters most
+- **Unassigned urgent** - Flags critical unassigned work
+- **Stale detection** - High priority shouldn't be stale
+- **Actionable** - Direct options to help
+
+## Filters
+
+- `/high-priority-linear` - All high priority (default)
+- `/high-priority-linear urgent` - Only urgent (priority 1)
+- `/high-priority-linear mine` - Only yours
+
+## Related Commands
+
+- `/my-work-linear` - Show all your work
+- `/team-work-linear` - Show all team work
+
+---
+
+Generated with [Claude Code](https://claude.com/claude-code)

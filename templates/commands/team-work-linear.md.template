@@ -1,0 +1,66 @@
+Show the team's active Linear issues.
+
+## Usage
+
+```
+/team-work-linear
+/team-work-linear all
+/team-work-linear blocked
+```
+
+## Description
+
+Overview of what the entire team is working on. Like `/my-work-linear` but team-wide.
+
+Perfect for:
+- Standup meetings
+- Identifying bottlenecks
+- Seeing team capacity
+- Finding help opportunities
+- Sprint planning check-ins
+
+## Display
+
+```
+👥 Team Activity - {{linear.teamName}}
+
+Alice (@alice) - 3 issues:
+  🔴 {{formats.issueExample}}: User auth (In Progress, 2 days)
+  🟠 DEV-457: Payment fix (Review Required, 1 day)
+  🟢 DEV-458: Optimize queries (In Progress, 5 hours)
+
+Bob (@bob) - 2 issues:
+  🔴 DEV-459: Dark mode (In Progress, 1 week) ⚠️  Stale
+  🟠 DEV-460: API integration (On Hold, 3 days)
+
+Carol (@carol) - 1 issue:
+  🟢 DEV-461: Mobile layout (In Progress, 2 hours)
+
+──────────────────────────────────────────────
+
+Team Summary:
+  • 6 issues in progress
+  • 1 on hold
+  • 1 needs review
+  • 1 potentially stale (DEV-459)
+
+Potential Issues:
+  ⚠️  DEV-459: No commits in 5 days - check with @bob?
+  ⚠️  DEV-460: On hold for 3 days - still relevant?
+```
+
+## Benefits
+
+- **Team visibility** - See everyone's work at once
+- **Bottleneck identification** - Find stalled work
+- **Capacity planning** - See who's overloaded
+- **Help opportunities** - Find where to assist
+
+## Related Commands
+
+- `/my-work-linear` - Show just your work
+- `/high-priority-linear` - Show high priority across team
+
+---
+
+Generated with [Claude Code](https://claude.com/claude-code)

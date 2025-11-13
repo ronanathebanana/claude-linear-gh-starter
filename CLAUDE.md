@@ -1098,14 +1098,25 @@ Initializing Claude Code in project...
       ✓ CLAUDE.md created
 
 [3/4] Adding workflow custom commands...
+      Issue Creation:
       ✓ .claude/commands/create-linear-issue.md created
       ✓ .claude/commands/bug-linear.md created
       ✓ .claude/commands/improvement-linear.md created
       ✓ .claude/commands/feature-linear.md created
+      ✓ .claude/commands/create-blocker-linear.md created
+      ✓ .claude/commands/create-subtask-linear.md created
+
+      Workflow & Status:
+      ✓ .claude/commands/start-issue.md created
+      ✓ .claude/commands/feedback-linear.md created
       ✓ .claude/commands/get-feedback-linear.md created
       ✓ .claude/commands/pause-linear.md created
+      ✓ .claude/commands/blocked-linear.md created
       ✓ .claude/commands/my-work-linear.md created
-      ✓ .claude/commands/start-issue.md created
+      ✓ .claude/commands/team-work-linear.md created
+      ✓ .claude/commands/high-priority-linear.md created
+
+      Progress & Delivery:
       ✓ .claude/commands/create-pr.md created
       ✓ .claude/commands/progress-update.md created
 
@@ -1122,19 +1133,29 @@ Created:
 
 Custom commands available after setup:
 
-  Issue Creation:
-  • /bug-linear - Quick bug report creation
-  • /improvement-linear - Quick improvement issue creation
-  • /feature-linear - Quick feature request creation
+  Issue Creation (6 commands):
+  • /bug-linear - Quick bug report
+  • /improvement-linear - Quick improvement
+  • /feature-linear - Quick feature request
   • /create-linear-issue - Create any issue with template selection
+  • /create-blocker-linear - Create blocking issue
+  • /create-subtask-linear - Create sub-task for current issue
 
-  Workflow & Status:
-  • /start-issue - Start work on an existing issue
-  • /get-feedback-linear - Request feedback and mark as needs clarification
-  • /pause-linear - Pause work and safely commit WIP
+  Workflow & Status (8 commands):
+  • /start-issue - Start work on existing issue
+  • /feedback-linear - Request feedback/clarification
+  • /get-feedback-linear - Retrieve recent feedback comments
+  • /pause-linear - Pause work and commit WIP safely
+  • /blocked-linear - Mark as blocked by external dependency
   • /my-work-linear - Show your active/paused/blocked issues
+  • /team-work-linear - Show team's active work
+  • /high-priority-linear - Show high priority items across team
+
+  Progress & Delivery (2 commands):
   • /create-pr - Create pull request with Linear integration
   • /progress-update - Post progress update to Linear
+
+Total: 16 powerful commands for seamless Linear workflow!
 
 These commands will work for all team members using Claude Code!
 ```
@@ -1310,21 +1331,29 @@ This will:
 
 ### Custom Commands
 
-**Issue Creation:**
+**Issue Creation (6 commands):**
 - `/bug-linear` - Quick bug report (auto-uses Bug template)
 - `/improvement-linear` - Quick improvement (auto-uses Improvement template)
 - `/feature-linear` - Quick feature request (auto-uses Feature template)
 - `/create-linear-issue` - Create any issue with template selection
+- `/create-blocker-linear` - Create blocking issue for current work
+- `/create-subtask-linear` - Create sub-task linked to current issue
 
-**Workflow & Status:**
+**Workflow & Status (8 commands):**
 - `/start-issue` - Start work on an existing issue
-- `/get-feedback-linear` - Request feedback and mark as needs clarification
+- `/feedback-linear` - Request feedback/clarification from teammates
+- `/get-feedback-linear` - Retrieve and show recent feedback comments
 - `/pause-linear` - Pause work and commit WIP safely
+- `/blocked-linear` - Mark as blocked by external dependency
 - `/my-work-linear` - Show your active/paused/blocked issues
+- `/team-work-linear` - Show team's active work
+- `/high-priority-linear` - Show high priority items across team
 
-**Progress & Delivery:**
+**Progress & Delivery (2 commands):**
 - `/create-pr` - Create pull request with Linear integration
 - `/progress-update` - Post progress update to Linear
+
+Total: **16 powerful commands** for seamless Linear workflow!
 
 See `.claude/commands/` for full command definitions and examples.
 
