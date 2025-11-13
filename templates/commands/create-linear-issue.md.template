@@ -1,0 +1,159 @@
+Create a new Linear issue and optionally start work immediately.
+
+## Usage
+
+```
+/create-linear-issue
+/create-linear-issue <brief description>
+```
+
+## Description
+
+This command helps you create Linear issues from the terminal without breaking your flow. Perfect for:
+- Quick bug reports discovered during development
+- New feature ideas that don't require design docs
+- Improvements or tech debt items
+- Any work that needs to be tracked in Linear
+
+## Workflow
+
+When you run this command (or when Claude detects you're starting new work):
+
+### Step 1: Confirm Issue Creation
+```
+Would you like to create a Linear issue for this? (Y/n)
+```
+
+### Step 2: Select Template
+Claude shows available Linear templates:
+```
+Which template would you like to use?
+1. Bug Report
+2. Improvement
+3. Feature
+4. [Any custom templates in your workspace]
+```
+
+### Step 3: Add Context
+```
+Would you like to add context, or should I draft the issue?
+
+Options:
+1. I'll provide context (you describe it)
+2. Draft it for me (Claude creates comprehensive description)
+```
+
+**Option 1 - You provide context:**
+- Claude prompts you for title, description, acceptance criteria
+- You control the content
+- Best when you have specific requirements
+
+**Option 2 - Claude drafts:**
+- Claude analyzes your initial request
+- Creates comprehensive description with:
+  - Clear overview
+  - Detailed requirements
+  - Acceptance criteria
+  - Technical considerations
+- Best for quick issue creation
+
+### Step 4: Issue Created
+```
+Issue created: {{formats.issueExample}} - [Title]
+
+Linear URL: https://linear.app/{{linear.workspaceName}}/issue/{{formats.issueExample}}
+```
+
+### Step 5: Start Work (Optional)
+```
+Ready to start work on this issue? (Y/n)
+```
+
+If you say yes, Claude follows the normal workflow:
+1. Fetches issue details from Linear
+2. Creates task analysis document in `{{paths.issues}}`
+3. Posts analysis summary as Linear comment
+4. Creates feature branch
+5. Makes initial commit
+
+## Examples
+
+### Example 1: Quick Feature
+```
+You: "/create-linear-issue Add CSV export to reports"
+
+Claude: "Which template? 1. Bug, 2. Improvement, 3. Feature"
+You: "3"
+
+Claude: "Should I draft it? (1. You provide, 2. I'll draft)"
+You: "2"
+
+Claude: [Creates {{formats.issueExample}} with full feature description]
+        "Ready to start work? (Y/n)"
+You: "y"
+
+Claude: [Starts normal workflow - branch, analysis, commit]
+```
+
+### Example 2: Bug During Development
+```
+You: "I found a bug - the login timeout is too short"
+
+Claude: "Would you like to create a Linear issue for this? (Y/n)"
+You: "y"
+
+Claude: "Which template? 1. Bug Report, 2. Improvement, 3. Feature"
+You: "1"
+
+Claude: "I'll draft the bug report based on your description"
+        [Creates {{formats.issueExample}} with bug details]
+        "Ready to start work? (Y/n)"
+You: "n"
+
+Claude: "Issue created and ready when you are!"
+```
+
+### Example 3: Natural Language Detection
+```
+You: "Let's add user authentication to the dashboard"
+
+Claude: "Would you like to create a Linear issue for this? (Y/n)"
+You: "y"
+
+[Follows same flow as above]
+```
+
+## Benefits
+
+- **Stay in terminal** - No context switching to Linear web app
+- **Quick capture** - Create issues in seconds, not minutes
+- **Immediate action** - Optionally start work right after creating issue
+- **Team visibility** - All work tracked in Linear automatically
+- **Rich context** - Claude-generated descriptions are comprehensive
+- **Template consistency** - Uses your team's Linear templates
+
+## Configuration
+
+This command uses your Linear workflow configuration:
+
+- **Team**: {{linear.teamName}} ({{linear.teamKey}})
+- **Workspace**: {{linear.workspaceName}}
+- **Templates**: Fetched from your Linear workspace
+- **Default Status**: Issues created as "To Do"
+
+## Related Commands
+
+- `/start-issue` - Start work on an existing Linear issue
+- `/create-pr` - Create pull request with Linear integration
+- `/progress-update` - Post progress update to Linear
+
+## Tips
+
+1. **Be descriptive in initial request** - The more context you provide, the better Claude can draft the issue
+2. **Use templates** - They ensure consistency and completeness
+3. **Start work immediately** - Say "y" to begin working right after creation
+4. **Or create for later** - Say "n" if you want to batch work or assign to someone else
+
+---
+
+Generated with [Claude Code](https://claude.com/claude-code)

@@ -1098,6 +1098,7 @@ Initializing Claude Code in project...
       ✓ CLAUDE.md created
 
 [3/4] Adding workflow custom commands...
+      ✓ .claude/commands/create-linear-issue.md created
       ✓ .claude/commands/start-issue.md created
       ✓ .claude/commands/create-pr.md created
       ✓ .claude/commands/progress-update.md created
@@ -1114,7 +1115,8 @@ Created:
   • CLAUDE.md - Project instructions for Claude
 
 Custom commands available after setup:
-  • /start-issue - Start work on a Linear issue
+  • /create-linear-issue - Create a new Linear issue and optionally start work
+  • /start-issue - Start work on an existing Linear issue
   • /create-pr - Create pull request with Linear integration
   • /progress-update - Post progress update to Linear
 
@@ -1169,9 +1171,101 @@ fix({{formats.issueExample}}): Resolve timeout issue
 
 ### Working with Linear Issues
 
-#### Starting Work
+#### Creating a Linear Issue (Bottom-Up Workflow)
+
+**When**: You want to add a new feature, fix a bug, or work on something not yet in Linear
+
+**Trigger**: When you mention adding a new feature without referencing an existing issue
+
+**Examples**:
+- "Let's add user authentication"
+- "I want to build a CSV export feature"
+- "We need to fix the mobile layout"
+
+**What happens**:
+
+If Claude detects you're starting new work without a Linear issue reference, Claude will ask:
+
+```
+Would you like to create a Linear issue for this? (Y/n)
+```
+
+**If you say yes**:
+
+1. **Template Selection** - Claude shows available Linear templates:
+   ```
+   Which template would you like to use?
+   1. Bug Report
+   2. Improvement
+   3. Feature
+   4. [Custom template names if you added more]
+   ```
+
+2. **Context Gathering** - Claude asks:
+   ```
+   Would you like to add context, or should I draft the issue?
+
+   Options:
+   1. I'll provide context (you describe the feature/bug)
+   2. Draft it for me (Claude creates comprehensive description)
+   ```
+
+3. **Issue Creation** - Claude creates the Linear issue with:
+   - Title based on your description
+   - Template structure (description, acceptance criteria, etc.)
+   - Your context or Claude's detailed analysis
+   - Appropriate status (usually "To Do")
+
+4. **Immediate Workflow** - Claude asks:
+   ```
+   Issue created: {{formats.issueExample}}
+
+   Ready to start work on this issue? (Y/n)
+   ```
+
+5. **If you're ready** - Claude follows the normal workflow:
+   - Fetch issue details
+   - Create task analysis
+   - Post analysis to Linear
+   - Create feature branch
+   - Make initial commit
+
+**Benefits**:
+- Stay in the terminal - no need to open Linear web app
+- Quick issue creation for small features/bugs that don't need design docs
+- Immediate transition from "idea" to "working on it"
+- All context captured in Linear for team visibility
+
+**Example Flow**:
+```
+You: "Let's add CSV export to the reports page"
+
+Claude: "Would you like to create a Linear issue for this? (Y/n)"
+
+You: "y"
+
+Claude: "Which template? 1. Bug Report, 2. Improvement, 3. Feature"
+
+You: "3"
+
+Claude: "Should I draft it, or would you like to add context? (1. I'll provide, 2. Draft it)"
+
+You: "2"
+
+Claude: [Creates issue DEV-456 with comprehensive feature description]
+        "Issue created: DEV-456 - Add CSV export to reports"
+        "Ready to start work? (Y/n)"
+
+You: "y"
+
+Claude: [Follows normal workflow - analysis, branch, commit]
+```
+
+#### Starting Work (Existing Issue)
 
 **Command**: `/start-issue` or say "Let's get to work on {{formats.issueExample}}"
+
+**When**: You already have a Linear issue and want to start working on it
 
 This will:
 1. Fetch issue details from Linear
@@ -1200,7 +1294,8 @@ This will:
 
 ### Custom Commands
 
-- `/start-issue` - Start work on a Linear issue
+- `/create-linear-issue` - Create a new Linear issue and optionally start work
+- `/start-issue` - Start work on an existing Linear issue
 - `/create-pr` - Create pull request with Linear integration
 - `/progress-update` - Post progress update to Linear
 
@@ -1257,9 +1352,43 @@ Generated with [Claude Code](https://claude.com/claude-code)
 
 **Custom Command Templates:**
 
+**`.claude/commands/create-linear-issue.md`:**
+```markdown
+Create a new Linear issue and optionally start work immediately.
+
+Usage:
+  /create-linear-issue
+  /create-linear-issue <brief description>
+
+This command will:
+1. Ask if you want to create a Linear issue (if not explicitly requested)
+2. Show available Linear templates (Bug, Improvement, Feature, etc.)
+3. Let you provide context or have Claude draft the issue
+4. Create the issue in Linear with appropriate template structure
+5. Optionally start work immediately (follows /start-issue workflow)
+
+Benefits:
+- Stay in terminal - no need to open Linear web app
+- Quick issue creation for discoveries during development
+- Immediate transition from idea to working on it
+- All context captured in Linear for team visibility
+
+Example:
+  /create-linear-issue Add CSV export to reports
+
+  Claude: "Which template? 1. Bug, 2. Improvement, 3. Feature"
+  You: "3"
+
+  Claude: "Should I draft it? (1. You provide, 2. I'll draft)"
+  You: "2"
+
+  Claude: [Creates {{formats.issueExample}} with comprehensive description]
+          "Ready to start work? (Y/n)"
+```
+
 **`.claude/commands/start-issue.md`:**
 ```markdown
-Start work on a Linear issue.
+Start work on an existing Linear issue.
 
 Usage:
   /start-issue {{formats.issueExample}}
@@ -4271,12 +4400,130 @@ Once workflow is installed, support these commands. These commands enable natura
 
 ### Core Workflow Commands
 
-#### Start Work on Issue
+#### Create Linear Issue (Bottom-Up Workflow)
+
+**Trigger phrases:**
+- "Let's add [feature description]"
+- "I want to build [feature description]"
+- "We need to fix [bug description]"
+- "/create-linear-issue"
+- "/create-linear-issue [brief description]"
+
+**When to trigger:**
+User mentions adding/building/fixing something WITHOUT referencing an existing Linear issue ID.
+
+**Claude should:**
+
+1. **Detect new work without issue reference** and ask:
+   ```
+   Would you like to create a Linear issue for this? (Y/n)
+   ```
+
+2. **If yes, fetch available templates** using Linear MCP:
+   ```javascript
+   // Use Linear MCP to get issue templates for the team
+   const templates = await listTemplates(teamId);
+   ```
+
+   Display:
+   ```
+   Which template would you like to use?
+   1. Bug Report
+   2. Improvement
+   3. Feature
+   4. [Any custom templates from Linear]
+   ```
+
+3. **Ask about context**:
+   ```
+   Would you like to add context, or should I draft the issue?
+
+   Options:
+   1. I'll provide context (you describe it)
+   2. Draft it for me (Claude creates comprehensive description)
+   ```
+
+4. **If user provides context (Option 1)**:
+   - Prompt for: Title, Description, Acceptance Criteria
+   - Use their exact words
+   - Fill in template structure
+
+5. **If Claude drafts (Option 2)**:
+   - Analyze user's initial request
+   - Create comprehensive description based on template:
+     - **Bug Report**: Description, Steps to Reproduce, Expected vs Actual, Environment
+     - **Improvement**: Current Behavior, Proposed Improvement, Benefits, Considerations
+     - **Feature**: Feature Description, User Story, Acceptance Criteria, Technical Notes
+   - Generate realistic acceptance criteria
+   - Add technical considerations
+
+6. **Create issue via Linear MCP**:
+   ```javascript
+   const issue = await createIssue({
+     teamId: config.linear.teamId,
+     title: title,
+     description: description,
+     stateId: config.linear.statuses.todo.id,
+     templateId: selectedTemplate.id
+   });
+   ```
+
+7. **Display created issue**:
+   ```
+   Issue created: DEV-456 - [Title]
+
+   Linear URL: https://linear.app/workspace/issue/DEV-456
+   ```
+
+8. **Ask to start work immediately**:
+   ```
+   Ready to start work on this issue? (Y/n)
+   ```
+
+9. **If yes**, follow normal "Start Work on Issue" workflow:
+   - Fetch issue details
+   - Create task analysis
+   - Post analysis to Linear
+   - Create feature branch
+   - Push initial commit
+
+**Benefits:**
+- Keeps developers in terminal
+- Quick issue creation for discoveries during development
+- No need to open Linear web app
+- Immediate transition from idea to implementation
+- All work tracked in Linear for team visibility
+
+**Example Flow:**
+```
+User: "Let's add CSV export to the reports page"
+
+Claude: "Would you like to create a Linear issue for this? (Y/n)"
+User: "y"
+
+Claude: "Which template? 1. Bug Report, 2. Improvement, 3. Feature"
+User: "3"
+
+Claude: "Would you like to add context, or should I draft it? (1. Provide, 2. Draft)"
+User: "2"
+
+Claude: [Creates comprehensive feature description]
+        "Issue created: DEV-456 - Add CSV export to reports"
+        "Ready to start work on this issue? (Y/n)"
+User: "y"
+
+Claude: [Follows normal workflow - fetch, analyze, branch, commit]
+```
+
+#### Start Work on Issue (Existing Issue)
 
 **Trigger phrases:**
 - "Let's get to work on DEV-456"
 - "Start work on DEV-456"
 - "Begin DEV-456"
+
+**When to trigger:**
+User references an existing Linear issue ID.
 
 **Claude should:**
 1. Update local repo (`git checkout main && git pull`)
