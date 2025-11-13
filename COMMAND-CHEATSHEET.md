@@ -1,525 +1,715 @@
 # Command Cheat Sheet
 
-Quick reference for all available workflow commands in Claude Code.
+Quick reference for all 17 slash commands plus natural language workflow commands.
 
-## Core Workflow
+> **Pro tip:** You don't need to memorize these! Just talk to Claude naturally about what you want to do.
 
-### Start Work on an Issue
+---
 
-Begin working on a Linear issue with full analysis and setup.
+## 📋 Quick Reference: All 17 Slash Commands
+
+### Issue Creation (6 commands)
+
+| Command | What It Does | Example |
+|---------|--------------|---------|
+| `/bug-linear` | Quick bug report (auto-uses Bug template) | `/bug-linear Login timeout too short` |
+| `/improvement-linear` | Quick improvement (auto-uses Improvement template) | `/improvement-linear Optimize database queries` |
+| `/feature-linear` | Quick feature request (auto-uses Feature template) | `/feature-linear Add user profile page` |
+| `/create-linear-issue` | Create any issue with template selection | `/create-linear-issue Add CSV export` |
+| `/create-blocker-linear` | Create blocking issue for current work | `/create-blocker-linear Database indexes needed` |
+| `/create-subtask-linear` | Create sub-task linked to current issue | `/create-subtask-linear Add login form UI` |
+
+### Workflow & Status (8 commands)
+
+| Command | What It Does | Example |
+|---------|--------------|---------|
+| `/start-issue` | Start work on existing issue | `/start-issue DEV-123` |
+| `/feedback-linear` | Request feedback/clarification from teammates | `/feedback-linear Should this support mobile?` |
+| `/get-feedback-linear` | Retrieve and show recent feedback comments | `/get-feedback-linear` |
+| `/pause-linear` | Pause work and commit WIP safely | `/pause-linear Higher priority came up` |
+| `/blocked-linear` | Mark as blocked by external dependency | `/blocked-linear Waiting for API deployment` |
+| `/my-work-linear` | Show your active/paused/blocked issues | `/my-work-linear` |
+| `/team-work-linear` | Show team's active work | `/team-work-linear` |
+| `/high-priority-linear` | Show high priority items across team | `/high-priority-linear` |
+
+### Progress & Delivery (2 commands)
+
+| Command | What It Does | Example |
+|---------|--------------|---------|
+| `/create-pr` | Create pull request with Linear integration | `/create-pr` |
+| `/progress-update` | Post progress update to Linear | `/progress-update` |
+
+### Help (1 command)
+
+| Command | What It Does | Example |
+|---------|--------------|---------|
+| `/linear-help` | Show all available commands and what they do | `/linear-help` |
+
+---
+
+## 🚀 Detailed Command Guide
+
+### Issue Creation Commands
+
+#### `/bug-linear` - Quick Bug Report
+
+Create a bug report without template selection.
+
+```bash
+/bug-linear Login timeout is too short
+```
+
+**What happens:**
+1. Skips template selection (auto-uses "Bug Report")
+2. Ask if you'll provide context or Claude should draft
+3. Creates comprehensive bug report with:
+   - Description
+   - Steps to reproduce
+   - Expected vs actual behavior
+   - Environment details
+4. Posts to Linear
+5. Asks if you want to start fixing it now
+
+**Example flow:**
+```
+You: /bug-linear Mobile menu doesn't close after click
+
+Claude: Should I draft the bug report? (1. You provide, 2. I'll draft)
+You: 2
+
+Claude: [Creates comprehensive bug report]
+        Bug created: DEV-456 - Mobile menu doesn't close
+        Ready to start fixing this bug? (Y/n)
+```
+
+---
+
+#### `/improvement-linear` - Quick Improvement
+
+Create an improvement/enhancement issue.
+
+```bash
+/improvement-linear Optimize database queries in reports
+```
+
+**What happens:**
+1. Auto-uses "Improvement" template
+2. Creates issue with:
+   - Current behavior
+   - Proposed improvement
+   - Benefits
+   - Considerations
+3. Posts to Linear
+4. Asks if you want to start work
+
+---
+
+#### `/feature-linear` - Quick Feature Request
+
+Create a new feature issue.
+
+```bash
+/feature-linear Add user profile page
+```
+
+**What happens:**
+1. Auto-uses "Feature" template
+2. Creates feature with:
+   - Feature description
+   - User story
+   - Acceptance criteria
+   - Technical notes
+3. For large features, offers to create sub-tasks
+4. Asks if you want to start building
+
+---
+
+#### `/create-linear-issue` - Full Template Selection
+
+Create any type of issue with manual template selection.
+
+```bash
+/create-linear-issue Add CSV export functionality
+```
+
+**What happens:**
+1. Shows all available Linear templates
+2. You choose which template to use
+3. Rest of flow same as quick commands above
+
+**Use when:**
+- You have custom templates beyond Bug/Improvement/Feature
+- You want to see all template options first
+
+---
+
+#### `/create-blocker-linear` - Create Blocking Issue
+
+Create a separate issue to track what's blocking you.
+
+```bash
+/create-blocker-linear Database indexes need to be added
+```
+
+**What happens:**
+1. Identifies current issue
+2. Asks blocker type (Infrastructure/Bug/Dependency/Missing feature)
+3. Asks who should work on it
+4. Creates blocker issue
+5. Automatically links as "blocks" current issue
+6. Asks if you want to mark current issue as blocked
+
+**Example:**
+```
+You: /create-blocker-linear Need staging API deployed
+
+Claude: Type? 1. Infrastructure, 2. Bug, 3. Dependency, 4. Missing feature
+You: 1
+
+Claude: Who should work on this? 1. Me, 2. Team member, 3. Another team
+You: 3
+
+Claude: Which team?
+You: DevOps
+
+        ✓ Created DEV-500 - Deploy staging API
+        ✓ Linked: DEV-500 blocks DEV-123
+        ✓ Assigned to: DevOps
+
+        Mark DEV-123 as blocked? (Y/n)
+```
+
+---
+
+#### `/create-subtask-linear` - Create Sub-task
+
+Break down large issues into smaller pieces.
+
+```bash
+/create-subtask-linear Add login form UI component
+```
+
+**What happens:**
+1. Asks complexity (Small/Medium/Large)
+2. Asks about dependencies
+3. Asks who should work on it
+4. Creates child issue linked to parent
+5. Sets estimate based on complexity
+6. Asks if you want to start work on sub-task
+
+**Perfect for:**
+- Breaking down large features
+- Enabling parallel work (assign sub-tasks to different people)
+- Iterative delivery
+
+---
+
+### Workflow & Status Commands
+
+#### `/start-issue` - Start Work on Issue
+
+Start working on an existing Linear issue.
+
+```bash
+/start-issue DEV-123
+```
+
+**What happens:**
+1. Fetches issue from Linear (via MCP)
+2. Creates detailed 11-section task analysis
+3. Posts analysis summary to Linear as comment
+4. Creates feature branch: `feature/DEV-123-description`
+5. Makes initial commit
+6. Updates issue status to "In Progress"
+
+**Also works with natural language:**
+```
+"Let's get to work on DEV-123"
+"Start work on DEV-123"
+"Begin DEV-123"
+```
+
+---
+
+#### `/feedback-linear` - Request Feedback
+
+Request clarification or feedback from teammates.
+
+```bash
+/feedback-linear Should this support mobile devices?
+```
+
+**What happens:**
+1. Detects current issue from your branch
+2. Asks who should respond (Issue creator/Specific person/Team)
+3. Asks if you should pause work while waiting
+4. Posts structured question to Linear
+5. Tags the person for notification
+6. Updates status to "Feedback Required"
+7. Optionally pauses work and commits WIP
+
+**Example:**
+```
+You: /feedback-linear Which API endpoint should I use?
+
+Claude: Who should respond? 1. @alice (creator), 2. Specific person, 3. Team
+You: 2
+
+Claude: Enter their email:
+You: techleady@team.com
+
+Claude: Pause work while waiting? (Y/n)
+You: y
+
+        ✓ Question posted to Linear
+        ✓ @techlead tagged for notification
+        ✓ Status updated: Feedback Required
+        ✓ Work paused - WIP committed
+```
+
+---
+
+#### `/get-feedback-linear` - Retrieve Feedback
+
+Check if your feedback requests have been answered.
+
+```bash
+/get-feedback-linear
+```
+
+**What happens:**
+1. Checks current issue (or all your issues with "Feedback Required")
+2. Fetches recent comments
+3. Shows which questions were answered
+4. Tracks time since request
+5. Suggests follow-up actions
+6. Asks if you want to resume work
+
+**Example:**
+```
+You: /get-feedback-linear
+
+Claude: Feedback on DEV-123: User authentication
+
+        📝 3 new comments:
+
+        ✅ @alice answered: "Yes, support iOS and Android"
+        ✅ @bob answered: "Use /api/v2/auth endpoint"
+        ✅ @carol answered: "Mockups added to Figma"
+
+        All questions answered!
+        Ready to resume work? (Y/n)
+```
+
+---
+
+#### `/pause-linear` - Pause Work
+
+Safely pause work and switch to something else.
+
+```bash
+/pause-linear Higher priority work came up
+```
+
+**What happens:**
+1. Asks why pausing (Priorities/End of day/Dependency/Break)
+2. Asks when you'll resume
+3. Asks for resume notes (optional)
+4. Commits all WIP changes with context
+5. Posts pause comment to Linear
+6. Updates status to "On Hold"
+7. Returns to main branch
+
+**Different from `/blocked-linear`:**
+- `/pause-linear` - Temporary pause, you'll resume (context switching)
+- `/blocked-linear` - Hard external blocker (infrastructure, APIs, other teams)
+
+---
+
+#### `/blocked-linear` - Mark as Blocked
+
+Mark issue as blocked by external dependency.
+
+```bash
+/blocked-linear Waiting for staging database setup
+```
+
+**What happens:**
+1. Asks blocker type (Team/Infrastructure/Third-party/External approval)
+2. Asks who can unblock it
+3. Asks expected resolution time
+4. Posts blocker comment to Linear
+5. Updates status to appropriate blocked status
+6. Optionally creates blocker issue
+
+**Use when:**
+- Waiting for another team's service/API
+- Infrastructure not ready
+- Third-party dependency
+- External approval needed
+
+---
+
+#### `/my-work-linear` - Show Your Work
+
+Overview of all your assigned issues.
+
+```bash
+/my-work-linear          # Active work only (default)
+/my-work-linear all      # Everything (active, paused, blocked, completed)
+/my-work-linear paused   # Just paused/blocked issues
+```
+
+**What happens:**
+1. Fetches all your issues from Linear
+2. Groups by status (Active/Paused/Blocked)
+3. Shows current branch detection
+4. Flags stale issues (no commits in 5+ days)
+5. Flags missing branches
+6. Offers quick actions (resume, switch, follow up)
+
+**Example output:**
+```
+📋 Your Active Work
+
+🔴 High Priority:
+  DEV-123: User auth (In Progress, 2 days)
+  Branch: feature/DEV-123-auth ✓
+  Last commit: 3 hours ago
+
+🟠 Normal Priority:
+  DEV-124: Optimize queries (In Progress, 5 hours) ← Currently active
+  Branch: feature/DEV-124-optimize ✓
+
+Summary: 2 active, 0 paused, 0 blocked
+
+What would you like to do?
+1. Continue current work
+2. Switch to another issue
+3. Show paused work
+```
+
+---
+
+#### `/team-work-linear` - Show Team's Work
+
+See what everyone on the team is working on.
+
+```bash
+/team-work-linear
+/team-work-linear all      # Include paused/blocked
+/team-work-linear blocked  # Just blocked issues
+```
+
+**What happens:**
+1. Shows all team members' active issues
+2. Groups by person
+3. Identifies stale work (no activity in 5+ days)
+4. Flags potential bottlenecks
+5. Provides recommendations
+
+**Perfect for:**
+- Daily standups
+- Finding who needs help
+- Identifying blocked work
+- Capacity planning
+
+---
+
+#### `/high-priority-linear` - Show High Priority Work
+
+Focus on urgent and high priority items across the team.
+
+```bash
+/high-priority-linear
+/high-priority-linear urgent  # Only P1 urgent
+/high-priority-linear mine    # Only yours
+```
+
+**What happens:**
+1. Shows P1 (Urgent) and P2 (High) issues
+2. Groups by priority
+3. Flags unassigned urgent work
+4. Detects stale high-priority issues
+5. Provides recommendations on what to work on
+
+**Example:**
+```
+⚡ High Priority Items
+
+🔴 Urgent (Priority 1):
+  DEV-123: Payment gateway timeout
+  Status: In Progress (@alice)
+
+  DEV-124: Database migration failing ⚠️ UNASSIGNED
+  Created: 2 hours ago
+
+🟠 High (Priority 2):
+  DEV-125: User auth (Ready to start, @bob)
+
+Needs attention:
+⚠️ DEV-124 - Urgent and unassigned!
+
+What would you like to do?
+1. Assign DEV-124 to me
+2. Start work on DEV-125
+```
+
+---
+
+### Progress & Delivery Commands
+
+#### `/create-pr` - Create Pull Request
+
+Create PR when work is ready for review.
+
+```bash
+/create-pr
+/create-pr DEV-123  # Specify issue if not on feature branch
+```
+
+**What happens:**
+1. Commits any pending changes
+2. Pushes branch to GitHub
+3. Creates PR with proper title format
+4. Posts comprehensive summary to Linear
+5. Status updates automatically (via GitHub Actions if enabled)
+
+---
+
+#### `/progress-update` - Post Progress Update
+
+Share progress update to Linear.
+
+```bash
+/progress-update
+```
+
+**What happens:**
+1. Analyzes recent commits
+2. Checks current file changes
+3. Reviews acceptance criteria progress
+4. Generates structured update
+5. Posts to Linear as comment
+
+**Update includes:**
+- Completed items
+- Work in progress
+- Next steps
+- Any blockers
+
+---
+
+### Help Command
+
+#### `/linear-help` - Show All Commands
+
+Get a quick reference of all available Linear workflow commands.
+
+```bash
+/linear-help
+```
+
+**What happens:**
+1. Displays organized list of all 17 commands by category
+2. Shows brief description of what each command does
+3. Includes quick usage examples
+4. Provides links to detailed documentation
+5. Reminds you that natural language works too
+
+**Display format:**
+```
+📝 Issue Creation (6 commands)
+  /bug-linear - Quick bug report
+  /improvement-linear - Quick improvement
+  /feature-linear - Quick feature request
+  ...
+
+🔄 Workflow & Status (8 commands)
+  /start-issue - Start work on existing issue
+  /feedback-linear - Request feedback
+  ...
+
+🚀 Progress & Delivery (2 commands)
+  /create-pr - Create pull request
+  /progress-update - Post progress update
+
+💡 Pro tip: Natural language works too!
+   "Let's get to work on DEV-123"
+   "Show me high priority items"
+
+📖 Detailed docs: COMMAND-CHEATSHEET.md
+```
+
+**Perfect for:**
+- New team members learning the workflow
+- Quick command reference without leaving terminal
+- Finding the right command for your situation
+- Remembering command syntax
+
+**Related:** Just ask Claude naturally:
+- "What commands are available?"
+- "How do I create a bug report?"
+- "Show me workflow commands"
+
+---
+
+## 🗣️ Natural Language Commands
+
+You can also use natural language instead of slash commands!
+
+### Starting Work
 
 ```
 "Let's get to work on DEV-123"
 "Start work on DEV-456"
 "Begin DEV-789"
-```
-
-**What happens:**
-- Fetches issue from Linear
-- Creates detailed task analysis
-- Posts summary to Linear
-- Creates feature branch
-- Makes initial commit
-- Updates status to "In Progress"
-
----
-
-### Continue Existing Work
-
-Resume work on an issue you've already started.
-
-```
 "Continue DEV-123"
-"Resume DEV-456"
-"Resume work on DEV-789"
 ```
 
-**What happens:**
-- Checks out existing branch
-- Reviews task analysis
-- Shows current progress
-- Resumes implementation
-
----
-
-### Create Pull Request
-
-Open a pull request when work is ready for review.
+### Creating Issues
 
 ```
-"Create PR for DEV-123"
-"Ready for review"
-"Open pull request"
+"Let's add CSV export to reports"           ← Triggers /create-linear-issue
+"I found a bug - mobile menu doesn't close" ← Suggests /bug-linear
+"We need to optimize the database"         ← Suggests /improvement-linear
 ```
 
-**What happens:**
-- Commits pending changes
-- Pushes branch
-- Creates PR with proper format
-- Posts summary to Linear
-- Status updates automatically
-
----
-
-## Related Issues
-
-### Create a Blocker
-
-Create an issue that blocks current work.
+### Getting Help
 
 ```
-"Create a blocker for this"
-"This is blocked by [description]"
+"What am I working on?"     ← /my-work-linear
+"What's the team doing?"    ← /team-work-linear
+"Show me high priority"     ← /high-priority-linear
 ```
 
-**What happens:**
-- Creates new blocking issue
-- Links to current issue
-- Brief analysis
-- Returns focus to original issue
-
----
-
-### Create a Sub-task
-
-Break down work into smaller tasks.
+### When Blocked
 
 ```
-"Create a sub-task for [description]"
-"Break this into a sub-task: [description]"
-```
-
-**What happens:**
-- Asks about complexity (Small/Medium/Large)
-- Asks about dependencies
-- Creates child issue
-- Links to parent issue
-- Brief analysis
-
----
-
-### Create a Bug Report
-
-Report a bug discovered during work.
-
-```
-"Found a bug: [description]"
-"This needs a bug report"
-"Create bug issue for [description]"
-```
-
-**What happens:**
-- Asks about relationship (current issue/standalone)
-- Sets priority based on severity
-- Creates bug with template
-- Quick analysis
-- Links to related work
-
----
-
-### Create a Follow-up
-
-Log technical debt or improvements for later.
-
-```
-"Create follow-up for [description]"
-"Add follow-up: [description]"
-"Log this for later: [description]"
-```
-
-**What happens:**
-- Asks type (Tech debt/Improvement/Optimization/Docs/Testing)
-- Asks when to address (Soon/Later/Eventually/Before release)
-- Creates issue with appropriate priority
-- Links to current work
-
----
-
-## Progress & Communication
-
-### Post Progress Update
-
-Share progress on current work to Linear.
-
-```
-"Add progress update"
-"Post progress to Linear"
-"Update Linear with progress"
-```
-
-**What happens:**
-- Analyzes recent commits
-- Checks file changes
-- Reviews acceptance criteria
-- Posts structured update to Linear
-
----
-
-### Mark as Blocked
-
-Flag an issue as blocked with context.
-
-```
-"Mark as blocked"
-"This is blocked by [reason]"
-"Pause this issue"
-```
-
-**What happens:**
-- Asks blocker type (Person/Issue/External/Decision/Info/Technical)
-- Asks for details
-- Asks expected resolution
-- Updates status to "On Hold"
-- Posts detailed blocker comment
-- Offers to create blocker issue if needed
-
----
-
-### Request Clarification
-
-Ask for clarification on requirements.
-
-```
-"Request clarification on [topic]"
-"Ask about [topic]"
-"Need clarification: [question]"
-```
-
-**What happens:**
-- Asks who should clarify (Creator/PM/Tech Lead/Designer/Specific person)
-- Asks urgency (Blocking/Important/Nice to have)
-- Posts formatted question to Linear
-- Updates status if blocking
-
----
-
-## Context Switching
-
-### Pause Current Work
-
-Save progress and switch away from current issue.
-
-```
-"Pause work on this"
-"Switch away from this"
-"Save progress and switch"
-```
-
-**What happens:**
-- Asks why pausing (Switching priorities/Blocked/End of day/Break)
-- Asks when resuming (Later today/Tomorrow/Next week/Unknown)
-- Commits WIP changes
-- Posts pause comment to Linear
-- Returns to main branch
-
----
-
-### Show Active Work
-
-See all your in-progress issues.
-
-```
-"What am I working on?"
-"Show my active issues"
-"List my work"
-```
-
-**What happens:**
-- Lists all "In Progress" issues
-- Shows branch and last commit time
-- Offers to continue any issue
-
----
-
-## Discovery & Triage
-
-### Fetch Recent Bugs
-
-Find new bugs that need analysis.
-
-```
-"Fetch me any recent bugs"
-"Show me new bugs"
-"What bugs need analysis?"
-"Are there any unanalyzed bugs?"
-```
-
-**What happens:**
-- Searches for bug-labeled issues
-- Filters by "not yet analyzed" status
-- Groups by priority
-- Offers to analyze any bug
-
----
-
-### Show High Priority Work
-
-Find urgent items that need attention.
-
-```
-"Let's get some high priority items"
-"Show me high priority issues"
-"What's urgent?"
-"Give me the important stuff"
-```
-
-**What happens:**
-- Searches Priority 1 (Urgent) and Priority 2 (High)
-- Groups by status (Ready/Blocked/In Progress/Review)
-- Recommends which to start
-- Offers to begin work
-
----
-
-### Team Status
-
-See what the whole team is working on.
-
-```
-"What are we busy with?"
-"What's the team working on?"
-"Show all active work"
-"What's in progress?"
-```
-
-**What happens:**
-- Shows all team's "In Progress" issues
-- Groups by team member
-- Identifies stalled work
-- Provides recommendations
-
----
-
-## Review Workflow
-
-### Ready for Review
-
-Create PR and request review when work is complete.
-
-```
-"Ready for review"
-"Create PR and request review"
-"This is ready"
-```
-
-**What happens:**
-- Asks if fully tested
-- Asks who should review
-- Asks for review focus areas
-- Commits pending changes
-- Creates PR with reviewers
-- Posts comprehensive summary to Linear
-- Updates status to "Review Required"
-
----
-
-### Address Review Comments
-
-Work through PR feedback systematically.
-
-```
-"Address review comments"
-"Fix PR feedback"
-"Update based on review"
-```
-
-**What happens:**
-- Fetches PR review comments
-- Creates checklist
-- Posts to Linear
-- Works through each comment
-- Commits fixes with references
-- Posts update when complete
-
----
-
-## Quick Actions
-
-### Setup Wizard
-
-Install the Linear workflow integration.
-
-```
-"/setup-linear"
-```
-
-**What happens:**
-- Interactive setup wizard
-- Configures Linear connection
-- Sets up GitHub Actions
-- Installs git hooks
-- Creates test issue
-
----
-
-### MCP Authentication
-
-Authenticate Claude Code with Linear.
-
-```
-"/mcp"
-```
-
-**What happens:**
-- Opens OAuth flow in browser
-- Authenticates with Linear
-- Grants workspace access
-
----
-
-## Natural Language
-
-All commands support natural variations! Don't worry about exact phrasing.
-
-**Examples:**
-- "Let's start DEV-123" = "Begin work on DEV-123" = "Start DEV-123"
-- "I need to create a blocker" = "Create a blocker for this" = "This is blocked"
-- "Show me bugs" = "Any recent bugs?" = "What bugs need attention?"
-
-**Tips:**
-- Be conversational - Claude understands context
-- Reference issues by ID when relevant
-- Ask follow-up questions anytime
-- Switch between tasks freely
-
----
-
-## Common Workflows
-
-### Starting Your Day
-
-```
-1. "What am I working on?"
-2. "Continue DEV-123"
-   OR
-   "Show me high priority issues"
-3. "Let's get to work on DEV-456"
+"This is blocked by [reason]"  ← /blocked-linear
+"I need feedback on X"         ← /feedback-linear
+"Create a blocker for this"    ← /create-blocker-linear
 ```
 
 ---
 
-### Found a Bug While Working
+## 📖 Common Workflows
 
-```
-1. "Found a bug: [description]"
-2. "Continue with current work" (or "Start work on bug")
+### Morning Routine
+
+```bash
+1. /my-work-linear                    # See what you're working on
+2. /get-feedback-linear               # Check if questions answered
+3. /high-priority-linear              # Check urgent items
+4. /start-issue DEV-123               # Continue or start work
 ```
 
----
+### Creating New Work from Terminal
+
+```bash
+1. /feature-linear Add dark mode toggle    # Create feature
+2. (Claude asks for details)
+3. Ready to start? → Yes
+4. (Claude starts normal workflow)
+```
 
 ### Blocked and Need to Switch
 
-```
-1. "This is blocked by [reason]"
-2. "What am I working on?" (or "Show high priority")
-3. "Continue DEV-789"
-```
-
----
-
-### Finishing a Feature
-
-```
-1. "Add progress update"
-2. "Ready for review"
-3. (After review) "Address review comments"
-4. (After approval) Status updates automatically on merge
+```bash
+1. /blocked-linear Waiting for API deployment
+2. /my-work-linear                    # See other work
+3. /start-issue DEV-456               # Switch to different issue
 ```
 
----
+### Request and Get Feedback
+
+```bash
+# Request feedback
+1. /feedback-linear Should this support mobile?
+2. (Claude posts question, tags person, pauses work)
+
+# Later, check for answers
+3. /get-feedback-linear
+4. (Claude shows answers)
+5. Ready to resume? → Yes
+```
 
 ### End of Day
 
-```
-1. "Add progress update"
-2. "Pause work on this" (reason: End of day)
-3. Done! Progress saved, Linear updated
-```
-
----
-
-## Status Updates
-
-### How Linear Statuses Update
-
-**Automatically (via GitHub Actions):**
-- Push to feature branch → "In Progress"
-- Merge to staging → "Review Required" (+ auto-assigns reviewer)
-- Merge to main → "Released"
-
-**Manually (via Claude):**
-- After analysis with blockers → "Feedback Required"
-- After analysis with no blockers → "Ready for Development"
-- When paused/blocked → "On Hold"
-
-**Your custom statuses:**
-Check `.linear-workflow.json` for your team's specific status mappings.
-
----
-
-## Tips & Best Practices
-
-### Commit Messages
-
-All commits must reference a Linear issue ID:
-
 ```bash
-# Valid formats (configured during setup):
-git commit -m "feat: Add user auth (DEV-123)"
-git commit -m "DEV-123: Fix login bug"
-git commit -m "fix(DEV-123): Handle timeout"
-
-# Invalid (will be rejected by git hook):
-git commit -m "Add user auth"
+1. /progress-update                   # Share progress
+2. /pause-linear End of day
+3. (Claude commits WIP, posts pause comment)
 ```
 
 ---
 
-### Branch Naming
+## 💡 Tips & Best Practices
 
-Feature branches are created automatically:
+### When to Use Slash Commands vs Natural Language
 
+**Use slash commands when:**
+- You want a specific action immediately
+- You're creating issues quickly (`/bug-linear`, `/feature-linear`)
+- You're checking status (`/my-work-linear`, `/team-work-linear`)
+
+**Use natural language when:**
+- Starting conversations about work
+- You're not sure which command to use
+- You want Claude to suggest the best approach
+
+### Command Combinations
+
+**Quick issue creation → immediate work:**
+```bash
+/feature-linear Add CSV export
+→ Ready to start? (Y)
+→ (Full workflow starts automatically)
 ```
-feature/DEV-123-issue-title
-feature/DEV-456-fix-login-bug
+
+**Check feedback → resume work:**
+```bash
+/get-feedback-linear
+→ All answered!
+→ Resume? (Y)
+→ (Checks out branch, updates status)
+```
+
+**Team visibility → help teammate:**
+```bash
+/team-work-linear
+→ See @bob blocked for 3 days
+→ /start-issue DEV-789  (the blocker)
 ```
 
 ---
 
-### When to Use Each Command
+## 🔗 Related Documentation
 
-| Situation | Command |
-|-----------|---------|
-| Starting new work | "Let's get to work on DEV-123" |
-| Already started | "Continue DEV-123" |
-| Can't proceed | "This is blocked by [reason]" |
-| Large task | "Create a sub-task for [part]" |
-| Discovered bug | "Found a bug: [description]" |
-| Need to switch | "Pause work on this" |
-| Work complete | "Ready for review" |
-| PR has feedback | "Address review comments" |
-| Don't know what to do | "Show me high priority issues" |
+- **[README.md](README.md)** - Full project overview and setup guide
+- **[UPGRADE_GUIDE.md](UPGRADE_GUIDE.md)** - Upgrading from v1.0.0 to v1.1.0
+- **[docs/linear-workflow.md](docs/linear-workflow.md)** - Detailed workflow documentation
+- **[docs/auto-assignment.md](docs/auto-assignment.md)** - Auto-assignment configuration
+- **[docs/troubleshooting.md](docs/troubleshooting.md)** - Common issues and solutions
 
 ---
 
-## Need Help?
+## ❓ Need Help?
 
-**Documentation:**
-- Setup Guide: [README.md](README.md)
-- Workflow Details: [docs/linear-workflow.md](docs/linear-workflow.md)
-- Auto-Assignment: [docs/auto-assignment.md](docs/auto-assignment.md)
-- Troubleshooting: [docs/troubleshooting.md](docs/troubleshooting.md)
-
-**During Setup:**
-- Type `/setup-linear` and follow the wizard
-- All questions have helpful defaults
-- Pre-flight checks catch issues early
-
-**After Setup:**
-- Just ask Claude! "What commands can I use?"
+**During work:**
+- Just ask Claude: "What commands can I use?"
 - All commands support natural language
 - Claude understands context from conversation
 
+**Detailed help for specific command:**
+- Each command has detailed docs in `.claude/commands/` (after setup)
+- Example: `.claude/commands/feedback-linear.md`
+
+**Setup help:**
+- Run `/setup-linear` and follow the wizard
+- Pre-flight checks catch issues early
+- All questions have helpful defaults
+
 ---
 
-**Pro tip:** You don't need to memorize these commands. Just talk to Claude naturally about what you want to do!
+**Remember:** You don't need to memorize these! Just talk to Claude naturally about what you want to do. Claude will use the right command based on context. 🚀

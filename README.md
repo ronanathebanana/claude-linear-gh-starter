@@ -181,36 +181,64 @@ The wizard will detect your existing installation and offer to upgrade:
 
 ---
 
-## ⚡ Common Commands
+## ⚡ Commands Reference
 
-After setup, just talk to Claude naturally. Here are some examples:
+After setup, use 17 powerful slash commands or just talk naturally to Claude:
 
-**Start working:**
+### Quick Command Examples
+
+**Get help:**
+```bash
+/linear-help                     # Show all available commands
+```
+
+**Create issues (bottom-up workflow):**
+```bash
+/bug-linear Login timeout too short
+/feature-linear Add user profile page
+/improvement-linear Optimize database queries
+```
+
+**Start & manage work:**
+```bash
+/start-issue DEV-123
+/my-work-linear              # See your active/paused/blocked issues
+/team-work-linear            # See team's work
+/high-priority-linear        # Show urgent items
+```
+
+**When blocked or need help:**
+```bash
+/feedback-linear Should this support mobile?
+/get-feedback-linear         # Check if questions answered
+/blocked-linear Waiting for API deployment
+/pause-linear End of day
+```
+
+**Create relationships:**
+```bash
+/create-blocker-linear Database indexes needed
+/create-subtask-linear Add login form UI
+```
+
+**Deliver work:**
+```bash
+/progress-update
+/create-pr
+```
+
+### Or Just Talk Naturally
+
 ```
 "Let's get to work on DEV-123"
-"Continue DEV-456"
-```
-
-**When blocked:**
-```
-"Create a blocker for this"
-"This is blocked by [reason]"
-```
-
-**Discover work:**
-```
-"Show me high priority issues"
-"Any recent bugs?"
 "What am I working on?"
-```
-
-**Finish up:**
-```
+"Show me high priority issues"
+"I found a bug - mobile menu doesn't close"
+"Create a blocker for this"
 "Ready for review"
-"Add progress update"
 ```
 
-[→ **Full Command Cheat Sheet**](COMMAND-CHEATSHEET.md) - Complete list of 20+ commands
+[→ **Full Command Cheat Sheet**](COMMAND-CHEATSHEET.md) - Complete guide with examples for all 17 commands
 
 <br/>
 

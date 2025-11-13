@@ -1120,6 +1120,9 @@ Initializing Claude Code in project...
       ✓ .claude/commands/create-pr.md created
       ✓ .claude/commands/progress-update.md created
 
+      Help:
+      ✓ .claude/commands/linear-help.md created
+
 [4/4] Updating .gitignore...
       ✓ .gitignore updated (if needed)
 
@@ -1155,7 +1158,10 @@ Custom commands available after setup:
   • /create-pr - Create pull request with Linear integration
   • /progress-update - Post progress update to Linear
 
-Total: 16 powerful commands for seamless Linear workflow!
+  Help (1 command):
+  • /linear-help - Show all available commands and what they do
+
+Total: 17 powerful commands for seamless Linear workflow!
 
 These commands will work for all team members using Claude Code!
 ```
