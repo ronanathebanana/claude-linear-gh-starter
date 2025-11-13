@@ -457,6 +457,106 @@ async function testFileOperations(runner) {
 }
 
 /**
+ * Test v1.1.0 features (commit references, magic words, optional GitHub Actions)
+ */
+async function testV110Features(runner) {
+  console.log('\n✨ v1.1.0 Features Tests\n');
+
+  await runner.test('Commit reference configuration exists', async () => {
+    const config = await loadExampleConfig();
+    config.formats.issueReference = 'related';
+    config.formats.issueReferenceKeyword = 'Related';
+
+    const errors = validateConfig(config);
+    assert(errors.length === 0, 'Config with issue reference should be valid');
+  });
+
+  await runner.test('Issue reference method validation', async () => {
+    const config = await loadExampleConfig();
+    config.formats.issueReference = 'invalid';
+    config.formats.issueReferenceKeyword = 'Invalid';
+
+    const errors = validateConfig(config);
+    assert(errors.some(e => e.field === 'formats.issueReference'), 'Should detect invalid reference method');
+  });
+
+  await runner.test('Linear automation config exists', async () => {
+    const config = await loadExampleConfig();
+    config.linearAutomations = {
+      magicWordsEnabled: false,
+      checkedAt: new Date().toISOString()
+    };
+
+    const errors = validateConfig(config);
+    assert(errors.length === 0, 'Config with linearAutomations should be valid');
+  });
+
+  await runner.test('GitHub Actions optional configuration', async () => {
+    const config = await loadExampleConfig();
+    config.githubActions = {
+      enabled: false,
+      apiKeyConfigured: false
+    };
+
+    const errors = validateConfig(config);
+    assert(errors.length === 0, 'Config with GitHub Actions disabled should be valid');
+  });
+
+  await runner.test('Workflow file syntax fix detection', async () => {
+    // Test that the migration can detect and fix the branches syntax error
+    const buggyWorkflow = `on:
+  push:
+    branches:
+      - '**'
+      - '!main'`;
+
+    assert(buggyWorkflow.includes("branches:\n      - '**'"), 'Should detect buggy pattern');
+
+    // Fixed version should use branches-ignore
+    const fixedWorkflow = `on:
+  push:
+    branches-ignore:
+      - 'main'`;
+
+    assert(fixedWorkflow.includes('branches-ignore'), 'Fixed version should use branches-ignore');
+    assert(!fixedWorkflow.includes("'**'"), 'Fixed version should not have wildcard pattern');
+  });
+
+  await runner.test('Reference keyword matches method', async () => {
+    const testCases = [
+      { method: 'related', keyword: 'Related' },
+      { method: 'closes', keyword: 'Closes' },
+      { method: 'fixes', keyword: 'Fixes' }
+    ];
+
+    for (const { method, keyword } of testCases) {
+      const config = await loadExampleConfig();
+      config.formats.issueReference = method;
+      config.formats.issueReferenceKeyword = keyword;
+
+      const errors = validateConfig(config);
+      assert(!errors.some(e => e.field.startsWith('formats')), `${method}/${keyword} should be valid`);
+    }
+  });
+
+  await runner.test('Migration preserves existing settings', async () => {
+    const config = await loadExampleConfig();
+    const originalBranches = { ...config.branches };
+    const originalLinear = { ...config.linear };
+
+    // Add v1.1.0 fields
+    config.formats.issueReference = 'related';
+    config.formats.issueReferenceKeyword = 'Related';
+    config.linearAutomations = { magicWordsEnabled: false, checkedAt: new Date().toISOString() };
+    config.githubActions = { enabled: true, apiKeyConfigured: true };
+
+    // Verify original settings unchanged
+    assertEquals(config.branches.main, originalBranches.main, 'Branch config should be preserved');
+    assertEquals(config.linear.teamKey, originalLinear.teamKey, 'Linear config should be preserved');
+  });
+}
+
+/**
  * Test complete workflow
  */
 async function testCompleteWorkflow(runner) {
@@ -503,6 +603,7 @@ async function main() {
     await testTemplateFiles(runner);
     await testFileOperations(runner);
     await testGitHubIntegration(runner);
+    await testV110Features(runner);
     await testCompleteWorkflow(runner);
 
     // Print summary

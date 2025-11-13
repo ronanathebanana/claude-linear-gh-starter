@@ -6,15 +6,18 @@ This file provides guidance to Claude Code when working with the Linear workflow
 
 This repository is a **setup wizard** that installs a complete Linear + GitHub + Claude Code workflow integration into any project. The wizard automates:
 
-- GitHub Actions workflow for automatic Linear status updates
-- Linear MCP server configuration for Claude Code
+- **Linear MCP server configuration** (OAuth-based, no API key required!)
+- AI-powered workflow commands ("Let's get to work on DEV-123")
 - Git commit message validation hooks
 - Comprehensive documentation and examples
 - Linear issue templates (Bug, Improvement, Feature)
+- **GitHub Actions workflow** (optional, requires LINEAR_API_KEY)
 
 **Target Users:** Development teams using Linear for issue tracking who want seamless GitHub integration and Claude Code productivity tools.
 
 **Installation Time:** ~5 minutes with automated pre-flight validation
+
+**Key Feature:** MCP-first approach means team members without Linear API key creation permissions can still use the full workflow via Claude Code commands!
 
 ## Setup Wizard Trigger
 
@@ -42,24 +45,30 @@ Linear Workflow Setup
 This wizard will install a complete Linear + GitHub integration into your project.
 
 What will be installed:
-  - GitHub Actions workflow for automatic status updates
+  - Linear MCP server (OAuth authentication - no API key needed!)
+  - AI-powered workflow commands
   - Linear workflow configuration file
   - Git commit message validation hook
   - Team documentation and guidelines
-  - GitHub repository secret (LINEAR_API_KEY)
   - Linear issue templates (Bug Report, Improvement, Feature)
+  - GitHub Actions workflow (optional - requires LINEAR_API_KEY)
 
 What you'll need:
-  - Linear API key (we'll guide you to create one)
-  - GitHub authentication with 'workflow' scope
+  - Linear account (OAuth login via browser)
+  - GitHub authentication with 'workflow' scope (if enabling GitHub Actions)
   - ~5 minutes to complete configuration
 
 The wizard will:
-  1. Run environment checks (git, GitHub CLI, Node.js)
-  2. Fix any authentication issues automatically
-  3. Ask configuration questions (branch strategy, statuses, formats)
-  4. Install all files and configure GitHub
-  5. Create a test issue to verify the setup
+  1. Authenticate with Linear via MCP (browser OAuth)
+  2. Run environment checks (git, GitHub CLI, Node.js)
+  3. Fix any authentication issues automatically
+  4. Ask configuration questions (branch strategy, statuses, formats)
+  5. Install workflow files
+  6. Optionally set up GitHub Actions automation
+  7. Create test issue to verify setup
+
+Note: The full workflow works via Claude Code commands without GitHub Actions.
+GitHub Actions adds automatic status updates when PRs merge (optional).
 
 Would you like to continue? (Y/n)
 ```
@@ -170,6 +179,94 @@ Let's begin!
 - Only ask for approval on write operations (gh secret set, git push, curl to Linear API)
 - File operations via tools (Write, Edit) follow user's existing tool approval settings
 
+## Linear's Native GitHub Integration vs This Workflow
+
+**IMPORTANT:** Before starting setup, understand the difference between Linear's native integration and this workflow.
+
+### Linear's Native Integration
+
+Linear offers a built-in GitHub integration at: `linear.app/settings/integrations/github`
+
+**What it provides:**
+- ✅ Auto-links GitHub PRs to Linear issues (when PR contains issue ID)
+- ✅ Shows PR status in Linear issue sidebar
+- ✅ Displays commit information in Linear UI
+- ✅ Basic PR → Issue linking (read-only)
+
+**What it DOESN'T do:**
+- ❌ Doesn't update Linear issue statuses based on git events
+- ❌ No custom status mappings
+- ❌ No AI-assisted task analysis
+- ❌ No automated comments from Claude
+- ❌ Read-only (GitHub → Linear only, no bidirectional sync)
+
+### This Workflow (claude-linear-gh-starter)
+
+**What this workflow provides:**
+- ✅ **Bidirectional sync**: Claude posts analysis/updates back to Linear
+- ✅ **AI development workflow**: "Let's get to work on DEV-123" commands
+- ✅ **Task analysis**: Claude analyzes issues and posts summaries to Linear
+- ✅ **MCP-powered**: Real-time Linear integration in Claude Code (OAuth, no API key!)
+- ✅ **Optional automated status updates**: GitHub Actions can update statuses on PR merge
+- ✅ **Custom status mappings**: Define your own workflow stages
+- ✅ **Commit validation**: Git hooks ensure commits reference Linear issues
+
+### How They Work Together
+
+```
+Linear Native Integration:
+  GitHub → Linear (read-only linking, UI niceness)
+
+This Workflow:
+  GitHub ⟷ Linear ⟷ Claude Code (full automation + AI workflow)
+
+Best Practice: Enable BOTH!
+  ✓ Native integration provides visual PR links in Linear UI
+  ✓ This workflow provides automation + AI-assisted development
+```
+
+### Recommendation
+
+**Enable Linear's native integration when:**
+- Your team uses Linear web app frequently
+- You want visual PR links in Linear UI
+- You want to see commit history in Linear
+- Quick setup (just enable in Linear settings)
+
+**Use this workflow when:**
+- You want AI-assisted issue analysis
+- You're using Claude Code for development
+- You want automated status updates (optional GitHub Actions)
+- You need custom workflow stage mappings
+- You want bidirectional sync (Claude → Linear updates)
+
+**Use BOTH when:**
+- You want the best of both worlds! (recommended)
+- Native integration handles UI niceness
+- This workflow handles automation + AI assistance
+
+### Setup Guidance
+
+During the wizard, I'll offer to open Linear's integration settings:
+
+```
+💡 Tip: Linear's Native GitHub Integration
+
+Linear offers a native GitHub integration for visual PR linking.
+
+This is complementary to the workflow we're installing:
+  • Native: UI-focused, read-only
+  • This workflow: Automation + AI assistance
+
+Recommendation: Enable BOTH for the best experience!
+
+Would you like me to open Linear's integration settings now? (y/N)
+
+  → https://linear.app/{{workspace}}/settings/integrations/github
+
+(You can also do this later - it's independent of this workflow)
+```
+
 ## Setup Wizard Flow
 
 ### Phase 1: Initialize TODO List
@@ -257,14 +354,15 @@ Latest Version:    1.1.0
 1 migration(s) available:
 
   1.0.0 → 1.1.0
-  Add auto-assignment enhancements and dry-run mode
+  Add commit reference options and fix workflow bugs
 
   Changes:
-    • New: Dry-run mode for preview before installation
-    • New: Enhanced auto-assignment with per-status configuration
-    • New: Workflow health check command
-    • Improved: Better error messages in GitHub Actions workflow
-    • Fixed: Rate limiting in Linear API calls
+    • New: Commit message reference options (Related/Closes/Fixes)
+    • New: Linear magic word automation detection and warnings
+    • New: GitHub Actions is now optional (MCP-first approach)
+    • Fixed: GitHub Actions workflow branches syntax error
+    • Improved: MCP-first authentication flow (no API key required)
+    • Improved: Better documentation of Linear native integration
 
 To upgrade, run:
   node scripts/version-manager.js upgrade --to 1.1.0
@@ -333,14 +431,24 @@ Starting upgrade from 1.0.0 to 1.1.0...
 Migration Plan:
 ─────────────────────────────────────────────────────────────
 1.0.0 → 1.1.0
-  Add auto-assignment enhancements and dry-run mode
+  Add commit reference options and fix workflow bugs
+
+What's New in 1.1.0:
+  ✨ New: Commit message reference options (Related/Closes/Fixes)
+  ✨ New: Linear magic word automation detection and warnings
+  ✨ New: GitHub Actions is now optional (MCP-first approach!)
+  🐛 Fix: GitHub Actions workflow branches syntax error
+  🔧 Improved: MCP-first authentication flow (no API key required)
+  📝 Improved: Better documentation of Linear native integration
 
 This upgrade will:
   ✓ Backup existing workflow files
-  ✓ Update .linear-workflow.json
-  ✓ Update .github/workflows/linear-status-update.yml
-  ✓ Preserve your configuration settings
-  ✓ Add new features
+  ✓ Add commit reference configuration (defaults to "Related:")
+  ✓ Add Linear automation detection settings
+  ✓ Add GitHub Actions optional configuration
+  ✓ Fix workflow file branches syntax if affected
+  ✓ Update .linear-workflow.json with new fields
+  ✓ Preserve all your existing configuration settings
 
 ⚠️  Your project will be safe - all changes are backed up.
 
@@ -359,11 +467,30 @@ Shows:
 Executing migrations...
 
 Migrating 1.0.0 → 1.1.0
-  Add auto-assignment enhancements and dry-run mode
+  Add commit reference options and fix workflow bugs
+
+  ✨ Adding commit reference configuration...
+     → Set to: Related: DEV-XXX (recommended)
+     → You can change this in .linear-workflow.json
+
+  ✨ Adding Linear automation detection...
+     → Checking for magic word automations
+     → Status: Not enabled (safe to use Closes/Fixes)
+
+  ✨ Adding GitHub Actions configuration...
+     → Detected: GitHub Actions workflow installed
+     → Status: Enabled
+
+  🐛 Checking workflow file for syntax errors...
+     → Found branches syntax error at line 10
+     → Fixing: Replacing with branches-ignore pattern
+     → ✓ Workflow file fixed
+
   ✓ Migration completed
 
 ✓ Backup created: .linear-workflow.json.backup
-✓ Configuration updated
+✓ Configuration updated: .linear-workflow.json
+✓ Workflow file fixed: .github/workflows/linear-status-update.yml
 
 ═══════════════════════════════════════════════════════════════
 ✅ Upgrade Complete!
@@ -371,10 +498,25 @@ Migrating 1.0.0 → 1.1.0
 
 Upgraded from 1.0.0 to 1.1.0
 
+New Features Available:
+  • Commit reference customization (formats.issueReference)
+  • Linear magic word conflict warnings (linearAutomations)
+  • Optional GitHub Actions (githubActions.enabled)
+  • Fixed workflow branches syntax
+
+Configuration Changes:
+  Added to .linear-workflow.json:
+    • formats.issueReference: "related"
+    • formats.issueReferenceKeyword: "Related"
+    • linearAutomations.magicWordsEnabled: false
+    • githubActions.enabled: true
+    • githubActions.apiKeyConfigured: true
+
 Next steps:
   1. Review changes in .linear-workflow.json
-  2. Test workflow: node scripts/test-integration.js
-  3. Commit changes: git commit -m "chore: Upgrade workflow to v1.1.0"
+  2. Optional: Change commit reference method if desired
+  3. Test workflow: node scripts/test-integration.js
+  4. Commit changes: git commit -m "chore: Upgrade workflow to v1.1.0"
 ```
 
 Then exit wizard - upgrade is complete!
@@ -556,7 +698,8 @@ Checking GitHub CLI... ✓
 
 Checking GitHub authentication... ✓
   User: username
-  Scopes: repo, workflow ✓
+  Scopes: repo ✓
+  Note: 'workflow' scope only needed if enabling GitHub Actions (optional)
 
 Checking GitHub repository... ✓
   Repository: owner/repo-name
@@ -567,9 +710,6 @@ Checking Node.js... ✓
 
 Checking working directory... ✓
   Clean
-
-Checking LINEAR_API_KEY... ⚠
-  Not in environment (we'll ask during setup)
 
 Checking for existing workflow... ✓
   No existing workflow (clean install)
@@ -582,6 +722,8 @@ Checking branch protection rules... ⚠
 ✅ All checks passed!
 
 Your environment is ready for Linear workflow setup.
+
+Note: Linear authentication will happen via MCP OAuth (next step)
 ```
 
 **If critical checks fail, AUTOMATICALLY OFFER TO FIX:**
@@ -804,9 +946,11 @@ Reminder saved to installation summary.
 - Fix auth issues inline and continue automatically
 - One continuous flow from start to finish
 
-### Phase 4: Configuration Wizard
+### Phase 4: Linear MCP Authentication (MCP-FIRST!)
 
-**[Step 4 of 11 | Interactive | ~2-5 minutes]**
+**[Step 4 of 11 | Interactive | Requires Browser | ~1-2 minutes]**
+
+**CRITICAL:** This is the first step that requires Linear access. We authenticate via MCP BEFORE asking configuration questions, so we can use MCP tools to fetch teams, statuses, and other Linear data during configuration.
 
 **Show progress:**
 
@@ -822,23 +966,200 @@ Completed:
   ✓ Run pre-flight environment checks
 
 Current:
-  ⟳ Configure Linear workspace connection
+  ⟳ Authenticate with Linear via MCP
 
 Remaining:
+  • Configure workflow settings
   • Set up branch strategy and status mappings
   • Configure commit and PR formats
   • Install workflow files and documentation
-  • Set up GitHub secrets and git hooks
-  • Configure Linear MCP server
+  • Set up git hooks
   • Create Linear issue templates
   • Create test issue
+  • Optionally configure GitHub Actions
   • Test the workflow
   • Commit and push installation
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-Ask the user these questions **one at a time**, storing answers in memory:
+**Explain what's about to happen:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📡 Linear Authentication via MCP
+
+⏱️  Estimated time: 1-2 minutes
+🌐 Requires: Browser authentication with Linear (OAuth)
+🔑 No API key needed!
+
+What will happen:
+  1. I'll add the Linear MCP server to your Claude config (~5 seconds)
+  2. You'll type /mcp to start OAuth authentication (~10 seconds)
+  3. Your browser will open to Linear login page (~30 seconds)
+  4. You'll authorize Claude Code access (~20 seconds)
+  5. I'll verify the connection (~10 seconds)
+
+Why this is first:
+  ✓ No LINEAR_API_KEY required
+  ✓ OAuth is secure (you control access)
+  ✓ I can fetch your teams/statuses during configuration
+  ✓ All workflow commands work immediately after setup
+
+Ready to authenticate with Linear? (Y/n)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**After user confirms, proceed with MCP setup:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📡 Setting up Linear MCP Server...
+
+[1/2] Adding Linear MCP server to your configuration...
+```
+
+**Run the command:**
+
+```bash
+claude mcp add --transport http linear-server https://mcp.linear.app/mcp
+```
+
+**Display result:**
+
+```
+✓ Added HTTP MCP server linear-server
+  URL: https://mcp.linear.app/mcp
+  Config: ~/.claude.json
+
+[2/2] Authentication Required (Browser)
+
+⏱️  This step requires ~1 minute of your time
+
+⚠️  IMPORTANT: Claude Code must be restarted to load the new MCP configuration.
+
+Please follow these steps:
+
+  1. Exit Claude Code (Ctrl+C or type 'exit')
+  2. Open a NEW terminal in your project directory:
+     {{project.path}}
+  3. Start Claude Code again in that directory
+  4. Type: /mcp
+
+When you run /mcp, it will:
+  1. Open a browser window
+  2. Prompt you to log in to Linear
+  3. Ask you to grant Claude Code access to your Linear workspace
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📝 Note: Your installation progress is saved on the setup/linear-workflow branch.
+After authenticating with /mcp in your new terminal, return here and say "done"
+or "authenticated" to continue the setup.
+```
+
+**Wait for user to:**
+1. Exit current Claude Code session
+2. Open new terminal in project directory
+3. Start Claude Code in that directory
+4. Type `/mcp` in the new Claude Code session
+5. Complete OAuth authentication in browser
+6. Return to this setup and confirm they're authenticated by saying "done" or "authenticated"
+
+**When user confirms authentication, verify it worked:**
+
+```
+✅ MCP Server Authentication Complete!
+
+[3/3] Verifying connection... (this will take ~10 seconds)
+```
+
+**Test the connection by attempting to use a Linear MCP tool (e.g., list teams):**
+
+If successful:
+```
+✓ Linear MCP server connected successfully
+✓ Can access workspace: {{workspaceName}}
+✓ Found {{teamCount}} accessible teams
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ MCP Authentication Complete! (Step 4 of 11 complete)
+
+Total time: ~{{actual_time}} (estimated: 1-2 minutes)
+
+You can now use Linear workflow commands like:
+  • "Let's get to work on DEV-123"
+  • "Create a blocker for this"
+  • "Ready for review"
+
+Now I can fetch your Linear teams and statuses for configuration...
+```
+
+If failed:
+```
+❌ MCP authentication failed or incomplete
+
+Please ensure you:
+  1. Ran /mcp command in Claude Code
+  2. Completed OAuth flow in your browser
+  3. Granted all required permissions to Linear workspace
+
+Common issues:
+  • Browser was closed before completing OAuth
+  • Linear permissions were declined
+  • Network connectivity issue during authentication
+
+Try again? (Y/n)
+
+If you continue to have issues:
+  • Check https://linear.app/settings/api to verify API access
+  • Try: claude mcp remove linear-server
+  • Then restart from this phase
+```
+
+**Mark TODO as completed after MCP authentication successful.**
+
+### Phase 5: Configuration Wizard
+
+**[Step 5 of 11 | Interactive | ~2-5 minutes]**
+
+**Show progress:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Linear Workflow Setup
+
+Progress: [█████_____] 5/11 steps complete
+
+Completed:
+  ✓ Confirm project location
+  ✓ Create installation branch
+  ✓ Run pre-flight environment checks
+  ✓ Authenticate with Linear via MCP
+
+Current:
+  ⟳ Configure workflow settings
+
+Remaining:
+  • Set up branch strategy and status mappings
+  • Configure commit and PR formats
+  • Install workflow files and documentation
+  • Set up git hooks
+  • Create Linear issue templates
+  • Create test issue
+  • Optionally configure GitHub Actions
+  • Test the workflow
+  • Commit and push installation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Ask the user these questions **one at a time**, storing answers in memory.
+
+**IMPORTANT:** Now that MCP is authenticated, use MCP tools to fetch Linear data instead of requiring LINEAR_API_KEY!
 
 #### Question 0: Configuration Profile (NEW!)
 
@@ -931,8 +1252,8 @@ Then **skip** or **pre-fill** questions based on profile:
 - Question 6 (Documentation Location) → Pre-filled from profile, skip
 
 **Only ask:**
-- Question 1: GitHub Authentication (always ask)
-- Question 3: Linear Configuration (always ask - customize team/statuses)
+- Question 1: GitHub Actions (optional automation - always ask)
+- Question 3: Linear Team Configuration (always ask - customize team/statuses via MCP)
 - Question 7: Auto-Assignment (always ask - customize assignees)
 
 **If user selects 4 (Custom):**
@@ -950,16 +1271,110 @@ Then ask **all questions** (Question 1-7).
 
 ---
 
-#### Question 1: GitHub Authentication
+#### Question 1: GitHub Actions (Optional Automation)
+
+**IMPORTANT:** This is now OPTIONAL! The workflow works fully via Claude Code commands without GitHub Actions.
+
 ```
-GitHub CLI Status:
-✓ Logged in as <username>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GitHub Actions Automation (Optional)
 
-We'll need to set up a LINEAR_API_KEY secret in your GitHub repository.
-Would you like me to do this now? [Y/n]
+The Linear workflow is fully functional via Claude Code commands.
 
-(You can also do this manually later at:
-https://github.com/<user>/<repo>/settings/secrets/actions)
+Want to add AUTOMATIC status updates when PRs merge?
+
+This requires a LINEAR_API_KEY (stored in GitHub secrets).
+
+✅ Benefits:
+  ✓ Status auto-updates when PR merges (no manual updates)
+  ✓ Works without Claude running
+  ✓ Full team automation
+
+⚠️  Requirements:
+  • Linear API key creation permission
+  • GitHub repository admin access
+
+💡 Note: Some organizations restrict API key creation.
+   If you can't create API keys, you can skip this - the workflow
+   still works fully via Claude Code commands!
+
+Would you like to enable GitHub Actions automation? (y/N)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**If user says YES:**
+
+```
+Great! I'll need a Linear API key to set up GitHub Actions.
+
+Please create an API key at: https://linear.app/settings/api
+
+LINEAR_API_KEY: _____
+```
+
+**Validate the API key immediately:**
+
+```bash
+# Test API key works
+curl -X POST https://api.linear.app/graphql \
+  -H "Authorization: $LINEAR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"query": "{ viewer { id name email } }"}'
+```
+
+**If valid:**
+
+```
+✓ API key validated
+✓ User: <name> (<email>)
+
+I'll store this in GitHub repository secrets during installation.
+
+GitHub Actions workflow will be installed and configured.
+```
+
+**If invalid:**
+
+```
+❌ API key validation failed
+
+Please check:
+  • API key format is correct (starts with lin_api_)
+  • API key hasn't been revoked
+  • You have access to the Linear workspace
+
+Try again? (Y/n)
+```
+
+**If user says NO:**
+
+```
+✓ Skipping GitHub Actions automation
+
+The workflow will work fully via Claude Code commands:
+  • "Let's get to work on DEV-123"
+  • "Ready for review"
+  • "Create blocker"
+  • And more...
+
+GitHub Actions workflow will NOT be installed.
+
+You can add it later by:
+  1. Creating a LINEAR_API_KEY
+  2. Adding it to GitHub secrets
+  3. Installing .github/workflows/linear-status-update.yml
+
+Continuing with setup...
+```
+
+**Store decision in config:**
+```json
+{
+  "githubActions": {
+    "enabled": true/false,
+    "apiKeyConfigured": true/false
+  }
+}
 ```
 
 #### Question 2: Branch Strategy
@@ -981,18 +1396,16 @@ Staging/QA branch (leave empty if none): _____
 Production branch (leave empty if none): _____
 ```
 
-#### Question 3: Linear Configuration
+#### Question 3: Linear Team Configuration
+
+**IMPORTANT:** Use MCP tools to fetch this data - no API key needed!
+
 ```
-Let's connect to your Linear workspace.
-
-Please provide your Linear API key (create one at: https://linear.app/settings/api)
-
-LINEAR_API_KEY: _____
-
-(This will be stored in your GitHub secrets and local .env file)
+Fetching your Linear teams via MCP...
 ```
 
-Then fetch and display:
+**Use MCP list_teams tool to fetch teams:**
+
 ```
 ✓ Connected to Linear workspace: <Workspace Name>
 
@@ -1004,9 +1417,12 @@ Available teams:
 Which team should we configure? [1]: _____
 ```
 
-After team selected, fetch workflow states:
+**After team selected, use MCP get_team_states tool to fetch workflow states:**
+
 ```
 ✓ Team "DEV" selected
+
+Fetching workflow states...
 
 Available workflow states:
 1. Todo
@@ -1020,6 +1436,19 @@ Available workflow states:
 Which status for active development (push to feature branch)? [2]: _____
 Which status when PR merged to main? [4]: _____
 Which status when PR merged to prod? [6]: _____
+```
+
+**Store team information:**
+```json
+{
+  "linear": {
+    "teamKey": "DEV",
+    "teamId": "team-uuid-from-mcp",
+    "teamName": "Development",
+    "workspaceId": "workspace-uuid-from-mcp",
+    "workspaceName": "Acme Inc"
+  }
+}
 ```
 
 #### Question 3.5: Define Status Meanings (NEW!)
@@ -1233,23 +1662,142 @@ Let's continue with the next configuration step...
 ```
 
 #### Question 4: Commit & PR Formats
-```
-Choose your commit message format:
 
-1. <type>: <description> (ISSUE-123)        [Conventional commits]
-2. ISSUE-123: <description>                 [Issue prefix]
-3. <type>(ISSUE-123): <description>         [Issue in scope]
-4. Custom format
+**FIRST: Issue Reference Method**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+How should commits reference Linear issues?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Choose how to reference Linear issues in commit messages:
+
+1. Related: DEV-XXX [Recommended]
+   Best for: Full workflow control
+   • GitHub Actions controls all status updates
+   • No conflict with Linear automations
+   • Most flexible approach
+
+2. Closes: DEV-XXX
+   Best for: Final commits that complete an issue
+   • Indicates this commit closes the issue
+   • ⚠️  May trigger Linear's magic word automation
+   • Only use if you disable Linear automations (see below)
+
+3. Fixes: DEV-XXX
+   Best for: Bug fix commits
+   • Indicates this commit fixes a bug
+   • ⚠️  May trigger Linear's magic word automation
+   • Only use if you disable Linear automations (see below)
+
+Your choice [1]: _____
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠️  IMPORTANT: Linear Magic Word Automations
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Linear has built-in "magic word" automations that respond to keywords
+like "Closes", "Fixes", "Resolves" in commit messages and PR titles.
+
+If enabled, Linear will auto-update issue status when it sees these words.
+
+This CAN CONFLICT with our GitHub Actions workflow!
+
+Example conflict:
+  1. PR with "Closes DEV-123" merges to main
+  2. Linear magic words → moves issue to "Done"
+  3. GitHub Actions workflow → tries to move to "Review Required"
+  4. Result: Status conflict or unexpected behavior
+
+Recommendation:
+  • Use "Related: DEV-XXX" (Option 1) - safest, no conflicts
+  • OR disable Linear magic word automations:
+    → https://linear.app/{{workspace}}/settings/git
+
+Check your Linear automation settings:
+```
+
+**Ask user about Linear automations:**
+
+```
+Do you have Linear's magic word automations enabled?
+
+Check at: https://linear.app/{{workspace}}/settings/git
+
+1. Not sure / Don't know
+2. Yes, enabled (default in Linear)
+3. No, disabled
 
 Your choice [1]: _____
 ```
 
+**If user selects "Not sure" or "Yes, enabled":**
+
+```
+⚠️  Linear magic word automations may be enabled
+
+Recommendation: Use "Related: DEV-XXX" to avoid conflicts
+
+Our GitHub Actions workflow will handle all status updates based on
+your configured branch mappings. Using "Related:" gives you full control.
+
+Alternative: Disable Linear automations at:
+  → https://linear.app/{{workspace}}/settings/git
+  → Uncheck "Auto close/archive"
+  → Then you can use "Closes:" or "Fixes:" safely
+
+Would you like me to open the Linear automation settings? (y/N)
+
+Proceeding with "Related: DEV-XXX" format...
+```
+
+**If user selects "No, disabled":**
+
+```
+✓ Good! Linear automations are disabled
+
+You can safely use any reference format:
+  • "Related:" - General association
+  • "Closes:" - Indicates completion
+  • "Fixes:" - Indicates bug fix
+
+All status updates will be controlled by our GitHub Actions workflow.
+
+Using your selected format: {{userChoice}}
+```
+
+---
+
+**SECOND: Commit Message Format**
+
+```
+Choose your commit message format:
+
+1. <type>: <description> (Related: ISSUE-123)   [Conventional commits]
+2. Related: ISSUE-123 - <description>           [Issue prefix]
+3. <type>(ISSUE-123): <description>             [Issue in scope]
+4. Custom format
+
+Note: "Related:" will be replaced with your chosen reference method
+      (Related/Closes/Fixes) from the previous step.
+
+Your choice [1]: _____
+```
+
+**THIRD: PR Title Format**
+
 ```
 Choose your PR title format:
 
-1. ISSUE-123: Description                   [Issue prefix]
-2. [ISSUE-123] Description                  [Issue in brackets]
-3. Custom format
+1. ISSUE-123: Description                       [Issue prefix]
+2. [ISSUE-123] Description                      [Issue in brackets]
+3. Closes ISSUE-123: Description                [Magic word prefix]
+4. Custom format
+
+Note: If you chose "Closes:" or "Fixes:" for commits, consider using
+      the same in PR titles for consistency.
+
+⚠️  Warning: Magic words in PR titles also trigger Linear automations!
 
 Your choice [1]: _____
 ```
@@ -1815,11 +2363,19 @@ Linear:
     - Push to branch → "In Progress"
     - Merge to main → "Review Required"
     - Merge to prod → "Done"
+  Magic Word Automations: Disabled ✓
+    (No conflicts with workflow)
 
 Formats:
-  Commit: <type>: <description> (DEV-123)
+  Issue Reference: Related: DEV-123
+  Commit: <type>: <description> (Related: DEV-123)
   PR Title: DEV-123: Description
   Issue Pattern: DEV-\d+
+
+GitHub Actions:
+  Enabled: Yes
+  LINEAR_API_KEY: Will be configured
+  Auto-status updates: On PR merge
 
 Detail Level: Technical (Developer view)
 Documentation: /docs/issues/
@@ -2052,34 +2608,50 @@ Display each step with clear descriptions:
 ```
 📦 Installing Linear Workflow
 
-[1/7] Creating workflow configuration...
+[1/6] Creating workflow configuration...
       ✓ .linear-workflow.json created
 
-[2/7] Setting up GitHub Actions automation...
-      ✓ .github/workflows/linear-status-update.yml created
-
-[3/7] Generating team documentation...
+[2/6] Generating team documentation...
       ✓ docs/linear-workflow.md created
 
-[4/7] Creating MCP reference files...
+[3/6] Creating MCP reference files...
       ✓ .mcp.json created (reference for Claude Desktop users)
       ✓ .env.example created (reference template)
       ✓ .gitignore updated
 
-[5/7] Installing commit message validation...
+[4/6] Installing commit message validation...
       ✓ .git/hooks/commit-msg installed
       ⟳ Testing hook validation...
       ✓ Hook validation passed (7/7 tests)
 
-[6/7] Creating issue documentation folder...
+[5/6] Creating issue documentation folder...
       ✓ docs/issues/ created
 
-[7/7] Configuring GitHub repository secrets...
-      ⟳ Adding LINEAR_API_KEY to GitHub...
-      ✓ LINEAR_API_KEY added to repository secrets
-      ⟳ Validating Linear API connection...
-      ✓ Secret validated - Linear API connection successful
+[6/6] GitHub Actions automation...
+```
 
+**If GitHub Actions enabled (user provided LINEAR_API_KEY):**
+
+```
+      [6/6a] Creating GitHub Actions workflow...
+            ✓ .github/workflows/linear-status-update.yml created
+
+      [6/6b] Configuring GitHub repository secrets...
+            ⟳ Adding LINEAR_API_KEY to GitHub...
+            ✓ LINEAR_API_KEY added to repository secrets
+            ⟳ Validating Linear API connection...
+            ✓ Secret validated - Linear API connection successful
+```
+
+**If GitHub Actions NOT enabled:**
+
+```
+      ✓ Skipped (user opted out)
+      ℹ️  GitHub Actions workflow NOT installed
+      ℹ️  Workflow fully functional via Claude Code commands
+```
+
+```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✅ Installation complete!
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -2258,9 +2830,11 @@ All commits will now be validated for Linear issue IDs.
 
 **What the tests verify:**
 1. **Valid formats accepted:**
-   - `feat: Add feature (DEV-123)` ✓
-   - `DEV-123: Fix bug` ✓
+   - `feat: Add feature (Related: DEV-123)` ✓
+   - `Related: DEV-123 - Fix bug` ✓
    - `fix(DEV-123): Resolve issue` ✓
+   - `feat: Add feature (Closes: DEV-123)` ✓
+   - `Fixes: DEV-123 - Resolve issue` ✓
 
 2. **Invalid formats rejected:**
    - `feat: Add feature` ✗ (no issue ID)
@@ -2325,204 +2899,11 @@ git commit -m "test: Verify hook (DEV-123)"
 - Cause confusion when status updates don't work
 - Require manual cleanup of commit history
 
-### Phase 7: Configure Linear MCP Server
+### Phase 7: Create Linear Issue Templates
 
-**[Step 7 of 11 | Requires Browser Authentication | ~1-2 minutes]**
+**[Step 7 of 11 | Automatic | ~30 seconds]**
 
-**Show progress:**
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Linear Workflow Setup
-
-Progress: [███████___] 7/11 steps complete
-
-Completed:
-  ✓ Confirm project location
-  ✓ Create installation branch
-  ✓ Run pre-flight environment checks
-  ✓ Configure Linear workspace connection
-  ✓ Set up branch strategy and status mappings
-  ✓ Review configuration
-  ✓ Install workflow files and documentation
-
-Current:
-  ⟳ Configure Linear MCP server
-
-Remaining:
-  • Create Linear issue templates
-  • Create test issue
-  • Test the workflow
-  • Commit and push installation
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-**BEFORE STARTING THIS PHASE:**
-
-Show the user what to expect:
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-📡 Next: Linear MCP Server Setup (Step 7 of 11)
-
-⏱️  Estimated time: 1-2 minutes
-🌐 Requires: Browser authentication with Linear
-
-What will happen:
-  1. I'll add the Linear MCP server to your Claude config (~5 seconds)
-  2. You'll type /mcp to start OAuth authentication (~10 seconds)
-  3. Your browser will open to Linear login page (~30 seconds)
-  4. You'll authorize Claude Code access (~20 seconds)
-  5. I'll verify the connection (~10 seconds)
-
-⚠️  IMPORTANT: This is an interactive step - I cannot proceed without your input.
-
-Why we need this:
-  • Enables real-time Linear integration in Claude Code
-  • Required for "Let's get to work on DEV-123" workflow commands
-  • Allows creating/updating issues directly from Claude
-
-Ready to set up MCP authentication? (Y/n)
-```
-
-**After user confirms (or if they say yes), proceed:**
-
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-📡 Setting up Linear MCP Server...
-
-For Claude Code (CLI):
-
-[1/2] Adding Linear MCP server to your configuration...
-```
-
-**Run the command:**
-
-```bash
-claude mcp add --transport http linear-server https://mcp.linear.app/mcp
-```
-
-**Display result:**
-
-```
-✓ Added HTTP MCP server linear-server
-  URL: https://mcp.linear.app/mcp
-  Config: ~/.claude.json
-
-[2/2] Authentication Required (Browser)
-
-⏱️  This step requires ~1 minute of your time
-
-To complete setup, you need to authenticate with Linear.
-
-⚠️  IMPORTANT: Claude Code must be restarted to load the new MCP configuration.
-
-Please follow these steps:
-
-  1. Exit Claude Code (Ctrl+C or type 'exit')
-  2. Open a NEW terminal in your project directory:
-     {{project.path}}
-  3. Start Claude Code again in that directory
-  4. Type: /mcp
-
-When you run /mcp, it will:
-  1. Open a browser window
-  2. Prompt you to log in to Linear
-  3. Ask you to grant Claude Code access to your Linear workspace
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-📝 Note: Your installation progress is saved on the setup/linear-workflow branch.
-After authenticating with /mcp in your new terminal, return here and say "done"
-or "authenticated" to continue the setup.
-```
-
-**Wait for user to:**
-1. Exit current Claude Code session
-2. Open new terminal in project directory
-3. Start Claude Code in that directory
-4. Type `/mcp` in the new Claude Code session
-5. Complete OAuth authentication in browser
-6. Return to this setup and confirm they're authenticated by saying "done" or "authenticated"
-
-**When user confirms authentication, verify it worked:**
-
-```
-✅ MCP Server Authentication Complete!
-
-[3/3] Verifying connection... (this will take ~10 seconds)
-```
-
-**Test the connection by attempting to use a Linear MCP tool (e.g., list teams):**
-
-If successful:
-```
-✓ Linear MCP server connected successfully
-✓ Can access workspace: {{workspaceName}}
-✓ Found {{teamCount}} accessible teams
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-✅ MCP Setup Complete! (Step 7 of 11 complete)
-
-Total time: ~{{actual_time}} (estimated: 1-2 minutes)
-
-You can now use Linear workflow commands like:
-  • "Let's get to work on DEV-123"
-  • "Create a blocker for this"
-  • "Ready for review"
-
-Continuing with Linear template creation...
-```
-
-If failed:
-```
-❌ MCP authentication failed or incomplete
-
-Please ensure you:
-  1. Ran /mcp command in Claude Code
-  2. Completed OAuth flow in your browser
-  3. Granted all required permissions to Linear workspace
-
-Common issues:
-  • Browser was closed before completing OAuth
-  • Linear permissions were declined
-  • Network connectivity issue during authentication
-
-Try again? (Y/n)
-
-If you continue to have issues:
-  • Check https://linear.app/settings/api to verify API access
-  • Try: claude mcp remove linear-server
-  • Then restart from this phase
-```
-
-**Documentation Reference:**
-
-The project includes `.mcp.json` as a reference file for team members using Claude Desktop.
-
-**For Claude Desktop users:**
-Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
-```json
-{
-  "mcpServers": {
-    "linear": {
-      "command": "npx",
-      "args": ["-y", "mcp-remote", "https://mcp.linear.app/mcp"]
-    }
-  }
-}
-```
-Then restart Claude Desktop application.
-
-**Mark TODO as completed after MCP authentication successful.**
-
-### Phase 8: Create Linear Issue Templates
-
-**[Step 8 of 11 | Automatic | ~30 seconds]**
+**IMPORTANT:** Use MCP tools to create templates - no API key needed!
 
 **Show progress:**
 
@@ -2563,7 +2944,13 @@ Creating Linear issue templates...
 [3/3] New Feature template
 ```
 
-**Use Linear API to create templates:**
+**Use Linear MCP tools to create templates:**
+
+**Note:** MCP may not have direct template creation tools. If MCP doesn't support template creation, fallback to GraphQL API (requires LINEAR_API_KEY if GitHub Actions enabled, otherwise skip template creation and note it for user).
+
+**If GitHub Actions is enabled (user provided LINEAR_API_KEY):**
+
+Use the LINEAR_API_KEY to create templates via GraphQL API:
 
 ```bash
 # Bug Report Template
@@ -2612,11 +2999,30 @@ curl -X POST https://api.linear.app/graphql \
   }'
 ```
 
+**If GitHub Actions is NOT enabled (no LINEAR_API_KEY):**
+
+```
+⚠️  Skipping template creation
+
+Linear issue templates require a LINEAR_API_KEY to create programmatically.
+
+You can create these templates manually in Linear:
+  1. Go to: https://linear.app/{{workspace}}/settings/templates
+  2. Create templates: Bug Report, Improvement, Feature
+  3. Or skip this step - templates are optional
+
+Would you like me to open the templates page? (y/N)
+
+Continuing with test issue creation...
+```
+
 **Mark TODO as completed after templates are created.**
 
-### Phase 9: Create Test Issue
+### Phase 8: Create Test Issue
 
-**[Step 9 of 11 | Automatic | ~10 seconds]**
+**[Step 8 of 11 | Automatic | ~10 seconds]**
+
+**IMPORTANT:** Use MCP tools to create test issue!
 
 **Show progress:**
 
@@ -2647,27 +3053,52 @@ Remaining:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-**After templates are created, create a test issue using Linear API:**
+**After templates are created, create a test issue using Linear MCP tools:**
 
-**IMPORTANT:** Since MCP authentication is now complete, you could use MCP tools here, but for consistency during installation, continue using curl.
+**IMPORTANT:** Use MCP create_issue tool - no API key needed!
 
 ```
 Creating test issue to verify setup...
 ```
 
-**Create issue via Linear API:**
+**Create issue via Linear MCP:**
 
-```bash
-curl -X POST https://api.linear.app/graphql \
-  -H "Authorization: $LINEAR_API_KEY" \
-  -d '{
-    "query": "mutation { issueCreate(input: {
-      teamId: \"{{teamId}}\",
-      title: \"Add user authentication to dashboard\",
-      description: \"## Overview\\n\\nImplement user authentication for the dashboard to ensure only authorized users can access sensitive data.\\n\\n## Requirements\\n\\n- Support email/password login\\n- Add JWT token-based authentication\\n- Implement password reset flow\\n- Add session management\\n- Secure API endpoints\\n\\n## Acceptance Criteria\\n\\n- [ ] User can log in with email and password\\n- [ ] Invalid credentials show appropriate error\\n- [ ] JWT tokens are generated and validated correctly\\n- [ ] Password reset email is sent successfully\\n- [ ] Session expires after 24 hours of inactivity\\n- [ ] All API endpoints require valid authentication\\n\\n## Technical Notes\\n\\nConsider using bcrypt for password hashing and verify token expiration is handled properly. May need to update middleware for protected routes.\\n\\n---\\n\\n**Test Issue:** This issue will verify the Linear workflow integration. When Claude analyzes this, it should post a task analysis comment. When you commit and push, the status should update automatically.\"
-      stateId: \"{{todoStateId}}\"
-    }) { success issue { id identifier title url } } }"
-  }'
+Use the `create_issue` MCP tool with the following parameters:
+
+```javascript
+{
+  teamId: "{{teamId}}",
+  title: "Add user authentication to dashboard",
+  description: `## Overview
+
+Implement user authentication for the dashboard to ensure only authorized users can access sensitive data.
+
+## Requirements
+
+- Support email/password login
+- Add JWT token-based authentication
+- Implement password reset flow
+- Add session management
+- Secure API endpoints
+
+## Acceptance Criteria
+
+- [ ] User can log in with email and password
+- [ ] Invalid credentials show appropriate error
+- [ ] JWT tokens are generated and validated correctly
+- [ ] Password reset email is sent successfully
+- [ ] Session expires after 24 hours of inactivity
+- [ ] All API endpoints require valid authentication
+
+## Technical Notes
+
+Consider using bcrypt for password hashing and verify token expiration is handled properly. May need to update middleware for protected routes.
+
+---
+
+**Test Issue:** This issue will verify the Linear workflow integration. When Claude analyzes this, it should post a task analysis comment. When you commit and push, the status should update automatically.`,
+  stateId: "{{todoStateId}}"
+}
 ```
 
 **Capture the created issue ID and display:**
@@ -2688,9 +3119,9 @@ to analyze. When you run "Let's get to work on {{ISSUE-ID}}", Claude will:
 
 **Mark TODO as completed.**
 
-### Phase 10: Test the Workflow
+### Phase 9: Test the Workflow
 
-**[Step 10 of 11 | Automatic Validation + Optional Full Test | ~1-3 minutes]**
+**[Step 9 of 11 | Automatic Validation + Optional Full Test | ~1-3 minutes]**
 
 **Show progress:**
 
@@ -2929,9 +3360,9 @@ All critical components have been validated:
 Let's finalize the installation.
 ```
 
-### Phase 11: Commit and Push Installation
+### Phase 10: Commit and Push Installation
 
-**[Step 11 of 11 | Automatic | ~30 seconds]**
+**[Step 10 of 11 | Automatic | ~30 seconds]**
 
 **Show progress:**
 
@@ -3013,17 +3444,38 @@ All changes have been committed to branch: setup/linear-workflow
 📋 What was installed:
 
   ✓ .linear-workflow.json - Workflow configuration
-  ✓ .github/workflows/linear-status-update.yml - GitHub Actions workflow
+  ✓ .github/workflows/linear-status-update.yml - GitHub Actions workflow (if enabled)
   ✓ docs/linear-workflow.md - Complete documentation
   ✓ .mcp.json - Reference config for Claude Desktop users
   ✓ .env.example - Reference template
   ✓ .gitignore - Updated
   ✓ .git/hooks/commit-msg - Commit validation
   ✓ docs/issues/ - Issue documentation folder
-  ✓ GitHub secret: LINEAR_API_KEY
+  ✓ GitHub secret: LINEAR_API_KEY (if GitHub Actions enabled)
   ✓ Linear MCP server: Configured via CLI (claude mcp add)
-  ✓ Linear templates: Bug Report, Improvement, Feature
+  ✓ Linear templates: Bug Report, Improvement, Feature (if API key available)
   ✓ Test issue: {{ISSUE-ID}}
+
+📝 Commit Message Format:
+
+  Your commits should reference Linear issues using:
+    {{formats.issueReferenceKeyword}}: {{formats.issueExample}}
+
+  Example commits:
+    • feat: Add authentication ({{formats.issueReferenceKeyword}}: {{formats.issueExample}})
+    • {{formats.issueReferenceKeyword}}: {{formats.issueExample}} - Fix login bug
+    • fix({{formats.issueExample}}): Resolve timeout issue
+
+  ⚠️  Linear Magic Word Automations: {{linearAutomations.magicWordsEnabled ? "Enabled" : "Disabled"}}
+  {{#if linearAutomations.magicWordsEnabled}}
+    Using "{{formats.issueReferenceKeyword}}" may trigger Linear's auto-status updates.
+    This can conflict with GitHub Actions workflow.
+
+    To disable: https://linear.app/{{linear.workspaceName}}/settings/git
+  {{else}}
+    Good! No conflicts between Linear and GitHub Actions.
+    Status updates are fully controlled by your workflow configuration.
+  {{/if}}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -4500,12 +4952,23 @@ The `.linear-workflow.json` file structure:
     "commit": "conventional-parens",
     "pr": "issue-prefix",
     "issuePattern": "[A-Z]+-\\d+",
-    "issueExample": "DEV-123"
+    "issueExample": "DEV-123",
+    "issueReference": "related",
+    "issueReferenceKeyword": "Related"
   },
   "detail": "technical",
   "paths": {
     "issues": "/docs/issues/",
     "workflow": "/.github/workflows/linear-status-update.yml"
+  },
+  "linearAutomations": {
+    "magicWordsEnabled": false,
+    "checkedAt": "2025-01-11T10:30:00Z",
+    "note": "If true, using Closes/Fixes may conflict with GitHub Actions"
+  },
+  "githubActions": {
+    "enabled": true,
+    "apiKeyConfigured": true
   },
   "installed": "2025-01-11T10:30:00Z"
 }

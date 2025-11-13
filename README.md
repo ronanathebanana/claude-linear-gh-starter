@@ -8,12 +8,13 @@
 
 # 🔗 Linear + GitHub + Claude Workflow
 
-**Issue tracking that doesn't make you want to quit** ✨
+**Just say "Let's get to work on DEV-123" and watch the magic happen** ✨
 
-[![Version](https://img.shields.io/badge/version-1.0.0-5E6AD2?style=for-the-badge&logo=git&logoColor=white)](https://github.com/YOUR_USERNAME/claude-linear-gh-starter)
-[![License](https://img.shields.io/badge/license-MIT-00D084?style=for-the-badge&logo=opensourceinitiative&logoColor=white)](LICENSE)
-[![Node](https://img.shields.io/badge/node-≥16-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
-[![GitHub](https://img.shields.io/badge/GitHub-Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/features/actions)
+*Issues are friends, not food.* 🐟
+
+[![Claude](https://img.shields.io/badge/Claude-AI-CC785C?style=for-the-badge&logo=anthropic&logoColor=white)](https://claude.ai)
+[![Linear](https://img.shields.io/badge/Linear-Integrated-5E6AD2?style=for-the-badge&logo=linear&logoColor=white)](https://linear.app)
+[![GitHub](https://img.shields.io/badge/GitHub-Automated-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com)
 
 <br/>
 
@@ -23,11 +24,21 @@
 
 ## 📖 Overview
 
-Stop manually updating tickets. This workflow automation connects **Linear**, **GitHub**, and **Claude AI** to keep your issues in sync automatically. When you push code, merge PRs, or deploy to production, your Linear issues update themselves—no clicking, no context switching, no "did you update the ticket?" Slack pings.
+**Just talk to Claude. Everything else happens automatically.**
+
+Say "Let's get to work on DEV-123" and watch Claude:
+1. 📡 Fetch the issue from Linear
+2. 📝 Analyze requirements and create a task breakdown
+3. 💬 Post the analysis back to Linear (your team sees it immediately)
+4. 🌿 Create a feature branch
+5. ✍️ Make an initial commit
+6. 🚀 Push to GitHub and update Linear status
+
+**Then keep coding.** As you push commits, merge PRs, and deploy to production, Linear updates automatically. No clicking, no context switching, no "did you update the ticket?" Slack pings.
+
+This is a **2-way integration**: Claude reads from Linear (via MCP), creates task analysis locally, and posts back to Linear. Your team sees Claude's work. GitHub Actions handle status updates automatically as code moves through your workflow.
 
 The setup wizard walks you through a **5-minute installation** that configures everything: GitHub Actions workflows, commit message validation, auto-assignment rules, and Claude AI integration via MCP. Choose from pre-built profiles (Startup, Small Team, Enterprise) or customize every detail to match your workflow.
-
-Once installed, your development flow becomes seamless: commit with an issue ID, push to your branch, and watch Linear update automatically. Merge to staging? Issue moves to "Code Review" and auto-assigns your reviewer. Deploy to production? Status updates to "Done". Your commit messages become your ticket updates.
 
 **Perfect for teams who:**
 - Want to ship code, not update tickets
@@ -47,36 +58,41 @@ Once installed, your development flow becomes seamless: commit with an issue ID,
 <tr>
 <td width="50%">
 
-### 🔄 Automated Workflow
-- ✅ **Auto Status Updates** — Issues flow through your workflow as code moves
-- 👥 **Smart Assignment** — Auto-assign reviewers, QA leads, and stakeholders
-- 🌿 **Branch Detection** — Monitors git activity and syncs with Linear
+### 💬 Conversational Workflow
+- 🗣️ **Natural Commands** — Just say "Let's get to work on DEV-123"
+- 📡 **2-Way Sync** — Claude reads from Linear, posts analysis back
+- 🤖 **AI Task Analysis** — Detailed breakdowns posted to Linear automatically
+- 🌿 **Auto Branch Creation** — Feature branches with proper naming
+- ⚡ **Zero Manual Work** — No clicking, no context switching
 
 </td>
 <td width="50%">
 
-### ⚡ Developer Experience
-- ⏱️ **5-Minute Setup** — Interactive wizard handles everything
-- 🛡️ **Pre-Flight Validation** — Catches 95% of issues before install
-- 🔒 **Safe Installation** — All changes on review branch first
+### 🔄 Automated Updates
+- ✅ **Auto Status Sync** — Issues flow through workflow as code moves
+- 👥 **Smart Assignment** — Auto-assign reviewers, QA leads, stakeholders
+- 🌿 **Branch Detection** — Monitors git activity and syncs with Linear
+- 📋 **Audit Trail** — Complete history in Linear
 
 </td>
 </tr>
 <tr>
 <td width="50%">
 
-### 🔐 Security & Compliance
-- 🔑 **Secrets Management** — API keys in GitHub Secrets, never in code
-- 🛡️ **Branch Protection** — Works with protected branches
-- 📋 **Audit Trail** — Complete history in Linear
+### ⚡ Developer Experience
+- ⏱️ **5-Minute Setup** — Interactive wizard handles everything
+- 🛡️ **Pre-Flight Validation** — Catches 95% of issues before install
+- 🔒 **Safe Installation** — All changes on review branch first
+- 🎨 **Flexible Profiles** — Startup, small team, or enterprise workflows
 
 </td>
 <td width="50%">
 
-### 👥 Team Collaboration
-- 🤖 **AI Task Analysis** — Claude analyzes and summarizes issues
-- 🎨 **Flexible Config** — Startup, small team, or enterprise workflows
+### 🔐 Security & Compliance
+- 🔑 **Secrets Management** — API keys in GitHub Secrets, never in code
+- 🛡️ **Branch Protection** — Works with protected branches
 - 📚 **Auto-Generated Docs** — Complete workflow docs for your team
+- ✅ **Full Traceability** — All updates logged and traceable
 
 </td>
 </tr>
@@ -107,17 +123,17 @@ Once installed, your development flow becomes seamless: commit with an issue ID,
 Three commands. Five minutes. You're done.
 
 ```bash
-# 1. Clone this repo into your project
+# 1. Clone this repo
 git clone https://github.com/YOUR_USERNAME/claude-linear-gh-starter.git
 
-# 2. Start Claude Code in your project directory
-cd your-project && claude
+# 2. Start Claude Code in the cloned repo
+cd claude-linear-gh-starter && claude
 
 # 3. Run the setup wizard
 /setup-linear
 ```
 
-The wizard handles everything: environment checks, Linear connection, GitHub Actions setup, and team configuration. Test it with the generated issue, merge the branch, and you're live.
+The wizard asks where to install, then handles everything: environment checks, Linear connection, GitHub Actions setup, and team configuration. Test it with the generated issue, merge the branch, and you're live.
 
 **Need help?** The wizard includes pre-flight checks and auto-fixes common issues. If something's missing (like GitHub CLI), it'll tell you exactly what to install.
 
@@ -218,53 +234,88 @@ gh auth login
 
 ## 🔄 How It Works
 
+### The Magic: Just Talk to Claude
+
+Instead of manually creating branches, writing analysis docs, and updating Linear, just say what you want to do:
+
 <div align="center">
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  🌿 Stage 1: Feature Branch                                 │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  Developer pushes to feature/DEV-123-feature                │
-│  → GitHub Actions detects issue ID                          │
-│  → Calls Linear API                                         │
-│  → ✅ Updates status to "In Progress"                       │
-│                                                             │
+│  💬 You: "Let's get to work on DEV-123"                     │
 └─────────────────────────────────────────────────────────────┘
-
+                              ↓
 ┌─────────────────────────────────────────────────────────────┐
-│  🔄 Stage 2: Pull Request                                   │
+│  🤖 Claude automatically:                                   │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
-│  PR merged to main branch                                   │
-│  → GitHub Actions detects merge                             │
-│  → ✅ Updates status to "Code Review"                       │
-│  → 👤 Auto-assigns reviewer (if configured)                │
+│  1. 📡 Fetches issue from Linear (via MCP)                  │
+│     "DEV-123: Add user authentication to dashboard"         │
 │                                                             │
-└─────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────┐
-│  🧪 Stage 3: Staging Deployment                             │
-├─────────────────────────────────────────────────────────────┤
+│  2. 📝 Analyzes requirements & creates task document        │
+│     • Breaks down acceptance criteria                       │
+│     • Identifies files to modify                            │
+│     • Notes potential blockers                              │
+│     • Saves to /docs/issues/DEV-123/                        │
 │                                                             │
-│  Merged to staging branch                                   │
-│  → ✅ Updates status to "QA Testing"                        │
-│  → 👥 Auto-assigns QA lead (if configured)                 │
+│  3. 💬 Posts analysis back to Linear (2-way sync!)          │
+│     "Claude's Task Analysis: [summary]"                     │
+│     ← Your team sees this in Linear immediately             │
 │                                                             │
-└─────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────┐
-│  🚀 Stage 4: Production Release                             │
-├─────────────────────────────────────────────────────────────┤
+│  4. 🌿 Creates feature branch                               │
+│     feature/DEV-123-add-user-authentication                 │
 │                                                             │
-│  Merged to production branch                                │
-│  → ✅ Updates status to "Done"                              │
-│  → 🎉 Workflow complete                                     │
+│  5. ✍️  Makes initial commit with issue reference           │
+│     "feat: Initialize user authentication (DEV-123)"        │
+│     ← Git hook validates issue ID format                    │
+│                                                             │
+│  6. 🚀 Pushes to GitHub                                     │
+│     ← GitHub Actions updates Linear status to "In Progress" │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 </div>
+
+**That's it.** You're now working on the issue with:
+- ✅ Full context from Linear
+- ✅ Detailed task analysis document
+- ✅ Feature branch created
+- ✅ Initial commit made
+- ✅ Linear updated and team notified
+- ✅ Ready to start coding
+
+---
+
+### The Automation: Status Updates Throughout Development
+
+Once Claude sets you up, GitHub Actions keeps Linear in sync automatically as your code moves through the workflow:
+
+<div align="center">
+
+```
+🌿 Push to feature branch
+   ↓
+   GitHub Actions → Linear status: "In Progress"
+
+🔀 Merge PR to main
+   ↓
+   GitHub Actions → Linear status: "Code Review"
+   Auto-assigns reviewer (if configured)
+
+🧪 Merge to staging
+   ↓
+   GitHub Actions → Linear status: "QA Testing"
+   Auto-assigns QA lead (if configured)
+
+🚀 Deploy to production
+   ↓
+   GitHub Actions → Linear status: "Done"
+```
+
+</div>
+
+**Your commit messages become your ticket updates.** No clicking, no manual status changes, no context switching.
 
 <br/>
 

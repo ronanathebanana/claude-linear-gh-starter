@@ -19,7 +19,7 @@ const path = require('path');
 // Version Constants
 // ============================================================================
 
-const CURRENT_VERSION = '1.0.0';
+const CURRENT_VERSION = '1.1.0';
 const CONFIG_FILE = '.linear-workflow.json';
 
 // ============================================================================
@@ -34,16 +34,20 @@ const MIGRATIONS = [
   {
     fromVersion: '1.0.0',
     toVersion: '1.1.0',
-    description: 'Add auto-assignment enhancements and dry-run mode',
+    description: 'Add commit reference options and fix workflow bugs',
     breaking: false,
     changes: [
-      'New: Dry-run mode for preview before installation',
-      'New: Enhanced auto-assignment with per-status configuration',
-      'New: Workflow health check command',
-      'Improved: Better error messages in GitHub Actions workflow',
-      'Fixed: Rate limiting in Linear API calls'
+      '✨ New: Commit message reference options (Related/Closes/Fixes)',
+      '✨ New: Linear magic word automation detection and conflict warnings',
+      '✨ New: GitHub Actions is now optional (MCP-first approach)',
+      '🐛 Fix: GitHub Actions workflow branches syntax error',
+      '🔧 Improved: MCP-first authentication flow (no API key required for setup)',
+      '📝 Improved: Better documentation of Linear native integration vs workflow'
     ],
     async migrate(config, projectPath) {
+      const path = require('path');
+      const fs = require('fs').promises;
+
       // Add new features to config
       const updated = { ...config };
 
@@ -52,25 +56,83 @@ const MIGRATIONS = [
         updated.version = '1.0.0';
       }
 
-      // Add dry-run support flag
-      updated.features = updated.features || {};
-      updated.features.dryRunMode = true;
+      // Add commit message reference configuration
+      if (!updated.formats.issueReference) {
+        updated.formats.issueReference = 'related';
+        updated.formats.issueReferenceKeyword = 'Related';
+      }
 
-      // Enhanced auto-assignment structure
-      if (updated.assignees && updated.assignees.enabled) {
-        // Migrate old structure to new structure
-        updated.assignees = {
-          ...updated.assignees,
-          onInProgress: updated.assignees.onDevelop || null,
-          onReview: updated.assignees.onReview || null,
-          onStaging: updated.assignees.onStaging || null,
-          onDone: updated.assignees.onProduction || null,
-          preserveOriginal: updated.assignees.preserveOriginal ?? true
+      // Add Linear automation detection
+      if (!updated.linearAutomations) {
+        updated.linearAutomations = {
+          magicWordsEnabled: false,
+          checkedAt: new Date().toISOString(),
+          note: 'If true, using Closes/Fixes may conflict with GitHub Actions'
         };
+      }
 
-        // Remove old fields
-        delete updated.assignees.onDevelop;
-        delete updated.assignees.onProduction;
+      // Add GitHub Actions configuration
+      if (!updated.githubActions) {
+        // Detect if GitHub Actions is enabled by checking for workflow file
+        const workflowPath = path.join(projectPath, '.github/workflows/linear-status-update.yml');
+        let workflowExists = false;
+
+        try {
+          await fs.access(workflowPath);
+          workflowExists = true;
+        } catch {
+          // File doesn't exist
+        }
+
+        updated.githubActions = {
+          enabled: workflowExists,
+          apiKeyConfigured: workflowExists
+        };
+      }
+
+      // Fix GitHub Actions workflow file if it exists
+      const workflowPath = path.join(projectPath, '.github/workflows/linear-status-update.yml');
+      try {
+        let workflowContent = await fs.readFile(workflowPath, 'utf8');
+
+        // Fix: branches + branches-ignore syntax error
+        // Replace pattern: branches: with '**' and '!' patterns → branches-ignore:
+        const hasSyntaxError = workflowContent.includes("branches:\n      - '**'") ||
+                               workflowContent.includes("branches:\n      - \"**\"");
+
+        if (hasSyntaxError) {
+          console.log('  🔧 Fixing workflow file branches syntax...');
+
+          // Replace the problematic push section
+          workflowContent = workflowContent.replace(
+            /push:\s+branches:\s+- ['"]?\*\*['"]?\s+- ['"]?![^'"]+['"]?(\s+- ['"]?![^'"]+['"]?)?(\s+- ['"]?![^'"]+['"]?)?/g,
+            (match) => {
+              // Extract the excluded branches
+              const mainBranch = config.branches?.main || 'main';
+              const stagingBranch = config.branches?.staging || '';
+              const prodBranch = config.branches?.prod || '';
+
+              let replacement = `push:\n    branches-ignore:\n      - '${mainBranch}'`;
+
+              if (stagingBranch) {
+                replacement += `\n      - '${stagingBranch}'`;
+              }
+              if (prodBranch) {
+                replacement += `\n      - '${prodBranch}'`;
+              }
+
+              return replacement;
+            }
+          );
+
+          await fs.writeFile(workflowPath, workflowContent, 'utf8');
+          console.log('  ✓ Workflow file updated');
+        }
+      } catch (error) {
+        // Workflow file doesn't exist or can't be read - that's okay
+        if (error.code !== 'ENOENT') {
+          console.log(`  ⚠️  Could not update workflow file: ${error.message}`);
+        }
       }
 
       // Update version

@@ -8,15 +8,15 @@ on:
       - {{branches.staging}}{{/branches.staging}}{{#branches.prod}}
       - {{branches.prod}}{{/branches.prod}}
   push:
-    branches:
-      - '**'           # All branches for feature work
-      - '!{{branches.main}}'        # Exclude main (handled by PR merge){{#branches.staging}}
-      - '!{{branches.staging}}'     # Exclude staging (handled by PR merge){{/branches.staging}}{{#branches.prod}}
-      - '!{{branches.prod}}'        # Exclude prod (handled by PR merge){{/branches.prod}}
+    branches-ignore:
+      - '{{branches.main}}'        # Exclude main (handled by PR merge){{#branches.staging}}
+      - '{{branches.staging}}'     # Exclude staging (handled by PR merge){{/branches.staging}}{{#branches.prod}}
+      - '{{branches.prod}}'        # Exclude prod (handled by PR merge){{/branches.prod}}
     paths-ignore:
       - '.github/**'   # Don't trigger on workflow changes
-    # NOTE: Assumes {{branches.main}}{{#branches.prod}} and {{branches.prod}}{{/branches.prod}} are protected branches with PR-only merge policy.
-    # Direct pushes to main/staging/prod should be prevented by branch protection rules.
+    # NOTE: Triggers on pushes to all branches EXCEPT main/staging/prod
+    # Main/staging/prod updates are handled by PR merge events above
+    # Assumes {{branches.main}}{{#branches.prod}} and {{branches.prod}}{{/branches.prod}} are protected branches with PR-only merge policy.
 
 jobs:
   update-linear:
