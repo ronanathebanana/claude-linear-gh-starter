@@ -36,9 +36,9 @@ Say "Let's get to work on DEV-123" and watch Claude:
 
 **Then keep coding.** As you push commits, merge PRs, and deploy to production, Linear updates automatically. No clicking, no context switching, no "did you update the ticket?" Slack pings.
 
-This is a **2-way integration**: Claude reads from Linear (via MCP), creates task analysis locally, and posts back to Linear. Your team sees Claude's work. GitHub Actions handle status updates automatically as code moves through your workflow.
+This is a **2-way integration**: Claude reads from Linear (via MCP), creates task analysis locally, and posts back to Linear. Your team sees Claude's work. GitHub Actions handle status updates automatically as code moves through your workflow (optional - you can use Claude commands without GitHub Actions).
 
-The setup wizard walks you through a **5-minute installation** that configures everything: GitHub Actions workflows, commit message validation, auto-assignment rules, and Claude AI integration via MCP. Choose from pre-built profiles (Startup, Small Team, Enterprise) or customize every detail to match your workflow.
+The setup wizard walks you through a **5-minute installation** that configures everything: Linear MCP integration (OAuth-based, **no API key required**!), optional GitHub Actions workflows, commit message validation, auto-assignment rules, and team configuration. Choose from pre-built profiles (Startup, Small Team, Enterprise) or customize every detail to match your workflow.
 
 **Perfect for teams who:**
 - Want to ship code, not update tickets
@@ -64,6 +64,7 @@ The setup wizard walks you through a **5-minute installation** that configures e
 - 🤖 **AI Task Analysis** — Detailed breakdowns posted to Linear automatically
 - 🌿 **Auto Branch Creation** — Feature branches with proper naming
 - ⚡ **Zero Manual Work** — No clicking, no context switching
+- 🔐 **MCP-First** — OAuth-based setup, no API key creation required!
 
 </td>
 <td width="50%">
@@ -73,6 +74,7 @@ The setup wizard walks you through a **5-minute installation** that configures e
 - 👥 **Smart Assignment** — Auto-assign reviewers, QA leads, stakeholders
 - 🌿 **Branch Detection** — Monitors git activity and syncs with Linear
 - 📋 **Audit Trail** — Complete history in Linear
+- ⚙️ **Flexible Setup** — Use GitHub Actions or Claude commands only
 
 </td>
 </tr>
@@ -141,6 +143,44 @@ The wizard asks where to install, then handles everything: environment checks, L
 
 ---
 
+## 🔄 Upgrading Existing Installation
+
+Already using v1.0.0? Upgrade to v1.1.0 to get new features:
+
+```bash
+# Navigate to your project (where .linear-workflow.json exists)
+cd your-project
+
+# Start Claude Code
+claude
+
+# Re-run the setup wizard
+/setup-linear
+```
+
+The wizard will detect your existing installation and offer to upgrade:
+
+**What's New in v1.1.0:**
+- ✨ **Commit Reference Options** — Choose Related/Closes/Fixes for commit messages
+- ✨ **Linear Magic Word Warnings** — Detects conflicts with Linear automations
+- ✨ **Optional GitHub Actions** — Use MCP-only workflow if preferred
+- 🐛 **Workflow Syntax Fix** — Automatically fixes branches configuration bug
+- 🔧 **MCP-First Setup** — No API key required during installation
+
+**Upgrade Process:**
+1. Detects your v1.0.0 installation
+2. Shows changelog and what will change
+3. Creates backups automatically
+4. Adds new config fields with defaults
+5. Fixes workflow file syntax if needed
+6. Preserves all your existing settings
+
+**Safe & Non-Breaking:** All changes are backed up, and your configuration is preserved.
+
+<br/>
+
+---
+
 ## ⚡ Common Commands
 
 After setup, just talk to Claude naturally. Here are some examples:
@@ -204,7 +244,7 @@ Before diving in, make sure you have:
 <tr>
 <td>📊 Linear Account</td>
 <td>N/A</td>
-<td>Issue tracking</td>
+<td>Issue tracking (OAuth, no API key needed)</td>
 </tr>
 <tr>
 <td>🏠 GitHub Repository</td>
@@ -266,7 +306,9 @@ Instead of manually creating branches, writing analysis docs, and updating Linea
 │     feature/DEV-123-add-user-authentication                 │
 │                                                             │
 │  5. ✍️  Makes initial commit with issue reference           │
-│     "feat: Initialize user authentication (DEV-123)"        │
+│     "feat: Initialize user authentication                   │
+│                                                             │
+│     Related: DEV-123"                                       │
 │     ← Git hook validates issue ID format                    │
 │                                                             │
 │  6. 🚀 Pushes to GitHub                                     │
@@ -388,6 +430,52 @@ Configure automatic assignment when status changes:
 
 <br/>
 
+### 📝 Commit Reference Options
+
+Customize how Linear issues are referenced in commits:
+
+```json
+{
+  "formats": {
+    "issueReference": "related",
+    "issueReferenceKeyword": "Related"
+  }
+}
+```
+
+**Available Options:**
+- **Related:** (Recommended) — `Related: DEV-123` - Flexible, no automation conflicts
+- **Closes:** — `Closes: DEV-123` - May trigger Linear magic word automations
+- **Fixes:** — `Fixes: DEV-123` - May trigger Linear magic word automations
+
+**⚠️ Linear Magic Words:** If you enable Linear's built-in automation for "Closes" or "Fixes", those keywords will trigger Linear's status updates in addition to GitHub Actions. The wizard detects this and warns you about potential conflicts. Use "Related:" to avoid conflicts and let GitHub Actions control all status updates.
+
+<br/>
+
+### 🔧 Optional GitHub Actions
+
+Choose whether to enable GitHub Actions automation:
+
+```json
+{
+  "githubActions": {
+    "enabled": false,
+    "apiKeyConfigured": false
+  }
+}
+```
+
+**Two Modes:**
+- **GitHub Actions Enabled** — Automatic status updates on push/merge (requires LINEAR_API_KEY)
+- **MCP-Only Mode** — Use Claude commands for all updates (no API key needed)
+
+**Perfect for:**
+- Teams where not everyone can create Linear API keys
+- Organizations with strict API key policies
+- Users who prefer manual control via Claude commands
+
+<br/>
+
 ---
 
 ## ✅ Validation & Testing
@@ -476,6 +564,30 @@ gh workflow list
 </details>
 
 <details>
+<summary><b>❌ GitHub Actions Workflow Syntax Error</b></summary>
+
+**Symptoms:** Error: "you may only define one of `branches` and `branches-ignore` for a single event"
+
+**Cause:** v1.0.0 had a syntax bug in the workflow file
+
+**Solution:**
+```bash
+# Upgrade to v1.1.0 (automatically fixes the bug)
+cd your-project && claude
+/setup-linear  # Select "Upgrade to latest version"
+
+# Or manually fix in .github/workflows/linear-status-update.yml:
+# Replace:
+#   branches:
+#     - '**'
+#     - '!main'
+# With:
+#   branches-ignore:
+#     - 'main'
+```
+</details>
+
+<details>
 <summary><b>❌ Commit Hook Rejecting Messages</b></summary>
 
 **Symptoms:** Git commits fail with validation error
@@ -501,10 +613,12 @@ ls -la .git/hooks/commit-msg
 
 ## 🔐 Security Considerations
 
-### 🔑 API Key Storage
-- **GitHub Secrets**: `LINEAR_API_KEY` stored encrypted in repository
-- **Local .env**: Automatically added to `.gitignore`
+### 🔑 Authentication & Security
+- **MCP OAuth** (Default): Browser-based authentication, no API keys to manage
+- **GitHub Secrets** (Optional): `LINEAR_API_KEY` stored encrypted if using GitHub Actions
+- **Local .env**: Automatically added to `.gitignore` if created
 - **Never Committed**: Pre-commit hooks prevent accidental commits
+- **No API Key Required**: Setup works via OAuth, team members don't need key creation permissions
 
 ### 🛡️ Branch Protection
 - Compatible with protected branches
