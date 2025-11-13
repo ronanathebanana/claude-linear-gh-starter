@@ -40,37 +40,47 @@ All trigger methods run the same enhanced setup wizard.
 **Before starting the wizard, show the user what will happen:**
 
 ```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Linear Workflow Setup
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-This wizard will install a complete Linear + GitHub integration into your project.
+This wizard installs a complete Linear + GitHub + Claude Code workflow.
 
-What will be installed:
-  - Linear MCP server (OAuth authentication - no API key needed!)
-  - AI-powered workflow commands
-  - Linear workflow configuration file
-  - Git commit message validation hook
-  - Team documentation and guidelines
-  - Linear issue templates (Bug Report, Improvement, Feature)
-  - GitHub Actions workflow (optional - requires LINEAR_API_KEY)
+What you're about to get:
 
-What you'll need:
-  - Linear account (OAuth login via browser)
-  - GitHub authentication with 'workflow' scope (if enabling GitHub Actions)
-  - ~5 minutes to complete configuration
+  Seamless Linear Integration
+  • MCP server with OAuth (no API key needed!)
+  • Real-time issue fetching and updates
+  • Bidirectional sync (Claude ↔ Linear)
 
-The wizard will:
-  1. Authenticate with Linear via MCP (browser OAuth)
-  2. Run environment checks (git, GitHub CLI, Node.js)
-  3. Fix any authentication issues automatically
-  4. Ask configuration questions (branch strategy, statuses, formats)
-  5. Install workflow files
-  6. Optionally set up GitHub Actions automation
-  7. Create test issue to verify setup
+  AI-Powered Workflow
+  • Natural language: "Let's get to work on DEV-123"
+  • Automatic task analysis and documentation
+  • Smart status updates on git events
 
-Note: The full workflow works via Claude Code commands without GitHub Actions.
-GitHub Actions adds automatic status updates when PRs merge (optional).
+  Professional Tooling
+  • Custom slash commands (/start-issue, /create-pr)
+  • Git commit validation
+  • Linear issue templates (Bug, Feature, Improvement)
+  • Team documentation
 
-Would you like to continue? (Y/n)
+  Optional: GitHub Actions
+  • Auto-update Linear on PR merge
+  • Works great without this too!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Time Required: ~5 minutes
+You'll Need: Linear account + GitHub auth
+
+The Setup Process:
+  1. Authenticate with Linear (browser OAuth)
+  2. Environment validation (we'll auto-fix issues)
+  3. Configuration (we'll guide you through)
+  4. Installation (automated)
+  5. Verification (create test issue)
+
+Ready to transform your workflow? (Y/n)
 ```
 
 **After user says yes, IMMEDIATELY confirm project location:**
@@ -78,7 +88,7 @@ Would you like to continue? (Y/n)
 ```
 Great! Let's get started.
 
-First, where would you like to install the Linear workflow?
+First, where should we install the Linear workflow?
 
 Current directory: /Users/username/projects/my-app
 
@@ -148,30 +158,45 @@ Your choice [2]: _____
 **After confirming location, show summary:**
 
 ```
-✓ Installation location confirmed
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Installation Location Confirmed
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Project directory: /Users/username/projects/my-app
-Git repository: ✓ Detected
+Project: /Users/username/projects/my-app
+Git Repository: ✓ Detected
 Remote: https://github.com/username/my-app
 
-Perfect! Here's what will happen:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Setup Overview:
-  1. Environment checks (2 read-only commands - you'll approve these)
-  2. Configuration questions (branch strategy, Linear connection, formats)
-  3. File installation (Write/Edit tools - auto-approved by default)
-  4. GitHub & Linear setup (you'll approve write operations individually)
-  5. Test issue creation and verification
+What happens next:
 
-During setup:
-  ✓ Read-only checks are batched (minimal approvals)
-  ✓ Configuration questions are interactive
-  ✓ File operations happen via tools (typically auto-approved)
-  ⚠ Write operations require your approval (secrets, API calls, git push)
+  1. Environment Validation
+     Quick checks (batched for minimal approvals)
 
-This ensures security while keeping the flow smooth.
+  2. Interactive Configuration
+     Branch strategy, Linear connection, formats
+     We'll guide you through each choice
 
-Let's begin!
+  3. Automated Installation
+     File creation via tools (typically auto-approved)
+
+  4. Secure Operations
+     You'll approve write operations (secrets, API calls, git push)
+
+  5. Testing & Verification
+     Create test issue to verify everything works
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Approval Strategy:
+  • Read-only checks are batched (minimal interruptions)
+  • Configuration is interactive (we'll guide you)
+  • File operations follow your existing tool settings
+  • Write operations require your approval (security first!)
+
+This keeps things secure while maintaining a smooth flow.
+
+Ready? Let's begin!
 ```
 
 **IMPORTANT:**
@@ -3811,31 +3836,49 @@ All changes have been committed to branch: setup/linear-workflow
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-🎉 Installation Complete!
+Installation Complete!
 
-Give it a try! Test the 2-way workflow before merging:
+Your AI-powered Linear workflow is ready to use.
 
-  • Go to your project directory and ask: "Let's get to work on {{ISSUE-ID}}"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-    This will demonstrate the full workflow:
-    ✓ Claude fetches and analyzes the issue from Linear
-    ✓ Creates a detailed task analysis document locally
-    ✓ Posts analysis comment back to Linear (2-way flow!)
-    ✓ Creates feature branch and initial commit
-    ✓ Git hook validates your commit message
+Test the Workflow
 
-    Check the Linear issue to see Claude's analysis comment!
+Try the complete 2-way workflow before merging:
 
-  • Try other workflow commands:
-      - /start-issue {{ISSUE-ID}}
-      - /create-pr
-      - /progress-update
-      - "Fetch me any recent bugs"
-      - "Let's get some high priority items"
-      - "What are we busy with?"
+  Say: "Let's get to work on {{ISSUE-ID}}"
 
-Once you've tested and confirmed everything works, merge the changes to activate
-the workflow for all team members and enable GitHub status updates.
+  What happens:
+    • Claude fetches and analyzes the issue from Linear
+    • Creates a detailed task analysis document locally
+    • Posts analysis comment back to Linear (2-way flow!)
+    • Creates feature branch and initial commit
+    • Git hook validates your commit message
+
+  Then check the Linear issue to see Claude's analysis comment!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+More Commands to Try:
+
+  Slash Commands:
+    • /start-issue {{ISSUE-ID}}
+    • /create-pr
+    • /progress-update
+
+  Natural Language:
+    • "Fetch me any recent bugs"
+    • "Let's get some high priority items"
+    • "What are we busy with?"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Next Step: Merge to Activate
+
+Once tested and confirmed, merge the changes to:
+  • Activate the workflow for all team members
+  • Enable GitHub Actions status updates (if configured)
+  • Make custom commands available to everyone
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
