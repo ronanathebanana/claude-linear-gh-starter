@@ -1097,7 +1097,79 @@ Initializing Claude Code in project...
 [2/4] Creating project instructions (CLAUDE.md)...
       ✓ CLAUDE.md created
 
-[3/4] Adding workflow custom commands...
+[3/4] Custom commands installation...
+```
+
+**Before installing commands, ask for user permission:**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 Custom Commands Installation
+
+This workflow includes 17 custom slash commands that will be installed
+in your project's .claude/commands/ directory.
+
+Commands preview:
+
+  📝 Issue Creation (6 commands):
+  • /bug-linear - Quick bug report (auto-uses Bug template)
+  • /improvement-linear - Quick improvement (auto-uses Improvement template)
+  • /feature-linear - Quick feature request (auto-uses Feature template)
+  • /create-linear-issue - Create any issue with template selection
+  • /create-blocker-linear - Create blocking issue for current work
+  • /create-subtask-linear - Create sub-task linked to current issue
+
+  🔄 Workflow & Status (8 commands):
+  • /start-issue - Start work on existing issue
+  • /feedback-linear - Request feedback/clarification from teammates
+  • /get-feedback-linear - Retrieve and show recent feedback comments
+  • /pause-linear - Pause work and commit WIP safely
+  • /blocked-linear - Mark as blocked by external dependency
+  • /my-work-linear - Show your active/paused/blocked issues
+  • /team-work-linear - Show team's active work
+  • /high-priority-linear - Show high priority items across team
+
+  🚀 Progress & Delivery (2 commands):
+  • /create-pr - Create pull request with Linear integration
+  • /progress-update - Post progress update to Linear
+
+  💡 Help (1 command):
+  • /linear-help - Show all available commands and what they do
+
+These commands will be available to all team members using Claude Code.
+
+💡 Note: The workflow also works via natural language if you prefer
+   (e.g., "Let's get to work on DEV-123" instead of /start-issue DEV-123)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+What would you like to do?
+
+1. Install all 17 commands (recommended)
+   → Full workflow with all conveniences
+
+2. Install essential commands only (minimal)
+   → Just /start-issue, /create-pr, /linear-help
+   → Workflow still works via natural language
+
+3. Select specific command categories
+   → Choose which categories to install
+
+4. Skip command installation (natural language only)
+   → No slash commands, use natural language instead
+   → e.g., "Create a bug report" instead of /bug-linear
+
+Your choice [1]: _____
+```
+
+**Handle each option:**
+
+**Option 1 - Install all 17 commands (recommended):**
+
+```
+✓ Installing all 17 commands...
+
       Issue Creation:
       ✓ .claude/commands/create-linear-issue.md created
       ✓ .claude/commands/bug-linear.md created
@@ -1122,7 +1194,95 @@ Initializing Claude Code in project...
 
       Help:
       ✓ .claude/commands/linear-help.md created
+```
 
+**Option 2 - Install essential commands only (minimal):**
+
+```
+✓ Installing essential commands only...
+
+      Core Workflow:
+      ✓ .claude/commands/start-issue.md created
+      ✓ .claude/commands/create-pr.md created
+
+      Help:
+      ✓ .claude/commands/linear-help.md created
+
+✓ 3 essential commands installed
+
+Note: You can still use natural language for all other workflows:
+  • "Create a bug report for X" → creates bug issue
+  • "What am I working on?" → shows your work
+  • "Ready for review" → creates PR
+  • "Pause work on this" → pauses and commits WIP
+```
+
+**Option 3 - Select specific command categories:**
+
+```
+Which command categories would you like to install?
+
+Categories:
+  1. Issue Creation (6 commands) - /bug-linear, /feature-linear, etc.
+  2. Workflow & Status (8 commands) - /start-issue, /my-work-linear, etc.
+  3. Progress & Delivery (2 commands) - /create-pr, /progress-update
+  4. Help (1 command) - /linear-help
+
+Select categories to install (comma-separated, e.g., "1,2,4"):
+Your selection: _____
+```
+
+**Example: User selects "1,4" (Issue Creation + Help):**
+
+```
+✓ Installing selected categories...
+
+      Issue Creation:
+      ✓ .claude/commands/create-linear-issue.md created
+      ✓ .claude/commands/bug-linear.md created
+      ✓ .claude/commands/improvement-linear.md created
+      ✓ .claude/commands/feature-linear.md created
+      ✓ .claude/commands/create-blocker-linear.md created
+      ✓ .claude/commands/create-subtask-linear.md created
+
+      Help:
+      ✓ .claude/commands/linear-help.md created
+
+✓ 7 commands installed (Issue Creation + Help)
+
+Note: Other workflows still work via natural language:
+  • "Let's get to work on DEV-123" → starts issue
+  • "What's the team working on?" → shows team work
+  • "Ready for review" → creates PR
+```
+
+**Option 4 - Skip command installation (natural language only):**
+
+```
+✓ Skipping command installation
+
+No slash commands will be installed.
+
+The Linear workflow is fully functional via natural language:
+
+  Instead of:                    Say:
+  /bug-linear Login bug          "Create a bug report for login timeout"
+  /start-issue DEV-123           "Let's get to work on DEV-123"
+  /my-work-linear                "What am I working on?"
+  /create-pr                     "Ready for review"
+  /feedback-linear              "I need feedback on X"
+
+Benefits of natural language:
+  ✓ No commands to memorize
+  ✓ More conversational workflow
+  ✓ Works exactly the same way
+
+You can add slash commands later by running the setup wizard again.
+```
+
+**After any option, continue with:**
+
+```
 [4/4] Updating .gitignore...
       ✓ .gitignore updated (if needed)
 
@@ -1131,10 +1291,11 @@ Initializing Claude Code in project...
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Created:
-  • .claude/commands/ - Custom workflow commands
+  • .claude/commands/ - Custom workflow commands ({{commandCount}} installed)
   • CLAUDE.md - Project instructions for Claude
 
-Custom commands available after setup:
+{{#if installedAllCommands}}
+Custom commands available (all 17 installed):
 
   Issue Creation (6 commands):
   • /bug-linear - Quick bug report
@@ -1162,6 +1323,37 @@ Custom commands available after setup:
   • /linear-help - Show all available commands and what they do
 
 Total: 17 powerful commands for seamless Linear workflow!
+{{else if installedEssentialOnly}}
+Essential commands installed (3 total):
+
+  Core Workflow:
+  • /start-issue - Start work on existing issue
+  • /create-pr - Create pull request with Linear integration
+
+  Help:
+  • /linear-help - Show all available commands and what they do
+
+Other workflows available via natural language!
+{{else if installedCustomCategories}}
+Custom command selection installed ({{commandCount}} total):
+
+Installed categories:
+{{#each installedCategories}}
+  • {{this}}
+{{/each}}
+
+Other workflows available via natural language!
+{{else if skippedCommands}}
+No slash commands installed.
+
+Workflow is fully functional via natural language:
+  • "Let's get to work on DEV-123"
+  • "Create a bug report for X"
+  • "What am I working on?"
+  • "Ready for review"
+
+Run setup wizard again to add slash commands later.
+{{/if}}
 
 These commands will work for all team members using Claude Code!
 ```
