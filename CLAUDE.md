@@ -1099,6 +1099,9 @@ Initializing Claude Code in project...
 
 [3/4] Adding workflow custom commands...
       ✓ .claude/commands/create-linear-issue.md created
+      ✓ .claude/commands/bug-linear.md created
+      ✓ .claude/commands/improvement-linear.md created
+      ✓ .claude/commands/feature-linear.md created
       ✓ .claude/commands/start-issue.md created
       ✓ .claude/commands/create-pr.md created
       ✓ .claude/commands/progress-update.md created
@@ -1116,6 +1119,9 @@ Created:
 
 Custom commands available after setup:
   • /create-linear-issue - Create a new Linear issue and optionally start work
+  • /bug-linear - Quick bug report creation (skips template selection)
+  • /improvement-linear - Quick improvement issue creation
+  • /feature-linear - Quick feature request creation
   • /start-issue - Start work on an existing Linear issue
   • /create-pr - Create pull request with Linear integration
   • /progress-update - Post progress update to Linear
@@ -1294,7 +1300,13 @@ This will:
 
 ### Custom Commands
 
-- `/create-linear-issue` - Create a new Linear issue and optionally start work
+**Issue Creation (Quick Shortcuts):**
+- `/bug-linear` - Create bug report (auto-uses Bug template)
+- `/improvement-linear` - Create improvement (auto-uses Improvement template)
+- `/feature-linear` - Create feature request (auto-uses Feature template)
+- `/create-linear-issue` - Create any issue with template selection
+
+**Workflow Commands:**
 - `/start-issue` - Start work on an existing Linear issue
 - `/create-pr` - Create pull request with Linear integration
 - `/progress-update` - Post progress update to Linear
@@ -1384,6 +1396,69 @@ Example:
 
   Claude: [Creates {{formats.issueExample}} with comprehensive description]
           "Ready to start work? (Y/n)"
+```
+
+**`.claude/commands/bug-linear.md`:**
+```markdown
+Create a bug report in Linear (auto-uses Bug template).
+
+Usage:
+  /bug-linear
+  /bug-linear <brief description>
+
+Quick shortcut for bug reports - skips template selection.
+
+Example:
+  /bug-linear Login timeout is too short
+
+  Claude: "Should I draft the bug report? (1. You provide, 2. I'll draft)"
+  You: "2"
+
+  Claude: [Creates comprehensive bug report with steps to reproduce]
+          "Bug created: {{formats.issueExample}} - Login timeout too short"
+          "Ready to start fixing? (Y/n)"
+```
+
+**`.claude/commands/improvement-linear.md`:**
+```markdown
+Create an improvement issue in Linear (auto-uses Improvement template).
+
+Usage:
+  /improvement-linear
+  /improvement-linear <brief description>
+
+Quick shortcut for improvements/enhancements - skips template selection.
+
+Example:
+  /improvement-linear Optimize database queries in reports
+
+  Claude: "Should I draft the improvement? (1. You provide, 2. I'll draft)"
+  You: "2"
+
+  Claude: [Creates improvement with current vs proposed behavior]
+          "Improvement created: {{formats.issueExample}} - Optimize queries"
+          "Ready to start? (Y/n)"
+```
+
+**`.claude/commands/feature-linear.md`:**
+```markdown
+Create a feature request in Linear (auto-uses Feature template).
+
+Usage:
+  /feature-linear
+  /feature-linear <brief description>
+
+Quick shortcut for new features - skips template selection.
+
+Example:
+  /feature-linear Add user profile page
+
+  Claude: "Should I draft the feature? (1. You provide, 2. I'll draft)"
+  You: "2"
+
+  Claude: [Creates feature with user story and acceptance criteria]
+          "Feature created: {{formats.issueExample}} - User profile page"
+          "Ready to start building? (Y/n)"
 ```
 
 **`.claude/commands/start-issue.md`:**
@@ -4514,6 +4589,110 @@ User: "y"
 
 Claude: [Follows normal workflow - fetch, analyze, branch, commit]
 ```
+
+#### Quick Shortcuts: /bug-linear, /improvement-linear, /feature-linear
+
+**Purpose**: Streamlined issue creation by automatically selecting the template type.
+
+These commands work exactly like `/create-linear-issue` but skip the template selection step:
+- `/bug-linear` - Automatically uses "Bug Report" template
+- `/improvement-linear` - Automatically uses "Improvement" template
+- `/feature-linear` - Automatically uses "Feature" template
+
+**Trigger phrases:**
+- `/bug-linear [description]`
+- `/improvement-linear [description]`
+- `/feature-linear [description]`
+
+**Claude should:**
+
+1. **Skip template selection** - Template is already determined by command
+2. **Ask about context** (same as `/create-linear-issue`):
+   ```
+   Would you like to add context, or should I draft the [bug/improvement/feature]?
+
+   Options:
+   1. I'll provide context (you describe it)
+   2. Draft it for me (Claude creates comprehensive description)
+   ```
+
+3. **Create issue with appropriate template**:
+   ```javascript
+   const templateType = command === '/bug-linear' ? 'bug' :
+                       command === '/improvement-linear' ? 'improvement' : 'feature';
+
+   const template = templates.find(t => t.name.toLowerCase().includes(templateType));
+
+   const issue = await createIssue({
+     teamId: config.linear.teamId,
+     title: title,
+     description: description,
+     stateId: config.linear.statuses.todo.id,
+     templateId: template.id
+   });
+   ```
+
+4. **Display created issue**:
+   ```
+   [Bug/Improvement/Feature] created: DEV-456 - [Title]
+
+   Linear URL: https://linear.app/workspace/issue/DEV-456
+   ```
+
+5. **Ask to start work immediately** (context-aware language):
+   - Bug: "Ready to start fixing this bug? (Y/n)"
+   - Improvement: "Ready to start working on this improvement? (Y/n)"
+   - Feature: "Ready to start building this feature? (Y/n)"
+
+**Example Flows:**
+
+**Bug Report:**
+```
+User: "/bug-linear Login timeout is too short"
+
+Claude: "Should I draft the bug report? (1. You provide, 2. I'll draft)"
+User: "2"
+
+Claude: [Creates comprehensive bug report]
+        "Bug created: DEV-456 - Login timeout too short"
+        "Ready to start fixing this bug? (Y/n)"
+```
+
+**Improvement:**
+```
+User: "/improvement-linear Optimize database queries in reports"
+
+Claude: "Should I draft the improvement? (1. You provide, 2. I'll draft)"
+User: "2"
+
+Claude: [Creates improvement with current vs proposed behavior]
+        "Improvement created: DEV-457 - Optimize database queries"
+        "Ready to start working on this improvement? (Y/n)"
+```
+
+**Feature:**
+```
+User: "/feature-linear Add user profile page"
+
+Claude: "Should I draft the feature? (1. You provide, 2. I'll draft)"
+User: "2"
+
+Claude: [Creates feature with user story and acceptance criteria]
+        "Feature created: DEV-458 - Add user profile page"
+        "Ready to start building this feature? (Y/n)"
+```
+
+**Benefits:**
+- **Faster creation** - One less step (no template selection)
+- **Clear intent** - Command name indicates issue type
+- **Type-specific language** - "Fix bug", "Build feature", "Work on improvement"
+- **Same rich descriptions** - Claude still generates comprehensive content
+- **Muscle memory** - Developers quickly learn which command to use
+
+**When to use each:**
+- `/bug-linear` - Something is broken, not working as expected, or causing errors
+- `/improvement-linear` - Enhancement to existing functionality, optimization, refactoring, UX improvements
+- `/feature-linear` - New functionality, new page/component, new integration, new capability
 
 #### Start Work on Issue (Existing Issue)
 
