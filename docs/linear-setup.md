@@ -471,7 +471,7 @@ Linear API has rate limits to ensure service stability.
 
 **Integration Issues:**
 - Troubleshooting guide: [docs/troubleshooting.md](./troubleshooting.md)
-- Open issue: [github.com/YOUR_USERNAME/claude-linear-gh-starter/issues](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues)
+- Open issue: [github.com/ronanathebanana/claude-linear-gh-starter/issues](https://github.com/ronanathebanana/claude-linear-gh-starter/issues)
 
 ---
 

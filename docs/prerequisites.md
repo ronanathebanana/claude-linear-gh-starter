@@ -143,7 +143,7 @@ Follow the prompts:
 **Verify authentication:**
 ```bash
 gh auth status
-# Should show: ✓ Logged in to github.com as YOUR_USERNAME
+# Should show: ✓ Logged in to github.com as ronanathebanana
 ```
 
 **Required OAuth Scopes:**
@@ -384,7 +384,7 @@ Before running the setup wizard, you can verify all prerequisites:
 
 ```bash
 # Clone this repository
-git clone https://github.com/YOUR_USERNAME/claude-linear-gh-starter.git
+git clone https://github.com/ronanathebanana/claude-linear-gh-starter.git
 cd claude-linear-gh-starter
 
 # Run verification
@@ -396,7 +396,7 @@ Expected output:
 GitHub Access Verification
 
 ✓ GitHub CLI installed: gh CLI is installed
-✓ GitHub authentication: Authenticated as YOUR_USERNAME
+✓ GitHub authentication: Authenticated as ronanathebanana
 ✓ Required OAuth scopes: Has repo and workflow scopes
 ✓ Repository connection: Connected to OWNER/REPO
 ✓ Repository permissions: Permission level: admin
@@ -515,7 +515,7 @@ If you encounter issues with prerequisites:
    [docs/troubleshooting.md](./troubleshooting.md)
 
 4. **Open an issue:**
-   [github.com/YOUR_USERNAME/claude-linear-gh-starter/issues](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues)
+   [github.com/ronanathebanana/claude-linear-gh-starter/issues](https://github.com/ronanathebanana/claude-linear-gh-starter/issues)
 
 ---
 

@@ -589,7 +589,7 @@ Both are part of the complete workflow!
 
 **Integration Issues:**
 - [Troubleshooting guide](./troubleshooting.md)
-- [Open an issue](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues)
+- [Open an issue](https://github.com/ronanathebanana/claude-linear-gh-starter/issues)
 
 ---
 

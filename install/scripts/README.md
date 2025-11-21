@@ -25,13 +25,13 @@ The scripts in this directory handle template rendering, configuration validatio
 
 ```bash
 # Run built-in tests
-node scripts/apply-config.js test
+node install/scripts/apply-config.js test
 
 # Render a template to stdout
-node scripts/apply-config.js render templates/github-workflow.yml.template config.json
+node install/scripts/apply-config.js render install/templates/workflow/github-workflow.yml.template config.json
 
 # Apply template to file
-node scripts/apply-config.js apply templates/github-workflow.yml.template output.yml config.json
+node install/scripts/apply-config.js apply install/templates/workflow/github-workflow.yml.template output.yml config.json
 ```
 
 **Programmatic usage:**
@@ -417,7 +417,7 @@ All scripts implement comprehensive error handling:
 
 **Test template renderer:**
 ```bash
-node scripts/apply-config.js test
+node install/scripts/apply-config.js test
 ```
 
 **Test with example config:**

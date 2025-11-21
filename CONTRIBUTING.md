@@ -44,7 +44,7 @@ We are committed to providing a welcoming and inspiring community for all. Pleas
 
 **Before submitting a bug report:**
 - Check the [troubleshooting guide](./docs/troubleshooting.md)
-- Search [existing issues](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues)
+- Search [existing issues](https://github.com/ronanathebanana/claude-linear-gh-starter/issues)
 - Try the latest version
 
 **When submitting a bug report, include:**
@@ -177,7 +177,7 @@ Documentation contributions are highly valued!
 
 **1. Fork and clone:**
 ```bash
-gh repo fork YOUR_USERNAME/claude-linear-gh-starter --clone
+gh repo fork ronanathebanana/claude-linear-gh-starter --clone
 cd claude-linear-gh-starter
 ```
 
@@ -266,10 +266,10 @@ git checkout -b fix/bug-description
 **1. Make your changes:**
 ```bash
 # Edit files
-vim scripts/apply-config.js
+vim install/scripts/apply-config.js
 
 # Test locally
-node scripts/apply-config.js test
+node install/scripts/apply-config.js test
 ```
 
 **2. Write tests:**
@@ -310,13 +310,13 @@ npm test
 **Run specific tests:**
 ```bash
 # Template rendering tests
-node scripts/apply-config.js test
+node install/scripts/apply-config.js test
 
 # Configuration validation
-node scripts/validate-config.js test-config.json
+node install/scripts/validate-config.js test-config.json
 
 # Integration tests
-node scripts/test-integration.js
+node install/scripts/test-integration.js
 
 # GitHub integration
 node scripts/github-setup.js verify
@@ -644,9 +644,9 @@ gh release create v1.2.3 \
 ### Questions
 
 **For questions about:**
-- Using the tool: [GitHub Discussions](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/discussions)
-- Contributing: [GitHub Discussions](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/discussions/categories/contributors)
-- Bugs: [GitHub Issues](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues)
+- Using the tool: [GitHub Discussions](https://github.com/ronanathebanana/claude-linear-gh-starter/discussions)
+- Contributing: [GitHub Discussions](https://github.com/ronanathebanana/claude-linear-gh-starter/discussions/categories/contributors)
+- Bugs: [GitHub Issues](https://github.com/ronanathebanana/claude-linear-gh-starter/issues)
 
 ### Community
 

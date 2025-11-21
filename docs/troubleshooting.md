@@ -294,7 +294,7 @@ node --version
    ```
 
 4. **Verify repository exists on GitHub:**
-   - Visit github.com/YOUR_USERNAME/REPO_NAME
+   - Visit github.com/ronanathebanana/REPO_NAME
    - Ensure you have access
 
 ---
@@ -995,8 +995,8 @@ node install/scripts/github-setup.js verify
    - [MCP Setup](./mcp-setup.md)
 
 2. **Community:**
-   - [GitHub Discussions](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/discussions)
-   - [Issues](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues)
+   - [GitHub Discussions](https://github.com/ronanathebanana/claude-linear-gh-starter/discussions)
+   - [Issues](https://github.com/ronanathebanana/claude-linear-gh-starter/issues)
 
 3. **Vendor Support:**
    - [Linear Support](https://linear.app/contact)
@@ -1088,7 +1088,7 @@ npm install <module-name>
 6. **Error messages:** Full error output
 7. **Diagnostics:** Output from diagnostic commands
 
-**Submit at:** [GitHub Issues](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues/new)
+**Submit at:** [GitHub Issues](https://github.com/ronanathebanana/claude-linear-gh-starter/issues/new)
 
 ---
 

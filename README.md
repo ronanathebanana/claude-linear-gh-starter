@@ -126,7 +126,7 @@ Three commands. Five minutes. You're done.
 
 ```bash
 # 1. Clone this repo
-git clone https://github.com/YOUR_USERNAME/claude-linear-gh-starter.git
+git clone https://github.com/ronanathebanana/claude-linear-gh-starter.git
 
 # 2. Start Claude Code in the cloned repo
 cd claude-linear-gh-starter && claude
@@ -646,6 +646,64 @@ ls -la .git/hooks/commit-msg
 
 ---
 
+## 🗑️ Uninstalling
+
+If you need to remove the Linear workflow integration, we provide a clean uninstaller:
+
+```bash
+# Run the uninstaller
+node install/scripts/uninstall.js
+```
+
+The uninstaller will:
+- 🔍 Detect all installed components
+- 💾 Optionally backup files before removal
+- 🗑️ Remove configuration files (.linear-workflow.json, .mcp.json)
+- 🔄 Remove GitHub Actions workflow
+- 🪝 Remove git commit hooks
+- 📝 Remove workflow commands from .claude/commands/
+- 📁 Remove issue documentation directories
+- 🔌 Optionally remove Linear MCP server
+- 🔑 Optionally remove LINEAR_API_KEY from GitHub secrets
+- 🧹 Clean up .gitignore entries
+
+### Safe Uninstallation
+
+The uninstaller is interactive and will:
+1. Show you what's installed
+2. Ask for confirmation before removing
+3. Offer to backup files before deletion
+4. Provide a summary of what was removed
+
+### Manual Uninstallation
+
+If you prefer manual removal:
+```bash
+# Remove configuration
+rm -f .linear-workflow.json .mcp.json .env.example
+
+# Remove GitHub workflow
+rm -f .github/workflows/linear-status-update.yml
+
+# Remove git hook
+rm -f .git/hooks/commit-msg
+
+# Remove workflow commands
+rm -f .claude/commands/*-linear.md
+rm -f .claude/commands/start-issue.md
+rm -f .claude/commands/create-pr.md
+
+# Remove MCP server
+claude mcp remove linear-server
+
+# Remove GitHub secret
+gh secret delete LINEAR_API_KEY
+```
+
+<br/>
+
+---
+
 ## 🔐 Security Considerations
 
 ### 🔑 Authentication & Security
@@ -714,8 +772,8 @@ ls -la .git/hooks/commit-msg
 ### 🆘 Getting Help
 
 - **📖 Documentation**: Comprehensive guides in [`/docs`](docs/)
-- **🐛 Issues**: Report bugs or request features on [GitHub Issues](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues)
-- **💬 Discussions**: Ask questions in [GitHub Discussions](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/discussions)
+- **🐛 Issues**: Report bugs or request features on [GitHub Issues](https://github.com/ronanathebanana/claude-linear-gh-starter/issues)
+- **💬 Discussions**: Ask questions in [GitHub Discussions](https://github.com/ronanathebanana/claude-linear-gh-starter/discussions)
 
 ### 🤝 Contributing
 
@@ -761,7 +819,7 @@ Built for the developer community. 💙
 
 <div align="center">
 
-**Questions?** Check the [📖 documentation](docs/) or [🐛 open an issue](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues)
+**Questions?** Check the [📖 documentation](docs/) or [🐛 open an issue](https://github.com/ronanathebanana/claude-linear-gh-starter/issues)
 
 **Ready to get started?** Run `/setup-linear` in Claude Code ⚡
 

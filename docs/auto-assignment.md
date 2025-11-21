@@ -523,4 +523,4 @@ A: No, rules are global for the team. All issues follow the same assignment conf
 
 ---
 
-**Need help?** [Open an issue](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues)
+**Need help?** [Open an issue](https://github.com/ronanathebanana/claude-linear-gh-starter/issues)

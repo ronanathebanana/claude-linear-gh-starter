@@ -4411,63 +4411,94 @@ Use the `create_issue` MCP tool with the following parameters:
 ```javascript
 {
   teamId: "{{teamId}}",
-  title: "Setup Verification - Create Welcome Guide",
+  title: "Setup Verification - Create Hello World",
   description: `## Overview
 
-Create a simple welcome guide file to verify the Linear workflow integration works end-to-end.
+Create a simple "Hello World" file to verify the Linear workflow integration works end-to-end.
 
-This is a test issue that demonstrates:
-- ✓ Claude can fetch and analyze Linear issues via MCP
-- ✓ Claude can create files based on issue requirements
-- ✓ Claude can post task analysis to Linear (2-way integration!)
-- ✓ Claude can commit and push changes with proper issue references
-- ✓ Complete workflow from Linear → Analysis → Implementation → Git
+This test issue will trigger Claude to:
+- ✓ Fetch and analyze this Linear issue via MCP
+- ✓ Post task analysis back to Linear (2-way integration!)
+- ✓ Create the HELLO_WORLD.md file
+- ✓ Commit and push changes with proper issue references
+- ✓ Demonstrate the complete workflow from Linear → Analysis → Implementation → Git
 
 ## Requirements
 
-Create a file called \`WELCOME.md\` in the project root with the following content:
+Create a file called \`HELLO_WORLD.md\` in the project root with:
 
-1. **Welcome message** for new team members
-2. **Brief explanation** of the Linear workflow
-3. **Link to documentation** (docs/linear-workflow.md)
-4. **Quick start example** showing how to use \`/start-issue\`
+1. Start with "hello world.."
+2. Summary of the installation and outlining the workflow we just installed
 
 ## Acceptance Criteria
 
-- [ ] \`WELCOME.md\` file exists in project root
-- [ ] File contains a friendly welcome message
-- [ ] File explains the Linear + Claude workflow briefly
-- [ ] File shows how to start work with \`/start-issue {{formats.issueExample}}\`
-- [ ] File links to \`docs/linear-workflow.md\` for details
+- [ ] \`HELLO_WORLD.md\` file exists in project root
+- [ ] File starts with "hello world.."
+- [ ] File contains a summary of what was installed
+- [ ] File outlines the Linear + Claude + GitHub workflow
 - [ ] File is properly formatted Markdown
-- [ ] File is committed with proper issue reference
+- [ ] File is committed with proper issue reference ({{formats.issueReferenceKeyword}}: {{formats.issueExample}})
 
-## Example Content Structure
+## Example Content
+
+The file should look something like this:
 
 \`\`\`markdown
-# Welcome to {{project.name}}!
+hello world..
 
-We use Linear + Claude Code for seamless issue tracking and development.
+## Linear + Claude + GitHub Workflow Installed Successfully! 🎉
 
-## How It Works
+You've just installed a powerful workflow integration that seamlessly connects:
+- **Linear** for issue tracking and project management
+- **Claude Code** for AI-powered development assistance
+- **GitHub** for version control and automation
 
-1. Pick an issue from Linear
+### What This Workflow Provides
+
+**2-Way Linear Integration:**
+- Claude fetches issues directly from Linear via MCP (no API key needed!)
+- Claude posts task analysis and updates back to Linear automatically
+- Real-time status updates as code moves through branches
+
+**Natural Language Development:**
+- Say "Let's get to work on {{formats.issueExample}}" to start any issue
+- Claude analyzes requirements, creates documentation, and helps implement
+- No need to memorize commands - just describe what you want
+
+**Automated Git Workflow:**
+- Commit messages validated to include Linear issue references
+- GitHub Actions updates Linear statuses on PR merge (if enabled)
+- Feature branches created automatically with issue context
+
+**21 Custom Commands:**
+- Quick issue creation: /bug-linear, /feature-linear, /improvement-linear
+- Workflow management: /start-issue, /create-pr, /progress-update
+- Team collaboration: /feedback-linear, /my-work-linear, /team-work-linear
+- And many more (see /linear-help for full list)
+
+### Getting Started
+
+1. Find an issue in Linear
 2. Say: "Let's get to work on {{formats.issueExample}}"
-3. Claude analyzes, creates docs, and posts to Linear
-4. Start coding!
+3. Claude handles the rest!
 
-For full details, see: [Linear Workflow Guide](docs/linear-workflow.md)
+For complete documentation, see: [Linear Workflow Guide](docs/linear-workflow.md)
+
+---
+*This file was created by the Linear workflow test issue to verify everything works correctly.*
 \`\`\`
 
 ## Technical Notes
 
-Keep it simple - just a basic markdown file with a welcoming tone.
-This demonstrates the 2-way Linear integration when Claude posts the analysis comment back to this issue.
+This simple file demonstrates that:
+- MCP connection to Linear is working
+- Claude can respond to Linear issues
+- File creation and git operations work correctly
+- The 2-way sync posts comments back to Linear
 
 ---
 
-**🧪 Test Issue:** This verifies the complete Linear workflow integration.
-When you run "Let's get to work on {{ISSUE-ID}}", the magic happens!`,
+**🧪 Test Issue:** When you say "Let's get to work on {{ISSUE-ID}}", Claude will create this file and you'll see the magic happen!`,
   stateId: "{{todoStateId}}"
 }
 ```
@@ -4477,16 +4508,19 @@ When you run "Let's get to work on {{ISSUE-ID}}", the magic happens!`,
 ```
 Test issue created: {{ISSUE-ID}}
 
-Title: Setup Verification - Create Welcome Guide
+Title: Setup Verification - Create Hello World
 URL: https://linear.app/{{workspace}}/issue/{{ISSUE-ID}}
 
-This test issue will create a WELCOME.md file in your project! 🎉
+This test issue will create a HELLO_WORLD.md file in your project! 🎉
 
 When you run "Let's get to work on {{ISSUE-ID}}", Claude will:
   1. Fetch and analyze the issue via MCP
   2. Create a detailed task analysis document
   3. Post the analysis as a comment to Linear ← 2-way flow!
-  4. Create the WELCOME.md file based on requirements
+  4. Create the HELLO_WORLD.md file that:
+     - Starts with "hello world.."
+     - Summarizes the complete workflow installation
+     - Outlines all the features you now have
   5. Commit and push to a feature branch
   6. You'll see the file created and the Linear comment posted!
 
