@@ -1,0 +1,389 @@
+Check the health and status of your Linear workflow integration.
+
+## Usage
+
+```
+/workflow-status
+/workflow-status --detailed
+```
+
+## Description
+
+This command runs a comprehensive health check of all workflow components and provides actionable insights. Perfect for troubleshooting issues or verifying everything is working correctly.
+
+Use this when:
+- Something isn't working as expected
+- After setup to verify installation
+- Before starting work to ensure everything is ready
+- When onboarding new team members
+
+## What Gets Checked
+
+### 1. Linear MCP Connection
+- ✅ Server configured and accessible
+- ✅ Authentication working (OAuth)
+- ✅ Can fetch issues from your workspace
+- ✅ Can create comments and update issues
+
+### 2. GitHub CLI
+- ✅ Installed and accessible
+- ✅ Authenticated with correct scopes
+- ✅ Repository access confirmed
+- ✅ Can create PRs and manage issues
+
+### 3. Git Configuration
+- ✅ Repository initialized
+- ✅ Remote configured correctly
+- ✅ Commit hooks installed
+- ✅ Hook validation working
+
+### 4. Workflow Configuration
+- ✅ `.linear-workflow.json` exists and valid
+- ✅ Team configuration correct
+- ✅ Status mappings configured
+- ✅ Branch strategy set up
+
+### 5. GitHub Actions (if enabled)
+- ✅ Workflow file installed
+- ✅ LINEAR_API_KEY secret configured
+- ✅ Recent runs successful
+- ⚠️  Failed runs detected
+
+### 6. Recent Activity
+- Issues started in last 7 days
+- PRs created
+- Commits with Linear references
+- Status updates
+
+## Output Example
+
+### Healthy System
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Workflow Health Check
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔍 Checking Linear Integration...
+
+✅ Linear MCP Connection
+   • Server: Connected
+   • Authentication: Valid (OAuth)
+   • Workspace: {{linear.workspaceName}}
+   • Team: {{linear.teamName}} ({{linear.teamKey}})
+   • Last tested: 2 seconds ago
+
+✅ GitHub CLI
+   • Version: gh 2.40.0
+   • Authenticated: {{user}}
+   • Scopes: repo, workflow ✓
+   • Repository: {{owner}}/{{repo}}
+
+✅ Git Hooks
+   • Location: .git/hooks/commit-msg
+   • Executable: Yes
+   • Tests passing: 7/7 ✓
+   • Last validation: 1 day ago
+
+✅ Configuration
+   • File: .linear-workflow.json
+   • Version: 1.0.0
+   • Valid: Yes ✓
+   • Last updated: 3 days ago
+
+✅ GitHub Actions
+   • Workflow: linear-status-update.yml
+   • Status: Enabled
+   • Recent runs: 12 successful (7 days)
+   • Last run: 2 hours ago ✓
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 Recent Activity (Last 7 Days)
+
+Issues:
+  • Started: 12
+  • Completed: 9 (75%)
+  • In Progress: 3
+
+Pull Requests:
+  • Created: 10
+  • Merged: 8 (80%)
+  • Open: 2
+
+Commits:
+  • Total: 45
+  • With issue refs: 44 (98%)
+  • Hook validated: 100%
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Overall Health: Excellent (100%)
+
+All systems operational! Your workflow is running smoothly.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+### System with Issues
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Workflow Health Check
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔍 Checking Linear Integration...
+
+❌ Linear MCP Connection
+   • Server: Not responding
+   • Error: Connection timeout
+
+   🔧 How to fix:
+   1. Restart Claude Code to reload MCP config
+   2. If still failing, re-authenticate:
+      claude mcp remove linear-server
+      claude mcp add --transport http linear-server https://mcp.linear.app/mcp
+   3. Run /mcp to authenticate
+
+   Need help? See: docs/troubleshooting.md#mcp-connection
+
+✅ GitHub CLI
+   • Version: gh 2.40.0
+   • Authenticated: {{user}}
+   • Scopes: repo, workflow ✓
+
+⚠️  Git Hooks
+   • Location: .git/hooks/commit-msg
+   • Executable: No ✗
+
+   🔧 How to fix:
+   chmod +x .git/hooks/commit-msg
+
+   Test the hook:
+   node scripts/test-git-hook.js
+
+✅ Configuration
+   • File: .linear-workflow.json
+   • Valid: Yes ✓
+
+⚠️  GitHub Actions
+   • Workflow: linear-status-update.yml
+   • Status: Enabled
+   • Recent runs: 3 failed, 2 successful (7 days)
+   • Last failure: 1 hour ago
+
+   🔧 Recent errors:
+   • "LINEAR_API_KEY not found" (2 occurrences)
+   • "Invalid API key" (1 occurrence)
+
+   How to fix:
+   1. Verify LINEAR_API_KEY in GitHub secrets
+   2. Check API key is valid: https://linear.app/settings/api
+   3. Update secret: gh secret set LINEAR_API_KEY
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 Recent Activity (Last 7 Days)
+
+Issues:
+  • Started: 5
+  • Completed: 3 (60%)
+  • In Progress: 2
+
+Potential Issues Detected:
+  ⚠️  Branch 'feature/DEV-456' is 3 days old with no commits
+      → Consider: /pause-linear or /cleanup-branches
+
+  ⚠️  Issue DEV-123 in "Feedback Required" for 5 days
+      → Consider: /get-feedback-linear or /blocked-linear
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️  Overall Health: Good (75%)
+
+3 issues detected. Follow the fixes above to get to 100%.
+
+Quick fixes available:
+  • Fix git hook: chmod +x .git/hooks/commit-msg
+  • Fix MCP connection: Restart Claude Code
+  • Fix GitHub Actions: Update LINEAR_API_KEY secret
+
+Run these fixes automatically? (Y/n)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+## Detailed Mode
+
+```
+/workflow-status --detailed
+```
+
+Shows additional information:
+- MCP server response times
+- GitHub API rate limits
+- Disk space for issue analysis docs
+- Git repository statistics
+- Team member activity breakdown
+- Command usage statistics (if analytics enabled)
+
+## Auto-Fix Mode
+
+When issues are detected, Claude can automatically fix common problems:
+
+```
+Run these fixes automatically? (Y/n)
+
+You: y
+
+Applying fixes...
+
+1/3 Making git hook executable...
+    ✓ chmod +x .git/hooks/commit-msg
+    ✓ Verified hook is now executable
+
+2/3 Testing MCP connection...
+    ✓ MCP server responding
+    ✓ Linear workspace accessible
+
+3/3 Verifying GitHub Actions secret...
+    ⚠️  Cannot verify secret remotely
+    ℹ️  Manual check required
+
+Results:
+  ✓ 2 fixes applied automatically
+  ⚠️ 1 requires manual action
+
+Run health check again? (Y/n)
+```
+
+## When to Run
+
+### Recommended Times
+
+**After initial setup:**
+```
+Just installed? Verify everything works:
+/workflow-status
+```
+
+**When something breaks:**
+```
+Issue not updating in Linear? Check what's wrong:
+/workflow-status
+```
+
+**Before starting work:**
+```
+Morning checklist:
+/workflow-status
+```
+
+**After configuration changes:**
+```
+Updated .linear-workflow.json? Verify:
+/workflow-status
+```
+
+**When onboarding teammates:**
+```
+New team member setup:
+/workflow-status
+```
+
+## Troubleshooting Tips
+
+### MCP Connection Failures
+
+**Symptom:** "Linear MCP Connection: ❌"
+
+**Common causes:**
+1. MCP server not authenticated → Run `/mcp` to authenticate
+2. Claude Code not restarted after config change → Restart Claude Code
+3. Network issues → Check internet connection
+
+**Quick fix:**
+```bash
+claude mcp remove linear-server
+claude mcp add --transport http linear-server https://mcp.linear.app/mcp
+```
+
+Then restart Claude Code and run `/mcp`
+
+### Git Hook Not Working
+
+**Symptom:** "Git Hooks: ⚠️ Not executable"
+
+**Fix:**
+```bash
+chmod +x .git/hooks/commit-msg
+```
+
+**Test:**
+```bash
+node scripts/test-git-hook.js
+```
+
+### GitHub Actions Failing
+
+**Symptom:** "GitHub Actions: ⚠️ Recent runs failed"
+
+**Common causes:**
+1. LINEAR_API_KEY missing or invalid
+2. Workflow file syntax error
+3. Branch protection blocking workflow
+
+**Fix:**
+```bash
+# Verify secret exists
+gh secret list
+
+# Update secret
+gh secret set LINEAR_API_KEY
+
+# Test workflow
+gh workflow run linear-status-update.yml
+```
+
+## Configuration
+
+This command uses your existing workflow configuration. No additional setup needed.
+
+Checks are performed in this order:
+1. Critical systems (Linear MCP, GitHub CLI)
+2. Configuration files
+3. Optional features (GitHub Actions)
+4. Activity analysis
+
+## Related Commands
+
+- `/linear-help` - Show all available commands
+- `/cleanup-branches` - Clean up old branches
+- `/workflow-analytics` - View detailed metrics (if enabled)
+
+## Tips
+
+1. **Run regularly** - Add to your morning routine
+2. **Share with team** - Great for onboarding
+3. **Before reporting issues** - Run this first to diagnose
+4. **After updates** - Verify after upgrading workflow version
+
+## Health Score Calculation
+
+The health score is calculated from:
+- Critical systems: 40% weight
+  - Linear MCP: 15%
+  - GitHub CLI: 15%
+  - Git hooks: 10%
+- Configuration: 20% weight
+- GitHub Actions: 20% weight (if enabled)
+- Recent activity: 20% weight
+
+100% = All systems operational
+75-99% = Good (minor issues)
+50-74% = Fair (attention needed)
+<50% = Poor (immediate action required)
+
+---
+
+Generated with [Claude Code](https://claude.com/claude-code)

@@ -1,0 +1,173 @@
+Create a bug report in Linear and optionally start work immediately.
+
+## Usage
+
+```
+/bug-linear
+/bug-linear <brief description>
+```
+
+## Description
+
+Quick shortcut for creating bug reports without template selection. This command automatically uses the "Bug Report" template and streamlines the issue creation process.
+
+Perfect for:
+- Bugs discovered during development
+- Quick bug reports that need tracking
+- Issues found during testing or code review
+
+## Workflow
+
+### Step 1: Bug Description
+
+Claude asks:
+```
+Would you like to add context, or should I draft the bug report?
+
+Options:
+1. I'll provide context (you describe the bug)
+2. Draft it for me (Claude creates comprehensive bug report)
+```
+
+**Option 1 - You provide context:**
+Claude prompts you for:
+- Title
+- Description (what's wrong)
+- Steps to reproduce
+- Expected vs actual behavior
+- Environment details
+
+**Option 2 - Claude drafts:**
+Claude analyzes your initial request and creates:
+```markdown
+## Description
+[What the bug is]
+
+## Steps to Reproduce
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+
+## Expected Behavior
+[What should happen]
+
+## Actual Behavior
+[What actually happens]
+
+## Environment
+- Browser/Device: [Detected or inferred]
+- Version: [If applicable]
+
+## Additional Context
+[Relevant details from your description]
+```
+
+### Step 2: Issue Created
+```
+Bug created: {{formats.issueExample}} - [Title]
+
+Linear URL: https://linear.app/{{linear.workspaceName}}/issue/{{formats.issueExample}}
+```
+
+### Step 3: Start Work (Optional)
+```
+Ready to start fixing this bug? (Y/n)
+```
+
+If you say yes, Claude follows the normal workflow:
+1. Fetches bug details from Linear
+2. Creates task analysis document
+3. **Asks for confirmation before posting to Linear:**
+   ```
+   Task analysis complete!
+
+   Would you like me to post a summary comment to Linear? (Y/n)
+   ```
+4. **If yes:** Build comment summary from task analysis, then post to Linear
+5. **If no:** Skip building and posting entirely, continue with workflow
+6. Creates feature branch
+7. Makes initial commit
+
+## Examples
+
+### Example 1: Quick Bug Report
+```
+You: "/bug-linear Login timeout is too short"
+
+Claude: "Should I draft the bug report? (1. You provide, 2. I'll draft)"
+You: "2"
+
+Claude: [Creates {{formats.issueExample}} with bug details]
+        "Bug created: {{formats.issueExample}} - Login timeout too short"
+        "Ready to start fixing this bug? (Y/n)"
+You: "y"
+
+Claude: [Starts normal workflow]
+```
+
+### Example 2: Detailed Bug with Context
+```
+You: "/bug-linear"
+
+Claude: "Should I draft it? (1. You provide, 2. I'll draft)"
+You: "1"
+
+Claude: "What's the bug title?"
+You: "Payment form fails on Safari"
+
+Claude: "Describe what's happening:"
+You: "The payment form doesn't submit on Safari. It works on Chrome."
+
+Claude: "Steps to reproduce?"
+You: "1. Open payment page on Safari, 2. Fill in card details, 3. Click submit"
+
+Claude: "Expected behavior?"
+You: "Payment should process successfully"
+
+Claude: [Creates comprehensive bug report]
+        "Bug created: {{formats.issueExample}} - Payment form fails on Safari"
+        "Ready to start fixing? (Y/n)"
+```
+
+### Example 3: Bug During Development
+```
+You: "I found a bug - the mobile menu doesn't close after clicking a link"
+     "/bug-linear"
+
+Claude: "Should I draft it based on what you just described? (Y/n)"
+You: "y"
+
+Claude: [Uses your previous description to create bug report]
+        "Bug created: {{formats.issueExample}} - Mobile menu doesn't close"
+        "Ready to fix this now? (Y/n)"
+You: "n"
+
+Claude: "Bug tracked in Linear. You can fix it later!"
+```
+
+## Benefits
+
+- **Fastest bug creation** - Skips template selection
+- **Auto-categorized** - Immediately tagged as bug
+- **Immediate fix** - Option to start working right away
+- **Rich context** - Claude generates comprehensive bug reports
+- **Team visibility** - All bugs tracked in Linear
+
+## Configuration
+
+Uses your Linear workflow configuration:
+- **Team**: {{linear.teamName}} ({{linear.teamKey}})
+- **Template**: Bug Report (automatic)
+- **Default Status**: "To Do"
+- **Priority**: Normal (can be changed after creation)
+
+## Related Commands
+
+- `/improvement-linear` - Create an improvement issue
+- `/feature-linear` - Create a feature request
+- `/create-linear-issue` - Create any type of issue with template selection
+- `/start-issue` - Start work on an existing issue
+
+---
+
+Generated with [Claude Code](https://claude.com/claude-code)

@@ -1,0 +1,70 @@
+Mark a Linear issue as blocked by external dependency.
+
+## Usage
+
+```
+/blocked-linear
+/blocked-linear <blocker description>
+```
+
+## Description
+
+Use this command when you're blocked by an external dependency that you can't resolve yourself. Different from `/feedback-linear` (waiting for team clarification) - this is for hard blockers.
+
+Perfect for:
+- Waiting for another team's API/service
+- Infrastructure not ready (database, environment, etc.)
+- Third-party service dependency
+- External approval or access needed
+- Dependency on another issue to be completed first
+
+## Workflow
+
+### Quick Flow
+
+```
+You: "/blocked-linear Waiting for staging database setup"
+
+Claude: "What's blocking you?"
+        "1. Another team/service"
+        "2. Infrastructure/environment"
+        "3. Third-party service"
+        "4. Another issue"
+        "5. External approval"
+You: "2"
+
+Claude: "Who can unblock this?"
+You: "DevOps team"
+
+Claude: "When do you expect this to be unblocked?"
+        "1. Today, 2. This week, 3. Next week, 4. Unknown"
+You: "2"
+
+Claude: [Posts blocker comment to Linear]
+        [Updates status to appropriate blocked status]
+        [Optionally creates blocker issue]
+
+        "✓ Issue marked as blocked"
+        "✓ Blocker documented"
+        "What would you like to do now?"
+        "1. Work on another issue"
+        "2. Create blocker issue to track"
+```
+
+## Benefits
+
+- **Clear blocker tracking** - Team sees what's blocked
+- **Status accuracy** - Issue status reflects true state
+- **Context preserved** - Blocker details documented
+- **Work continuity** - Easy to switch to other work
+
+## Related Commands
+
+- `/feedback-linear` - For clarification/decision blockers
+- `/pause-linear` - For non-blocking pauses
+- `/create-blocker-linear` - Create issue to track blocker
+- `/my-work-linear` - Show all blocked issues
+
+---
+
+Generated with [Claude Code](https://claude.com/claude-code)

@@ -1,0 +1,87 @@
+Create a blocker issue that blocks your current work.
+
+## Usage
+
+```
+/create-blocker-linear
+/create-blocker-linear <blocker description>
+```
+
+## Description
+
+Create a separate Linear issue to track what's blocking you, automatically link it to your current issue.
+
+Perfect for:
+- External dependencies that need tracking
+- Infrastructure work that must be done first
+- Issues discovered that must be fixed before continuing
+- API/service dependencies from other teams
+
+## Workflow
+
+```
+You: "/create-blocker-linear Database indexes need to be added"
+
+Claude: "Creating blocker issue..."
+
+        "Current issue: {{formats.issueExample}} - User authentication"
+
+        "What type of blocker?"
+        "1. Infrastructure (database, servers, etc.)"
+        "2. Bug that must be fixed first"
+        "3. Dependency from another team"
+        "4. Missing feature/API"
+You: "1"
+
+Claude: "Who should work on this blocker?"
+        "1. Me"
+        "2. Another team member (specify)"
+        "3. Another team (DevOps, Backend, etc.)"
+        "4. Unassigned"
+You: "3"
+
+Claude: "Which team?"
+You: "DevOps"
+
+Claude: "Priority for this blocker?"
+        "1. Urgent (blocking production)"
+        "2. High (blocking active sprint work)"
+        "3. Normal"
+You: "2"
+
+Claude: [Creates blocker issue]
+        [Links as "blocks" current issue]
+        [Assigns to DevOps]
+        [Sets priority]
+
+        "✓ Blocker created: DEV-500 - Add database indexes"
+        "✓ Linked: DEV-500 blocks {{formats.issueExample}}"
+        "✓ Assigned to: DevOps team"
+
+        "Want to mark {{formats.issueExample}} as blocked? (Y/n)"
+You: "y"
+
+Claude: [Updates {{formats.issueExample}} status to blocked]
+        "✓ {{formats.issueExample}} marked as blocked"
+
+        "What would you like to do now?"
+        "1. Work on another issue"
+        "2. Work on the blocker (DEV-500)"
+        "3. Show high priority items"
+```
+
+## Benefits
+
+- **Separate tracking** - Blocker has its own issue
+- **Team visibility** - Other teams see what's blocking
+- **Automatic linking** - Relationships preserved
+- **Clear ownership** - Blocker assigned to right team
+
+## Related Commands
+
+- `/blocked-linear` - Mark issue as blocked without creating blocker issue
+- `/feedback-linear` - For clarification blockers
+
+---
+
+Generated with [Claude Code](https://claude.com/claude-code)

@@ -1,0 +1,321 @@
+Request feedback or clarification on a Linear issue.
+
+## Usage
+
+```
+/feedback-linear
+/feedback-linear <brief question>
+```
+
+## Description
+
+Use this command when you're blocked and need clarification, design input, or decisions from teammates. This command will:
+- Post your questions as a comment to the Linear issue
+- Update issue status to "Feedback Required" (or equivalent)
+- Optionally tag specific people for visibility
+- Optionally pause your work until feedback is received
+
+Perfect for:
+- Unclear requirements or acceptance criteria
+- Architectural or design decisions needed
+- Missing information or specifications
+- UX/UI clarifications
+- Product owner input required
+- Technical blocker needing team discussion
+
+## Workflow
+
+### Step 1: Identify Current Issue
+
+If you're actively working on an issue, Claude detects it from your current branch:
+```
+Current issue: {{formats.issueExample}} - [Title]
+```
+
+If not on a feature branch:
+```
+Which issue needs feedback?
+Issue ID: _____
+```
+
+### Step 2: Gather Questions
+
+Claude asks:
+```
+What questions or clarifications do you need?
+
+Options:
+1. I'll type my questions
+2. Help me formulate questions based on blockers
+```
+
+**Option 1 - You provide questions:**
+```
+What do you need clarified?
+
+You can provide:
+- Single question
+- Multiple questions (numbered list)
+- Specific areas of confusion
+```
+
+**Option 2 - Claude helps formulate:**
+Claude analyzes:
+- Current task analysis document
+- Issue description and acceptance criteria
+- Recent comments on the issue
+- Your current progress
+
+Then suggests questions like:
+```
+Based on your work, here are suggested questions:
+
+1. [Acceptance criterion X] - Should this handle edge case Y?
+2. [Technical approach] - Should we use library A or B?
+3. [Design] - What should happen when user does Z?
+
+Would you like to use these, or modify them?
+```
+
+### Step 3: Tag People (Optional)
+
+```
+Who should respond to this feedback request?
+
+Options:
+1. Issue creator ({{issue.creator.name}})
+2. Specific person (enter name/email)
+3. Product owner / Tech lead
+4. No one specific (team will see it)
+```
+
+### Step 4: Pause Work?
+
+```
+Would you like to pause work on this issue while waiting? (Y/n)
+
+Yes: Status → "Feedback Required", commit WIP changes
+No: Status → "Feedback Required", keep working
+```
+
+### Step 5: Post to Linear
+
+Claude posts formatted comment:
+```markdown
+## Feedback Needed
+
+{{#if taggedPerson}}
+@{{taggedPerson}} - Your input is needed on the following:
+{{/if}}
+
+**Questions:**
+
+{{#each questions}}
+{{@index}}. {{this}}
+{{/each}}
+
+**Context:**
+{{context}}
+
+**Urgency:** {{urgency}}
+
+**Blocking work:** {{#if pausingWork}}Yes - work paused{{else}}No - continuing with assumptions{{/if}}
+
+{{#if assumptions}}
+**Current Assumptions:**
+If no feedback received, I'll proceed assuming:
+{{#each assumptions}}
+- {{this}}
+{{/each}}
+{{/if}}
+
+---
+
+🤖 Posted via [Claude Code](https://claude.com/claude-code)
+```
+
+### Step 6: Update Status
+
+Claude updates issue status to "Feedback Required" (using status definitions from config):
+```
+✓ Issue status updated: "Feedback Required"
+✓ Comment posted to Linear issue
+{{#if taggedPerson}}✓ {{taggedPerson}} tagged for notification{{/if}}
+{{#if pausingWork}}✓ Work paused - WIP changes committed{{/if}}
+```
+
+## Examples
+
+### Example 1: Quick Question
+```
+You: "/feedback-linear Should this support mobile devices?"
+
+Claude: [Detects current issue from branch]
+        "Current issue: {{formats.issueExample}} - Add user profile"
+
+        "Who should respond? 1. Issue creator, 2. Specific person, 3. No one"
+You: "1"
+
+Claude: "Pause work while waiting? (Y/n)"
+You: "n"
+
+Claude: [Posts comment to Linear]
+        [Updates status to "Feedback Required"]
+        "✓ Feedback request posted"
+        "✓ You can continue working with current assumptions"
+```
+
+### Example 2: Multiple Questions
+```
+You: "/feedback-linear"
+
+Claude: "What questions do you need answered?"
+        "1. I'll type them, 2. Help me formulate"
+You: "1"
+
+Claude: "What do you need clarified?"
+You: "1. Should we support CSV and Excel, or just CSV?
+     2. What's the max file size?
+     3. Should this be a background job or sync?"
+
+Claude: "Who should respond? 1. @alice (creator), 2. Specific, 3. No one"
+You: "2"
+
+Claude: "Enter their name or email:"
+You: "bob@team.com"
+
+Claude: "Pause work while waiting? (Y/n)"
+You: "y"
+
+Claude: [Posts formatted comment with all 3 questions]
+        [Tags @bob]
+        [Updates status]
+        [Commits WIP changes]
+        "✓ Feedback request posted and @bob tagged"
+        "✓ Work paused - WIP committed to branch"
+        "✓ Issue status: Feedback Required"
+
+        "What would you like to do now?"
+        "1. Work on another issue"
+        "2. Take a break"
+        "3. Review other feedback requests"
+```
+
+### Example 3: Claude Helps Formulate
+```
+You: "I'm stuck on this, not sure what to ask"
+     "/get-feedback-linear"
+
+Claude: [Analyzes task analysis and progress]
+
+        "Based on your work, I see potential questions:
+
+        1. Acceptance criteria says 'real-time updates' - should we use
+           WebSocket or polling? No decision documented.
+
+        2. You're implementing CSV export but acceptance criteria mentions
+           'various formats' - which formats are required?
+
+        3. Current implementation allows unlimited rows - should there be
+           a limit for performance?
+
+        Would you like to request feedback on these? (Y/n)"
+You: "y"
+
+Claude: [Posts all 3 questions to Linear with context]
+        "✓ Posted 3 questions to Linear"
+        "✓ Issue status: Feedback Required"
+```
+
+### Example 4: Urgent Blocker
+```
+You: "/feedback-linear This is blocking me - which API endpoint should I use?"
+
+Claude: "Current issue: {{formats.issueExample}}"
+        "Urgency: Blocking"
+
+        "Who should respond ASAP?"
+You: "Tech lead"
+
+Claude: "Enter their email:"
+You: "techleady@team.com"
+
+Claude: "I'll mark this as urgent. Pause work? (Y/n)"
+You: "y"
+
+Claude: [Posts urgent feedback request]
+        [Tags tech lead]
+        [Updates to Feedback Required]
+        [Commits WIP]
+
+        "✓ URGENT feedback request posted"
+        "✓ @techlead tagged and will be notified"
+        "✓ Work paused"
+
+        "Switching context - show other available work? (Y/n)"
+```
+
+## Benefits
+
+- **Clear communication** - Structured questions with context
+- **Proper tracking** - Issue status reflects blocking state
+- **Notifications** - Tagged people get notified
+- **Context preservation** - WIP changes committed safely
+- **Visibility** - Team sees what's blocked in Linear
+- **Assumptions documented** - If proceeding without feedback
+
+## Configuration
+
+Uses your Linear workflow configuration:
+
+- **Team**: {{linear.teamName}} ({{linear.teamKey}})
+- **Feedback Status**: Automatically finds status with meaning "needs feedback" or "blockers"
+- **Default**: If no feedback status exists, uses "On Hold"
+
+The command intelligently maps to your workflow:
+```javascript
+// Find appropriate "feedback required" status
+const feedbackStatus = Object.values(config.linear.statuses).find(s =>
+  s.meaning?.includes('feedback') ||
+  s.meaning?.includes('clarification') ||
+  s.meaning?.includes('blockers') ||
+  s.name.toLowerCase().includes('feedback')
+);
+```
+
+## Related Commands
+
+- `/get-feedback-linear` - Retrieve and show recent feedback comments
+- `/pause-linear` - Pause work without requesting feedback
+- `/blocked-linear` - Mark as blocked by external dependency
+- `/create-blocker-linear` - Create a blocking issue
+- `/progress-update` - Post general progress update
+
+## Tips
+
+1. **Be specific** - "Which API endpoint?" vs "I'm confused"
+2. **Provide context** - Explain what you've tried or considered
+3. **Tag the right person** - Issue creator, product owner, or tech lead
+4. **Document assumptions** - What you'll do if no response
+5. **Set urgency** - Is this blocking you completely or just unclear?
+
+## Advanced: Batch Feedback Requests
+
+If working on multiple issues that need feedback:
+```
+You: "I need feedback on 3 issues"
+
+Claude: "Would you like to request feedback on multiple issues? (Y/n)"
+You: "y"
+
+Claude: "List the issue IDs (comma-separated):"
+You: "DEV-123, DEV-124, DEV-125"
+
+Claude: [Processes each issue, posts feedback requests]
+        "✓ Feedback requested on 3 issues"
+        "✓ All marked as 'Feedback Required'"
+```
+
+---
+
+Generated with [Claude Code](https://claude.com/claude-code)

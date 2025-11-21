@@ -1,0 +1,214 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Linear Workflow Configuration",
+  "description": "Configuration schema for claude-linear-gh-starter",
+  "type": "object",
+  "required": ["version", "project", "branches", "linear", "formats", "detail", "paths"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version of the configuration format"
+    },
+    "project": {
+      "type": "object",
+      "required": ["name", "path"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Project name"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Absolute path to project directory"
+        }
+      }
+    },
+    "branches": {
+      "type": "object",
+      "required": ["main"],
+      "properties": {
+        "main": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Primary development branch name"
+        },
+        "staging": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Staging/QA branch name (optional)"
+        },
+        "prod": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Production branch name (optional)"
+        }
+      }
+    },
+    "linear": {
+      "type": "object",
+      "required": ["teamKey", "teamId", "teamName", "workspaceId", "workspaceName", "statuses"],
+      "properties": {
+        "teamKey": {
+          "type": "string",
+          "pattern": "^[A-Z]+$",
+          "description": "Linear team key (e.g., DEV, ENG)"
+        },
+        "teamId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Linear team UUID"
+        },
+        "teamName": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Linear team name"
+        },
+        "workspaceId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Linear workspace UUID"
+        },
+        "workspaceName": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Linear workspace name"
+        },
+        "statuses": {
+          "type": "object",
+          "required": ["inProgress", "inProgressId", "review", "reviewId"],
+          "properties": {
+            "inProgress": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Status name for active development"
+            },
+            "inProgressId": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Status UUID for active development"
+            },
+            "staging": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Status name for staging (optional)"
+            },
+            "stagingId": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Status UUID for staging (optional)"
+            },
+            "review": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Status name for review"
+            },
+            "reviewId": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Status UUID for review"
+            },
+            "done": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Status name for completion (optional)"
+            },
+            "doneId": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Status UUID for completion (optional)"
+            }
+          }
+        }
+      }
+    },
+    "formats": {
+      "type": "object",
+      "required": ["commit", "pr", "issuePattern", "issueExample"],
+      "properties": {
+        "commit": {
+          "type": "string",
+          "enum": ["conventional-parens", "issue-prefix", "issue-scope", "custom"],
+          "description": "Commit message format"
+        },
+        "pr": {
+          "type": "string",
+          "enum": ["issue-prefix", "issue-brackets", "custom"],
+          "description": "PR title format"
+        },
+        "issuePattern": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Regex pattern for issue IDs"
+        },
+        "issueExample": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Example issue ID"
+        }
+      }
+    },
+    "detail": {
+      "type": "string",
+      "enum": ["high-level", "technical", "minimal"],
+      "description": "Level of detail for Linear updates"
+    },
+    "paths": {
+      "type": "object",
+      "required": ["issues", "workflow"],
+      "properties": {
+        "issues": {
+          "type": "string",
+          "pattern": "^/.*/$",
+          "description": "Path to issue documentation folder"
+        },
+        "workflow": {
+          "type": "string",
+          "pattern": "^/.*\\.yml$",
+          "description": "Path to GitHub Actions workflow file"
+        }
+      }
+    },
+    "assignees": {
+      "type": "object",
+      "description": "Auto-assignment configuration for status changes",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable auto-assignment on status changes"
+        },
+        "onInProgress": {
+          "type": "string",
+          "description": "Linear user ID to assign when moving to In Progress (optional)"
+        },
+        "onReview": {
+          "type": "string",
+          "description": "Linear user ID to assign when moving to Review (optional)"
+        },
+        "onStaging": {
+          "type": "string",
+          "description": "Linear user ID to assign when moving to Staging/QA (optional)"
+        },
+        "onDone": {
+          "type": "string",
+          "description": "Linear user ID to assign when moving to Done (optional)"
+        },
+        "preserveOriginal": {
+          "type": "boolean",
+          "description": "If true, keep original assignee if already assigned"
+        }
+      }
+    },
+    "installed": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of installation"
+    },
+    "installedBy": {
+      "type": "string",
+      "description": "Tool that installed the workflow"
+    }
+  }
+}
