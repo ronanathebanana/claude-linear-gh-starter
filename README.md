@@ -38,7 +38,7 @@ Say "Let's get to work on DEV-123" and watch Claude:
 
 This is a **2-way integration**: Claude reads from Linear (via MCP), creates task analysis locally, and posts back to Linear. Your team sees Claude's work. GitHub Actions handle status updates automatically as code moves through your workflow (optional - you can use Claude commands without GitHub Actions).
 
-The setup wizard walks you through a **5-minute installation** that configures everything: Linear MCP integration (OAuth-based, **no API key required**!), optional GitHub Actions workflows, commit message validation, auto-assignment rules, and team configuration. Choose from pre-built profiles (Startup, Small Team, Enterprise) or customize every detail to match your workflow.
+The setup wizard walks you through a **15-minute installation** that configures everything: Linear MCP integration (OAuth-based, **no API key required**!), optional GitHub Actions workflows, commit message validation, auto-assignment rules, and team configuration. Choose from pre-built profiles (Startup, Small Team, Enterprise) or customize every detail to match your workflow.
 
 **Perfect for teams who:**
 - Want to ship code, not update tickets

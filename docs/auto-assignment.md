@@ -517,7 +517,6 @@ A: No, rules are global for the team. All issues follow the same assignment conf
 
 ## Related Documentation
 
-- [Setup Wizard Prompts](../setup/wizard-prompts.md)
 - [Linear Setup Guide](./linear-setup.md)
 - [Troubleshooting](./troubleshooting.md)
 - [Linear API Docs](https://developers.linear.app)

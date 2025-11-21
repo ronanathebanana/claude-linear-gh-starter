@@ -1227,35 +1227,35 @@ Your choice [1]: _____
 
 ```bash
 # Issue Creation (6 commands)
-cp "{{setupToolPath}}/install/install/templates/commands/create-linear-issue.md.template" "{{projectPath}}/.claude/commands/create-linear-issue.md"
-cp "{{setupToolPath}}/install/install/templates/commands/bug-linear.md.template" "{{projectPath}}/.claude/commands/bug-linear.md"
-cp "{{setupToolPath}}/install/install/templates/commands/improvement-linear.md.template" "{{projectPath}}/.claude/commands/improvement-linear.md"
-cp "{{setupToolPath}}/install/install/templates/commands/feature-linear.md.template" "{{projectPath}}/.claude/commands/feature-linear.md"
-cp "{{setupToolPath}}/install/install/templates/commands/create-blocker-linear.md.template" "{{projectPath}}/.claude/commands/create-blocker-linear.md"
-cp "{{setupToolPath}}/install/install/templates/commands/create-subtask-linear.md.template" "{{projectPath}}/.claude/commands/create-subtask-linear.md"
+cp "{{setupToolPath}}/install/templates/commands/create-linear-issue.md.template" "{{projectPath}}/.claude/commands/create-linear-issue.md"
+cp "{{setupToolPath}}/install/templates/commands/bug-linear.md.template" "{{projectPath}}/.claude/commands/bug-linear.md"
+cp "{{setupToolPath}}/install/templates/commands/improvement-linear.md.template" "{{projectPath}}/.claude/commands/improvement-linear.md"
+cp "{{setupToolPath}}/install/templates/commands/feature-linear.md.template" "{{projectPath}}/.claude/commands/feature-linear.md"
+cp "{{setupToolPath}}/install/templates/commands/create-blocker-linear.md.template" "{{projectPath}}/.claude/commands/create-blocker-linear.md"
+cp "{{setupToolPath}}/install/templates/commands/create-subtask-linear.md.template" "{{projectPath}}/.claude/commands/create-subtask-linear.md"
 
 # Workflow & Status (8 commands)
-cp "{{setupToolPath}}/install/install/templates/commands/start-issue.md.template" "{{projectPath}}/.claude/commands/start-issue.md"
-cp "{{setupToolPath}}/install/install/templates/commands/feedback-linear.md.template" "{{projectPath}}/.claude/commands/feedback-linear.md"
-cp "{{setupToolPath}}/install/install/templates/commands/get-feedback-linear.md.template" "{{projectPath}}/.claude/commands/get-feedback-linear.md"
-cp "{{setupToolPath}}/install/install/templates/commands/pause-linear.md.template" "{{projectPath}}/.claude/commands/pause-linear.md"
-cp "{{setupToolPath}}/install/install/templates/commands/blocked-linear.md.template" "{{projectPath}}/.claude/commands/blocked-linear.md"
-cp "{{setupToolPath}}/install/install/templates/commands/my-work-linear.md.template" "{{projectPath}}/.claude/commands/my-work-linear.md"
-cp "{{setupToolPath}}/install/install/templates/commands/team-work-linear.md.template" "{{projectPath}}/.claude/commands/team-work-linear.md"
-cp "{{setupToolPath}}/install/install/templates/commands/high-priority-linear.md.template" "{{projectPath}}/.claude/commands/high-priority-linear.md"
+cp "{{setupToolPath}}/install/templates/commands/start-issue.md.template" "{{projectPath}}/.claude/commands/start-issue.md"
+cp "{{setupToolPath}}/install/templates/commands/feedback-linear.md.template" "{{projectPath}}/.claude/commands/feedback-linear.md"
+cp "{{setupToolPath}}/install/templates/commands/get-feedback-linear.md.template" "{{projectPath}}/.claude/commands/get-feedback-linear.md"
+cp "{{setupToolPath}}/install/templates/commands/pause-linear.md.template" "{{projectPath}}/.claude/commands/pause-linear.md"
+cp "{{setupToolPath}}/install/templates/commands/blocked-linear.md.template" "{{projectPath}}/.claude/commands/blocked-linear.md"
+cp "{{setupToolPath}}/install/templates/commands/my-work-linear.md.template" "{{projectPath}}/.claude/commands/my-work-linear.md"
+cp "{{setupToolPath}}/install/templates/commands/team-work-linear.md.template" "{{projectPath}}/.claude/commands/team-work-linear.md"
+cp "{{setupToolPath}}/install/templates/commands/high-priority-linear.md.template" "{{projectPath}}/.claude/commands/high-priority-linear.md"
 
 # Progress & Delivery (3 commands)
-cp "{{setupToolPath}}/install/install/templates/commands/create-pr.md.template" "{{projectPath}}/.claude/commands/create-pr.md"
-cp "{{setupToolPath}}/install/install/templates/commands/create-release-approval.md.template" "{{projectPath}}/.claude/commands/create-release-approval.md"
-cp "{{setupToolPath}}/install/install/templates/commands/progress-update.md.template" "{{projectPath}}/.claude/commands/progress-update.md"
+cp "{{setupToolPath}}/install/templates/commands/create-pr.md.template" "{{projectPath}}/.claude/commands/create-pr.md"
+cp "{{setupToolPath}}/install/templates/commands/create-release-approval.md.template" "{{projectPath}}/.claude/commands/create-release-approval.md"
+cp "{{setupToolPath}}/install/templates/commands/progress-update.md.template" "{{projectPath}}/.claude/commands/progress-update.md"
 
 # Maintenance & Diagnostics (2 commands)
-cp "{{setupToolPath}}/install/install/templates/commands/workflow-status.md.template" "{{projectPath}}/.claude/commands/workflow-status.md"
-cp "{{setupToolPath}}/install/install/templates/commands/cleanup-branches.md.template" "{{projectPath}}/.claude/commands/cleanup-branches.md"
+cp "{{setupToolPath}}/install/templates/commands/workflow-status.md.template" "{{projectPath}}/.claude/commands/workflow-status.md"
+cp "{{setupToolPath}}/install/templates/commands/cleanup-branches.md.template" "{{projectPath}}/.claude/commands/cleanup-branches.md"
 
 # Help & Learning (2 commands)
-cp "{{setupToolPath}}/install/install/templates/commands/tutorial.md.template" "{{projectPath}}/.claude/commands/tutorial.md"
-cp "{{setupToolPath}}/install/install/templates/commands/linear-help.md.template" "{{projectPath}}/.claude/commands/linear-help.md"
+cp "{{setupToolPath}}/install/templates/commands/tutorial.md.template" "{{projectPath}}/.claude/commands/tutorial.md"
+cp "{{setupToolPath}}/install/templates/commands/linear-help.md.template" "{{projectPath}}/.claude/commands/linear-help.md"
 ```
 
 **Display progress as files are copied:**
@@ -1301,11 +1301,11 @@ cp "{{setupToolPath}}/install/install/templates/commands/linear-help.md.template
 
 ```bash
 # Core Workflow (2 commands)
-cp "{{setupToolPath}}/install/install/templates/commands/start-issue.md.template" "{{projectPath}}/.claude/commands/start-issue.md"
-cp "{{setupToolPath}}/install/install/templates/commands/create-pr.md.template" "{{projectPath}}/.claude/commands/create-pr.md"
+cp "{{setupToolPath}}/install/templates/commands/start-issue.md.template" "{{projectPath}}/.claude/commands/start-issue.md"
+cp "{{setupToolPath}}/install/templates/commands/create-pr.md.template" "{{projectPath}}/.claude/commands/create-pr.md"
 
 # Help (1 command)
-cp "{{setupToolPath}}/install/install/templates/commands/linear-help.md.template" "{{projectPath}}/.claude/commands/linear-help.md"
+cp "{{setupToolPath}}/install/templates/commands/linear-help.md.template" "{{projectPath}}/.claude/commands/linear-help.md"
 ```
 
 **Display progress:**
@@ -1350,15 +1350,15 @@ Your selection: _____
 
 ```bash
 # Category 1: Issue Creation (6 commands)
-cp "{{setupToolPath}}/install/install/templates/commands/create-linear-issue.md.template" "{{projectPath}}/.claude/commands/create-linear-issue.md"
-cp "{{setupToolPath}}/install/install/templates/commands/bug-linear.md.template" "{{projectPath}}/.claude/commands/bug-linear.md"
-cp "{{setupToolPath}}/install/install/templates/commands/improvement-linear.md.template" "{{projectPath}}/.claude/commands/improvement-linear.md"
-cp "{{setupToolPath}}/install/install/templates/commands/feature-linear.md.template" "{{projectPath}}/.claude/commands/feature-linear.md"
-cp "{{setupToolPath}}/install/install/templates/commands/create-blocker-linear.md.template" "{{projectPath}}/.claude/commands/create-blocker-linear.md"
-cp "{{setupToolPath}}/install/install/templates/commands/create-subtask-linear.md.template" "{{projectPath}}/.claude/commands/create-subtask-linear.md"
+cp "{{setupToolPath}}/install/templates/commands/create-linear-issue.md.template" "{{projectPath}}/.claude/commands/create-linear-issue.md"
+cp "{{setupToolPath}}/install/templates/commands/bug-linear.md.template" "{{projectPath}}/.claude/commands/bug-linear.md"
+cp "{{setupToolPath}}/install/templates/commands/improvement-linear.md.template" "{{projectPath}}/.claude/commands/improvement-linear.md"
+cp "{{setupToolPath}}/install/templates/commands/feature-linear.md.template" "{{projectPath}}/.claude/commands/feature-linear.md"
+cp "{{setupToolPath}}/install/templates/commands/create-blocker-linear.md.template" "{{projectPath}}/.claude/commands/create-blocker-linear.md"
+cp "{{setupToolPath}}/install/templates/commands/create-subtask-linear.md.template" "{{projectPath}}/.claude/commands/create-subtask-linear.md"
 
 # Category 4: Help (1 command)
-cp "{{setupToolPath}}/install/install/templates/commands/linear-help.md.template" "{{projectPath}}/.claude/commands/linear-help.md"
+cp "{{setupToolPath}}/install/templates/commands/linear-help.md.template" "{{projectPath}}/.claude/commands/linear-help.md"
 ```
 
 **Display progress:**
@@ -2157,6 +2157,25 @@ You can now use Linear workflow commands like:
   • "Let's get to work on DEV-123"
   • "Create a blocker for this"
   • "Ready for review"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 Quick Setup: Tool Permissions
+
+The Linear workflow uses these MCP tools frequently:
+  • list_issues - Search and filter issues
+  • get_issue - Fetch issue details
+  • create_issue - Create new issues
+  • update_issue - Update issue status/fields
+  • create_comment - Post updates to Linear
+  • list_teams - Access team information
+  • get_team - Fetch team details
+
+Tip: When prompted for tool permissions during the workflow, select
+"Always allow" for Linear tools to avoid repeated prompts and enjoy
+a smoother experience.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Now I can fetch your Linear teams and statuses for configuration...
 ```
@@ -3775,7 +3794,7 @@ Display each step with clear descriptions:
 [3/6] Creating MCP reference files...
       ✓ .mcp.json created (reference for Claude Desktop users)
       ✓ .env.example created (reference template)
-      ✓ .gitignore updated
+      ✓ .gitignore updated (added backup files, state files)
 
 [4/6] Installing commit message validation...
       ✓ .git/hooks/commit-msg installed
@@ -3925,10 +3944,21 @@ Create reference files for team documentation (Claude Desktop users):
    ```
 
 3. **Update .gitignore** to include:
+   ```bash
+   # Add these entries to .gitignore during installation
+   echo "" >> .gitignore
+   echo "# Linear Workflow - Generated files" >> .gitignore
+   echo ".env" >> .gitignore
+   echo "*.backup" >> .gitignore
+   echo ".linear-workflow-state.json" >> .gitignore
+   echo ".linear-workflow.json.backup" >> .gitignore
    ```
-   # Environment variables
-   .env
-   ```
+
+   This adds:
+   - `.env` - Environment variables (if created)
+   - `*.backup` - Backup files created during installation/migration
+   - `.linear-workflow-state.json` - Installation state tracking file
+   - `.linear-workflow.json.backup` - Configuration backup file
 
 **IMPORTANT:** Do NOT create `.env` file - it's not needed for Claude Code's MCP setup.
 
@@ -4160,14 +4190,169 @@ curl -X POST https://api.linear.app/graphql \
 **If GitHub Actions is NOT enabled (no LINEAR_API_KEY):**
 
 ```
-⚠️  Skipping template creation
+⚠️  Linear Issue Templates
 
-Linear issue templates require a LINEAR_API_KEY to create programmatically.
+I can't create Linear issue templates automatically without an API key.
 
-You can create these templates manually in Linear:
+Options:
+
+1. Provide LINEAR_API_KEY now to auto-create templates
+   → I'll create: Bug Report, Improvement, Feature
+   → Quick setup (~30 seconds)
+   → Optional: Also enable GitHub Actions with this key
+
+2. Skip for now and create manually later
+   → I'll provide template examples
+   → You can copy/paste into Linear UI
+   → Takes ~5 minutes manually
+
+Your choice [2]: _____
+```
+
+**If user chooses Option 1:**
+
+```
+Great! Let's get your Linear API key.
+
+Please create an API key at: https://linear.app/settings/api
+
+LINEAR_API_KEY: _____
+```
+
+**Validate the API key immediately:**
+
+```bash
+# Test API key works
+curl -X POST https://api.linear.app/graphql \
+  -H "Authorization: $LINEAR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"query": "{ viewer { id name email } }"}'
+```
+
+**If valid:**
+
+```
+✓ API key validated
+✓ User: <name> (<email>)
+
+Creating templates...
+
+[1/3] ✓ Bug Report template created
+[2/3] ✓ Improvement template created
+[3/3] ✓ Feature template created
+
+✓ All templates created successfully!
+
+Since you have an API key, would you also like to enable GitHub Actions? (y/N)
+
+This allows automatic Linear status updates when PRs merge.
+```
+
+**If they say yes to GitHub Actions:**
+- Store the API key as GitHub secret
+- Enable GitHub Actions in config
+- Continue
+
+**If they say no:**
+- Just created templates, don't enable GitHub Actions
+- Continue
+
+**If user chooses Option 2 (skip and show examples):**
+
+```
+✓ Skipping automatic template creation
+
+Template Examples (copy to Linear):
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Bug Report Template
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Template Name: Bug Report
+Title Prefix: [BUG]
+
+Description:
+────────────────────────────────────────────
+## Description
+Brief description of the bug.
+
+## Steps to Reproduce
+1.
+2.
+3.
+
+## Expected Behavior
+What should happen.
+
+## Actual Behavior
+What actually happens.
+
+## Environment
+- Browser/Device:
+- Version:
+
+## Screenshots
+(if applicable)
+────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Improvement Template
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Template Name: Improvement
+Title Prefix: [IMPROVEMENT]
+
+Description:
+────────────────────────────────────────────
+## Current Behavior
+How it works now.
+
+## Proposed Improvement
+How it could be better.
+
+## Benefits
+-
+-
+
+## Considerations
+-
+────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Feature Template
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Template Name: New Feature
+Title Prefix: [FEATURE]
+
+Description:
+────────────────────────────────────────────
+## Feature Description
+What this feature does.
+
+## User Story
+As a [user type], I want to [action] so that [benefit].
+
+## Acceptance Criteria
+- [ ]
+- [ ]
+- [ ]
+
+## Design/Mockups
+(if applicable)
+
+## Technical Notes
+
+────────────────────────────────────────────
+
+To create these manually:
   1. Go to: https://linear.app/{{workspace}}/settings/templates
-  2. Create templates: Bug Report, Improvement, Feature
-  3. Or skip this step - templates are optional
+  2. Click "New Template"
+  3. Set template name and title prefix
+  4. Copy the description content above
+  5. Save template
+
+This takes about 5 minutes to set up all three templates.
 
 Would you like me to open the templates page? (y/N)
 
@@ -4226,35 +4411,63 @@ Use the `create_issue` MCP tool with the following parameters:
 ```javascript
 {
   teamId: "{{teamId}}",
-  title: "Add user authentication to dashboard",
+  title: "Setup Verification - Create Welcome Guide",
   description: `## Overview
 
-Implement user authentication for the dashboard to ensure only authorized users can access sensitive data.
+Create a simple welcome guide file to verify the Linear workflow integration works end-to-end.
+
+This is a test issue that demonstrates:
+- ✓ Claude can fetch and analyze Linear issues via MCP
+- ✓ Claude can create files based on issue requirements
+- ✓ Claude can post task analysis to Linear (2-way integration!)
+- ✓ Claude can commit and push changes with proper issue references
+- ✓ Complete workflow from Linear → Analysis → Implementation → Git
 
 ## Requirements
 
-- Support email/password login
-- Add JWT token-based authentication
-- Implement password reset flow
-- Add session management
-- Secure API endpoints
+Create a file called \`WELCOME.md\` in the project root with the following content:
+
+1. **Welcome message** for new team members
+2. **Brief explanation** of the Linear workflow
+3. **Link to documentation** (docs/linear-workflow.md)
+4. **Quick start example** showing how to use \`/start-issue\`
 
 ## Acceptance Criteria
 
-- [ ] User can log in with email and password
-- [ ] Invalid credentials show appropriate error
-- [ ] JWT tokens are generated and validated correctly
-- [ ] Password reset email is sent successfully
-- [ ] Session expires after 24 hours of inactivity
-- [ ] All API endpoints require valid authentication
+- [ ] \`WELCOME.md\` file exists in project root
+- [ ] File contains a friendly welcome message
+- [ ] File explains the Linear + Claude workflow briefly
+- [ ] File shows how to start work with \`/start-issue {{formats.issueExample}}\`
+- [ ] File links to \`docs/linear-workflow.md\` for details
+- [ ] File is properly formatted Markdown
+- [ ] File is committed with proper issue reference
+
+## Example Content Structure
+
+\`\`\`markdown
+# Welcome to {{project.name}}!
+
+We use Linear + Claude Code for seamless issue tracking and development.
+
+## How It Works
+
+1. Pick an issue from Linear
+2. Say: "Let's get to work on {{formats.issueExample}}"
+3. Claude analyzes, creates docs, and posts to Linear
+4. Start coding!
+
+For full details, see: [Linear Workflow Guide](docs/linear-workflow.md)
+\`\`\`
 
 ## Technical Notes
 
-Consider using bcrypt for password hashing and verify token expiration is handled properly. May need to update middleware for protected routes.
+Keep it simple - just a basic markdown file with a welcoming tone.
+This demonstrates the 2-way Linear integration when Claude posts the analysis comment back to this issue.
 
 ---
 
-**Test Issue:** This issue will verify the Linear workflow integration. When Claude analyzes this, it should post a task analysis comment. When you commit and push, the status should update automatically.`,
+**🧪 Test Issue:** This verifies the complete Linear workflow integration.
+When you run "Let's get to work on {{ISSUE-ID}}", the magic happens!`,
   stateId: "{{todoStateId}}"
 }
 ```
@@ -4264,15 +4477,20 @@ Consider using bcrypt for password hashing and verify token expiration is handle
 ```
 Test issue created: {{ISSUE-ID}}
 
-Title: Add user authentication to dashboard
+Title: Setup Verification - Create Welcome Guide
 URL: https://linear.app/{{workspace}}/issue/{{ISSUE-ID}}
 
-This test issue has realistic requirements and acceptance criteria for Claude
-to analyze. When you run "Let's get to work on {{ISSUE-ID}}", Claude will:
-  1. Fetch and analyze the issue
+This test issue will create a WELCOME.md file in your project! 🎉
+
+When you run "Let's get to work on {{ISSUE-ID}}", Claude will:
+  1. Fetch and analyze the issue via MCP
   2. Create a detailed task analysis document
-  3. Post the analysis as a comment to the Linear issue ← 2-way flow!
-  4. Create a feature branch and initial commit
+  3. Post the analysis as a comment to Linear ← 2-way flow!
+  4. Create the WELCOME.md file based on requirements
+  5. Commit and push to a feature branch
+  6. You'll see the file created and the Linear comment posted!
+
+This demonstrates the complete end-to-end workflow with actual file creation.
 ```
 
 **Mark TODO as completed.**
@@ -4698,7 +4916,10 @@ Would you like to start the tutorial now? (Y/n)
 ```
 Great! Starting interactive tutorial...
 
-[Launches /tutorial command]
+Note: The /tutorial command works via prompt expansion.
+If you see "Unknown slash command" briefly, this is expected - the tutorial will start momentarily.
+
+[Launches /tutorial command immediately without waiting]
 ```
 
 **If user says no:**
@@ -4767,7 +4988,34 @@ Need help merging? Just ask!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-🐟 Remember: Issues are friends, not food!
+🧹 Cleanup: Remove Backup Files (Optional)
+
+After successful installation and verification, you can remove backup files:
+
+```bash
+# Only run this after verifying the workflow works correctly!
+
+# Remove workflow configuration backup
+rm -f .linear-workflow.json.backup
+
+# Remove any GitHub workflow backups
+rm -f .github/workflows/*.backup
+
+# Remove installation state file (no longer needed)
+rm -f .linear-workflow-state.json
+```
+
+💡 Note: Backup files are in .gitignore and won't be committed.
+   You can safely keep them if you prefer having backups.
+
+When to clean up:
+  ✓ After testing workflow successfully
+  ✓ After merging to main
+  ✓ After team confirms everything works
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Issues are friends, not food. 🐟
 
 Happy coding with Linear + Claude! 🚀
 

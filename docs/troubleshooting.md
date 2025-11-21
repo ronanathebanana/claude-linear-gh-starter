@@ -622,7 +622,7 @@ node --version
 3. **Re-render templates:**
    ```bash
    node install/scripts/apply-config.js apply \
-     templates/TEMPLATE_NAME.template \
+     install/templates/TEMPLATE_NAME.template \
      OUTPUT_PATH \
      .linear-workflow.json
    ```
