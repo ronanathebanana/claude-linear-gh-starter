@@ -356,7 +356,7 @@ Remaining:
 **IMMEDIATELY after TODO list creation, check for existing workflow:**
 
 ```bash
-node scripts/version-manager.js check
+node install/scripts/version-manager.js check
 ```
 
 **If no existing workflow found:**
@@ -394,7 +394,7 @@ Latest Version:    1.1.0
     • Improved: Better documentation of Linear native integration
 
 To upgrade, run:
-  node scripts/version-manager.js upgrade --to 1.1.0 --create-branch
+  node install/scripts/version-manager.js upgrade --to 1.1.0 --create-branch
 
 Installation Details:
 ─────────────────────────────────────────────────────────────
@@ -487,7 +487,7 @@ Proceed with upgrade? (Y/n)
 If yes:
 
 ```bash
-node scripts/version-manager.js upgrade --to 1.1.0 --create-branch
+node install/scripts/version-manager.js upgrade --to 1.1.0 --create-branch
 ```
 
 Shows:
@@ -558,7 +558,7 @@ Branch Details:
 
 Next steps:
   1. Review changes: git diff main
-  2. Test workflow: node scripts/test-integration.js
+  2. Test workflow: node install/scripts/test-integration.js
   3. Create PR:
 
      gh pr create --base main --head upgrade/linear-workflow-v1.1.0 \
@@ -1227,35 +1227,35 @@ Your choice [1]: _____
 
 ```bash
 # Issue Creation (6 commands)
-cp "{{setupToolPath}}/templates/commands/create-linear-issue.md.template" "{{projectPath}}/.claude/commands/create-linear-issue.md"
-cp "{{setupToolPath}}/templates/commands/bug-linear.md.template" "{{projectPath}}/.claude/commands/bug-linear.md"
-cp "{{setupToolPath}}/templates/commands/improvement-linear.md.template" "{{projectPath}}/.claude/commands/improvement-linear.md"
-cp "{{setupToolPath}}/templates/commands/feature-linear.md.template" "{{projectPath}}/.claude/commands/feature-linear.md"
-cp "{{setupToolPath}}/templates/commands/create-blocker-linear.md.template" "{{projectPath}}/.claude/commands/create-blocker-linear.md"
-cp "{{setupToolPath}}/templates/commands/create-subtask-linear.md.template" "{{projectPath}}/.claude/commands/create-subtask-linear.md"
+cp "{{setupToolPath}}/install/install/templates/commands/create-linear-issue.md.template" "{{projectPath}}/.claude/commands/create-linear-issue.md"
+cp "{{setupToolPath}}/install/install/templates/commands/bug-linear.md.template" "{{projectPath}}/.claude/commands/bug-linear.md"
+cp "{{setupToolPath}}/install/install/templates/commands/improvement-linear.md.template" "{{projectPath}}/.claude/commands/improvement-linear.md"
+cp "{{setupToolPath}}/install/install/templates/commands/feature-linear.md.template" "{{projectPath}}/.claude/commands/feature-linear.md"
+cp "{{setupToolPath}}/install/install/templates/commands/create-blocker-linear.md.template" "{{projectPath}}/.claude/commands/create-blocker-linear.md"
+cp "{{setupToolPath}}/install/install/templates/commands/create-subtask-linear.md.template" "{{projectPath}}/.claude/commands/create-subtask-linear.md"
 
 # Workflow & Status (8 commands)
-cp "{{setupToolPath}}/templates/commands/start-issue.md.template" "{{projectPath}}/.claude/commands/start-issue.md"
-cp "{{setupToolPath}}/templates/commands/feedback-linear.md.template" "{{projectPath}}/.claude/commands/feedback-linear.md"
-cp "{{setupToolPath}}/templates/commands/get-feedback-linear.md.template" "{{projectPath}}/.claude/commands/get-feedback-linear.md"
-cp "{{setupToolPath}}/templates/commands/pause-linear.md.template" "{{projectPath}}/.claude/commands/pause-linear.md"
-cp "{{setupToolPath}}/templates/commands/blocked-linear.md.template" "{{projectPath}}/.claude/commands/blocked-linear.md"
-cp "{{setupToolPath}}/templates/commands/my-work-linear.md.template" "{{projectPath}}/.claude/commands/my-work-linear.md"
-cp "{{setupToolPath}}/templates/commands/team-work-linear.md.template" "{{projectPath}}/.claude/commands/team-work-linear.md"
-cp "{{setupToolPath}}/templates/commands/high-priority-linear.md.template" "{{projectPath}}/.claude/commands/high-priority-linear.md"
+cp "{{setupToolPath}}/install/install/templates/commands/start-issue.md.template" "{{projectPath}}/.claude/commands/start-issue.md"
+cp "{{setupToolPath}}/install/install/templates/commands/feedback-linear.md.template" "{{projectPath}}/.claude/commands/feedback-linear.md"
+cp "{{setupToolPath}}/install/install/templates/commands/get-feedback-linear.md.template" "{{projectPath}}/.claude/commands/get-feedback-linear.md"
+cp "{{setupToolPath}}/install/install/templates/commands/pause-linear.md.template" "{{projectPath}}/.claude/commands/pause-linear.md"
+cp "{{setupToolPath}}/install/install/templates/commands/blocked-linear.md.template" "{{projectPath}}/.claude/commands/blocked-linear.md"
+cp "{{setupToolPath}}/install/install/templates/commands/my-work-linear.md.template" "{{projectPath}}/.claude/commands/my-work-linear.md"
+cp "{{setupToolPath}}/install/install/templates/commands/team-work-linear.md.template" "{{projectPath}}/.claude/commands/team-work-linear.md"
+cp "{{setupToolPath}}/install/install/templates/commands/high-priority-linear.md.template" "{{projectPath}}/.claude/commands/high-priority-linear.md"
 
 # Progress & Delivery (3 commands)
-cp "{{setupToolPath}}/templates/commands/create-pr.md.template" "{{projectPath}}/.claude/commands/create-pr.md"
-cp "{{setupToolPath}}/templates/commands/create-release-approval.md.template" "{{projectPath}}/.claude/commands/create-release-approval.md"
-cp "{{setupToolPath}}/templates/commands/progress-update.md.template" "{{projectPath}}/.claude/commands/progress-update.md"
+cp "{{setupToolPath}}/install/install/templates/commands/create-pr.md.template" "{{projectPath}}/.claude/commands/create-pr.md"
+cp "{{setupToolPath}}/install/install/templates/commands/create-release-approval.md.template" "{{projectPath}}/.claude/commands/create-release-approval.md"
+cp "{{setupToolPath}}/install/install/templates/commands/progress-update.md.template" "{{projectPath}}/.claude/commands/progress-update.md"
 
 # Maintenance & Diagnostics (2 commands)
-cp "{{setupToolPath}}/templates/commands/workflow-status.md.template" "{{projectPath}}/.claude/commands/workflow-status.md"
-cp "{{setupToolPath}}/templates/commands/cleanup-branches.md.template" "{{projectPath}}/.claude/commands/cleanup-branches.md"
+cp "{{setupToolPath}}/install/install/templates/commands/workflow-status.md.template" "{{projectPath}}/.claude/commands/workflow-status.md"
+cp "{{setupToolPath}}/install/install/templates/commands/cleanup-branches.md.template" "{{projectPath}}/.claude/commands/cleanup-branches.md"
 
 # Help & Learning (2 commands)
-cp "{{setupToolPath}}/templates/commands/tutorial.md.template" "{{projectPath}}/.claude/commands/tutorial.md"
-cp "{{setupToolPath}}/templates/commands/linear-help.md.template" "{{projectPath}}/.claude/commands/linear-help.md"
+cp "{{setupToolPath}}/install/install/templates/commands/tutorial.md.template" "{{projectPath}}/.claude/commands/tutorial.md"
+cp "{{setupToolPath}}/install/install/templates/commands/linear-help.md.template" "{{projectPath}}/.claude/commands/linear-help.md"
 ```
 
 **Display progress as files are copied:**
@@ -1301,11 +1301,11 @@ cp "{{setupToolPath}}/templates/commands/linear-help.md.template" "{{projectPath
 
 ```bash
 # Core Workflow (2 commands)
-cp "{{setupToolPath}}/templates/commands/start-issue.md.template" "{{projectPath}}/.claude/commands/start-issue.md"
-cp "{{setupToolPath}}/templates/commands/create-pr.md.template" "{{projectPath}}/.claude/commands/create-pr.md"
+cp "{{setupToolPath}}/install/install/templates/commands/start-issue.md.template" "{{projectPath}}/.claude/commands/start-issue.md"
+cp "{{setupToolPath}}/install/install/templates/commands/create-pr.md.template" "{{projectPath}}/.claude/commands/create-pr.md"
 
 # Help (1 command)
-cp "{{setupToolPath}}/templates/commands/linear-help.md.template" "{{projectPath}}/.claude/commands/linear-help.md"
+cp "{{setupToolPath}}/install/install/templates/commands/linear-help.md.template" "{{projectPath}}/.claude/commands/linear-help.md"
 ```
 
 **Display progress:**
@@ -1350,15 +1350,15 @@ Your selection: _____
 
 ```bash
 # Category 1: Issue Creation (6 commands)
-cp "{{setupToolPath}}/templates/commands/create-linear-issue.md.template" "{{projectPath}}/.claude/commands/create-linear-issue.md"
-cp "{{setupToolPath}}/templates/commands/bug-linear.md.template" "{{projectPath}}/.claude/commands/bug-linear.md"
-cp "{{setupToolPath}}/templates/commands/improvement-linear.md.template" "{{projectPath}}/.claude/commands/improvement-linear.md"
-cp "{{setupToolPath}}/templates/commands/feature-linear.md.template" "{{projectPath}}/.claude/commands/feature-linear.md"
-cp "{{setupToolPath}}/templates/commands/create-blocker-linear.md.template" "{{projectPath}}/.claude/commands/create-blocker-linear.md"
-cp "{{setupToolPath}}/templates/commands/create-subtask-linear.md.template" "{{projectPath}}/.claude/commands/create-subtask-linear.md"
+cp "{{setupToolPath}}/install/install/templates/commands/create-linear-issue.md.template" "{{projectPath}}/.claude/commands/create-linear-issue.md"
+cp "{{setupToolPath}}/install/install/templates/commands/bug-linear.md.template" "{{projectPath}}/.claude/commands/bug-linear.md"
+cp "{{setupToolPath}}/install/install/templates/commands/improvement-linear.md.template" "{{projectPath}}/.claude/commands/improvement-linear.md"
+cp "{{setupToolPath}}/install/install/templates/commands/feature-linear.md.template" "{{projectPath}}/.claude/commands/feature-linear.md"
+cp "{{setupToolPath}}/install/install/templates/commands/create-blocker-linear.md.template" "{{projectPath}}/.claude/commands/create-blocker-linear.md"
+cp "{{setupToolPath}}/install/install/templates/commands/create-subtask-linear.md.template" "{{projectPath}}/.claude/commands/create-subtask-linear.md"
 
 # Category 4: Help (1 command)
-cp "{{setupToolPath}}/templates/commands/linear-help.md.template" "{{projectPath}}/.claude/commands/linear-help.md"
+cp "{{setupToolPath}}/install/install/templates/commands/linear-help.md.template" "{{projectPath}}/.claude/commands/linear-help.md"
 ```
 
 **Display progress:**
@@ -3593,7 +3593,7 @@ Your choice [1]: _____
 Run installation in dry-run mode:
 
 ```bash
-node scripts/setup-orchestrator.js install --config .linear-workflow.json --dry-run
+node install/scripts/setup-orchestrator.js install --config .linear-workflow.json --dry-run
 ```
 
 **Dry-Run Output:**
@@ -3690,7 +3690,7 @@ Skip dry-run and proceed directly to installation.
 Use the setup orchestrator to execute installation with automatic rollback:
 
 ```bash
-node scripts/setup-orchestrator.js install --config .linear-workflow.json
+node install/scripts/setup-orchestrator.js install --config .linear-workflow.json
 ```
 
 The orchestrator will:
@@ -3720,7 +3720,7 @@ Rolling back changes...
 
 To retry installation:
   1. Fix the error (check permissions on .github/)
-  2. Run: node scripts/setup-orchestrator.js install --config .linear-workflow.json
+  2. Run: node install/scripts/setup-orchestrator.js install --config .linear-workflow.json
 ```
 
 **Manual Rollback:**
@@ -3728,13 +3728,13 @@ To retry installation:
 If needed, user can manually rollback at any time:
 
 ```bash
-node scripts/setup-orchestrator.js rollback
+node install/scripts/setup-orchestrator.js rollback
 ```
 
 **Check Installation Status:**
 
 ```bash
-node scripts/setup-orchestrator.js status
+node install/scripts/setup-orchestrator.js status
 ```
 
 Shows:
@@ -3820,7 +3820,7 @@ Display each step with clear descriptions:
 After setting the LINEAR_API_KEY GitHub secret, IMMEDIATELY validate it:
 
 ```bash
-node scripts/validate-secrets.js --api-key $LINEAR_API_KEY
+node install/scripts/validate-secrets.js --api-key $LINEAR_API_KEY
 ```
 
 The validation script will:
@@ -3941,7 +3941,7 @@ Create reference files for team documentation (Claude Desktop users):
 **Run automatic hook testing:**
 
 ```bash
-node scripts/test-git-hook.js
+node install/scripts/test-git-hook.js
 ```
 
 **Successful Test Output:**
@@ -4015,7 +4015,7 @@ To fix:
   3. Reinstall hook: Run setup wizard
 
 For detailed output, run:
-  node scripts/test-git-hook.js --verbose
+  node install/scripts/test-git-hook.js --verbose
 ```
 
 **Troubleshooting failed tests:**
@@ -4032,8 +4032,8 @@ For detailed output, run:
 3. **Hook file corrupted:**
    ```bash
    # Re-copy from template
-   node scripts/apply-config.js apply \
-     templates/commit-msg.template \
+   node install/scripts/apply-config.js apply \
+     install/templates/workflow/commit-msg.template \
      .git/hooks/commit-msg \
      .linear-workflow.json
 
@@ -4342,7 +4342,7 @@ If successful:
 **Read and validate .linear-workflow.json:**
 
 ```bash
-node scripts/validate-config.js .linear-workflow.json
+node install/scripts/validate-config.js .linear-workflow.json
 ```
 
 If successful:
@@ -4782,16 +4782,16 @@ Happy coding with Linear + Claude! 🚀
 
 When creating files, use the templates from the `templates/` directory:
 
-1. **GitHub Workflow** (`templates/github-workflow.yml.template`):
+1. **GitHub Workflow** (`install/templates/workflow/github-workflow.yml.template`):
    - Replace `{{linear.teamKey}}` with user's team key
    - Replace `{{linear.statuses.*}}` with selected status names
    - Replace `{{branches.*}}` with branch names
 
-2. **Linear Workflow Docs** (`templates/linear-workflow.md.template`):
+2. **Linear Workflow Docs** (`install/templates/workflow/linear-workflow.md.template`):
    - Replace placeholders with user-specific values
    - Include examples using their issue pattern
 
-3. **MCP Config** (`templates/mcp-config.json.template`):
+3. **MCP Config** (`install/templates/config/mcp-config.json.template`):
    - Set LINEAR_API_KEY placeholder
 
 4. **Configuration File** (`.linear-workflow.json`):

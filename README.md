@@ -573,7 +573,7 @@ Complete guides available in `/docs`:
 gh secret list | grep LINEAR_API_KEY
 
 # Test connection
-node scripts/validate-secrets.js
+node install/scripts/validate-secrets.js
 
 # Check workflow logs
 gh run list --workflow=linear-status-update.yml
@@ -630,7 +630,7 @@ cd your-project && claude
 **Solutions:**
 ```bash
 # Test hook installation
-node scripts/test-git-hook.js
+node install/scripts/test-git-hook.js
 
 # Verify issue pattern
 cat .linear-workflow.json | grep issuePattern

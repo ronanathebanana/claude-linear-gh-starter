@@ -354,7 +354,7 @@ If your `main` branch has branch protection rules:
 
 **Check protection:**
 ```bash
-node scripts/github-setup.js check-branch main
+node install/scripts/github-setup.js check-branch main
 ```
 
 **Note:** Branch protection is fine, but ensure:
@@ -388,7 +388,7 @@ git clone https://github.com/YOUR_USERNAME/claude-linear-gh-starter.git
 cd claude-linear-gh-starter
 
 # Run verification
-node scripts/github-setup.js verify
+node install/scripts/github-setup.js verify
 ```
 
 Expected output:
@@ -508,7 +508,7 @@ If you encounter issues with prerequisites:
 
 2. **Run diagnostics:**
    ```bash
-   node scripts/github-setup.js verify
+   node install/scripts/github-setup.js verify
    ```
 
 3. **Check our troubleshooting guide:**

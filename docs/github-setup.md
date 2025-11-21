@@ -456,7 +456,7 @@ git branch -a
 **If you have branch protection on `main`:**
 
 ```bash
-node scripts/github-setup.js check-branch main
+node install/scripts/github-setup.js check-branch main
 ```
 
 **Branch protection is fine, but ensure:**
@@ -479,7 +479,7 @@ node scripts/github-setup.js check-branch main
 From the `claude-linear-gh-starter` repository:
 
 ```bash
-node scripts/github-setup.js verify
+node install/scripts/github-setup.js verify
 ```
 
 **Expected output:**

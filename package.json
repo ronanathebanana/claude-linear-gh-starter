@@ -2,10 +2,10 @@
   "name": "claude-linear-gh-starter",
   "version": "1.0.0",
   "description": "Interactive setup wizard for Linear + Claude + GitHub workflow integration",
-  "main": "scripts/apply-config.js",
+  "main": "install/install/scripts/apply-config.js",
   "scripts": {
-    "setup": "node scripts/setup-wizard.js",
-    "validate": "node scripts/validate-config.js",
+    "setup": "node install/scripts/setup-wizard.js",
+    "validate": "node install/scripts/validate-config.js",
     "test": "echo \"Tests coming soon\" && exit 0"
   },
   "keywords": [
@@ -30,6 +30,7 @@
   "engines": {
     "node": ">=16.0.0"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "glob": "^10.5.0"
+  }
 }

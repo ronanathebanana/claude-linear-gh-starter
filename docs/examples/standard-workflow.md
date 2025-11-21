@@ -417,7 +417,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Deploy to staging
-        run: ./scripts/deploy-staging.sh
+        run: ./install/scripts/deploy-staging.sh
 ```
 
 ---

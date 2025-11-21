@@ -176,7 +176,7 @@ If you encounter issues:
 
 1. Run pre-flight checks:
    ```bash
-   ./scripts/preflight-checks.sh
+   ./install/scripts/preflight-checks.sh
    ```
 
 2. Check the troubleshooting guide
