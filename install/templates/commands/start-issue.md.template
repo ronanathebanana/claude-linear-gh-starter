@@ -1,0 +1,23 @@
+Start work on an existing Linear issue.
+
+Usage:
+  /start-issue {{formats.issueExample}}
+  /start-issue
+
+If no issue ID provided, you'll be prompted to enter one.
+
+This command will:
+1. Fetch issue details from Linear (via MCP)
+2. Create comprehensive task analysis document
+3. Ask: "Would you like me to post a summary comment to Linear? (Y/n)"
+4. If yes: Build comment summary, then post as Linear comment
+5. If no: Skip building/posting, continue workflow
+6. Create feature branch: feature/{{formats.issueExample}}-description
+7. Make initial commit with issue reference
+8. Update issue status to "{{linear.statuses.inProgress}}"
+
+Example:
+  /start-issue {{formats.issueExample}}
+
+This will analyze the issue, create documentation, optionally post to Linear,
+create a branch, and get you ready to start coding.

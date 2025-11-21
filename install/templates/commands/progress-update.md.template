@@ -1,0 +1,30 @@
+Post a progress update to Linear.
+
+Usage:
+  /progress-update
+  /progress-update {{formats.issueExample}}
+
+This command will:
+1. Analyze recent commits since last update
+2. Check current file changes (git status, git diff)
+3. Review acceptance criteria progress from task analysis
+4. Generate structured update
+5. Post to Linear issue as comment
+
+Update includes:
+- Completed items (from recent commits)
+- Current work in progress (from file changes)
+- Next steps (remaining acceptance criteria)
+- Any blockers
+
+Example:
+  /progress-update
+
+Claude will analyze your recent work and post a comprehensive update
+to the Linear issue you're working on.
+
+Perfect for:
+- Daily standup updates
+- End of day progress reports
+- Before requesting code review
+- When switching to another issue
