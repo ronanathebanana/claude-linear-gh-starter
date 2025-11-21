@@ -22,7 +22,7 @@
  *   const output = renderTemplate(templateContent, config);
  *
  *   // Apply template file to output location
- *   await applyConfig('templates/github-workflow.yml.template',
+ *   await applyConfig('install/templates/workflow/github-workflow.yml.template',
  *                     '.github/workflows/linear-status-update.yml',
  *                     config);
  */
@@ -544,8 +544,8 @@ Commands:
     Run built-in tests
 
 Examples:
-  node apply-config.js render templates/github-workflow.yml.template config.json
-  node apply-config.js apply templates/github-workflow.yml.template .github/workflows/linear.yml config.json
+  node apply-config.js render install/templates/workflow/github-workflow.yml.template config.json
+  node apply-config.js apply install/templates/workflow/github-workflow.yml.template .github/workflows/linear.yml config.json
   node apply-config.js test
 `);
     process.exit(0);

@@ -1,0 +1,499 @@
+Clean up merged and stale feature branches.
+
+## Usage
+
+```
+/cleanup-branches
+/cleanup-branches --merged-only
+/cleanup-branches --dry-run
+```
+
+## Description
+
+Automatically detects and helps you clean up branches that are no longer needed. This keeps your repository tidy and prevents confusion about which branches are active.
+
+Perfect for:
+- Regular repository maintenance
+- After merging multiple PRs
+- When your branch list is getting long
+- Before starting new work
+
+## What Gets Cleaned
+
+### 1. Merged Branches (Safe)
+Branches that have been fully merged to main/staging/prod:
+- ✅ PR was merged
+- ✅ All commits are in target branch
+- ✅ Safe to delete
+
+### 2. Stale Branches (Caution)
+Branches with no activity for extended periods:
+- ⚠️ No commits in 30+ days
+- ⚠️ No open PR
+- ⚠️ Requires confirmation
+
+### 3. Abandoned Branches (Review)
+Branches that appear to be abandoned:
+- ⚠️ Never had a PR created
+- ⚠️ Very old (60+ days)
+- ⚠️ Review before deleting
+
+## Workflow
+
+### Step 1: Scan for Branches
+
+```
+Scanning for branches to clean up...
+
+Found 15 local branches:
+  • Analyzing merge status...
+  • Checking for open PRs...
+  • Detecting stale branches...
+
+✓ Scan complete
+```
+
+### Step 2: Categorize Branches
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Branch Cleanup Report
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Merged Branches (Safe to Delete)
+
+1. feature/{{formats.issueExample}}-login
+   • PR #234 merged to {{branches.main}} (3 days ago)
+   • Issue: {{formats.issueExample}} - Add user authentication [Done]
+   • 15 commits, fully merged
+
+2. feature/DEV-115-api
+   • PR #230 merged to {{branches.main}} (1 week ago)
+   • Issue: DEV-115 - Refactor API [Done]
+   • 8 commits, fully merged
+
+3. feature/DEV-120-fix
+   • PR #225 merged to {{branches.main}} (2 weeks ago)
+   • Issue: DEV-120 - Fix mobile layout [Done]
+   • 3 commits, fully merged
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️  Stale Branches (Review Before Deleting)
+
+4. feature/DEV-100-test
+   • Last commit: 45 days ago
+   • No PR found
+   • Issue: DEV-100 - Test feature [On Hold]
+   • 2 commits, not merged
+
+5. feature/DEV-95-experiment
+   • Last commit: 60 days ago
+   • No PR found
+   • Issue: DEV-95 - Experiment [Canceled]
+   • 5 commits, not merged
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✨ Active Branches (Keep)
+
+6. feature/DEV-125-dashboard
+   • Last commit: 2 hours ago
+   • In progress, no PR yet
+   • Issue: DEV-125 - Dashboard refactor [In Progress]
+
+7. feature/DEV-130-fix
+   • Last commit: 1 day ago
+   • PR #240 open, under review
+   • Issue: DEV-130 - Fix mobile layout [Review Required]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Summary:
+  • 3 merged branches (safe to delete)
+  • 2 stale branches (review needed)
+  • 2 active branches (keep)
+```
+
+### Step 3: Choose What to Clean
+
+```
+What would you like to clean up?
+
+1. Delete all merged branches (3 branches) [Recommended]
+2. Delete merged + stale branches (5 branches)
+3. Select individual branches to delete
+4. Dry run (show what would be deleted)
+5. Cancel
+
+Your choice [1]: _____
+```
+
+### Step 4: Confirm Deletion
+
+**Option 1 - Delete Merged (Safe):**
+```
+Delete 3 merged branches? (Y/n)
+
+You: y
+
+Deleting merged branches...
+
+  ✓ feature/{{formats.issueExample}}-login
+    - Deleted local branch
+    - Deleted remote: origin/feature/{{formats.issueExample}}-login
+
+  ✓ feature/DEV-115-api
+    - Deleted local branch
+    - Deleted remote: origin/feature/DEV-115-api
+
+  ✓ feature/DEV-120-fix
+    - Deleted local branch
+    - Deleted remote: origin/feature/DEV-120-fix
+
+✅ 3 branches cleaned up successfully!
+```
+
+**Option 2 - Delete Merged + Stale (Review):**
+```
+⚠️  This will delete 2 stale branches with unmerged commits:
+  • feature/DEV-100-test (2 commits)
+  • feature/DEV-95-experiment (5 commits)
+
+Are you sure? You won't be able to recover these commits easily.
+
+Type 'delete' to confirm: _____
+```
+
+**Option 3 - Select Individual:**
+```
+Select branches to delete (comma-separated):
+
+Merged:
+  1. feature/{{formats.issueExample}}-login
+  2. feature/DEV-115-api
+  3. feature/DEV-120-fix
+
+Stale:
+  4. feature/DEV-100-test ⚠️
+  5. feature/DEV-95-experiment ⚠️
+
+Your selection: 1,2,3
+```
+
+### Step 5: Verify Deletion
+
+```
+✅ Cleanup Complete!
+
+Deleted:
+  • 3 local branches
+  • 3 remote branches
+
+Kept:
+  • 2 active branches
+  • 2 stale branches (user choice)
+
+Your workspace is cleaner! 🎉
+
+Current branches:
+  main
+  feature/DEV-125-dashboard (active)
+  feature/DEV-130-fix (active)
+```
+
+## Safety Features
+
+### 1. Pre-Deletion Checks
+```
+Checking branch: feature/DEV-100-test
+
+✗ Cannot delete safely
+  Reason: Has unpushed commits (2 commits)
+
+Options:
+  1. Push commits first, then delete
+  2. Keep branch (don't delete)
+  3. Force delete (lose commits) ⚠️
+
+Your choice [2]: _____
+```
+
+### 2. Backup Suggestions
+```
+⚠️  Branch 'feature/DEV-100-test' has unmerged work
+
+Before deleting, would you like to:
+  1. Create a backup branch (backup/DEV-100-test)
+  2. Create a patch file (patches/DEV-100.patch)
+  3. Continue without backup
+
+Your choice [1]: _____
+```
+
+### 3. Protected Branches
+Never deletes:
+- Main branch ({{branches.main}})
+- Staging branch ({{branches.staging}})
+- Production branch ({{branches.prod}})
+- Current branch (you're on it)
+- Branches with open PRs (unless specified)
+
+## Command Options
+
+### --merged-only
+
+Only clean up merged branches (safest):
+```
+/cleanup-branches --merged-only
+
+Cleaning up merged branches only...
+Found 3 merged branches
+Delete all? (Y/n)
+```
+
+### --dry-run
+
+Show what would be deleted without actually deleting:
+```
+/cleanup-branches --dry-run
+
+DRY RUN - No branches will be deleted
+
+Would delete:
+  ✓ feature/{{formats.issueExample}}-login (merged)
+  ✓ feature/DEV-115-api (merged)
+  ⚠️  feature/DEV-100-test (stale)
+
+Would keep:
+  • feature/DEV-125-dashboard (active)
+  • feature/DEV-130-fix (active)
+
+Run without --dry-run to actually delete.
+```
+
+### --include-remote
+
+Also clean up remote branches:
+```
+/cleanup-branches --include-remote
+
+Found 5 branches to delete:
+  • 3 local branches
+  • 2 remote branches (no local copy)
+
+Delete all? (Y/n)
+```
+
+## Examples
+
+### Example 1: Quick Cleanup After Merge
+
+```
+[Just merged PR #234]
+
+You: "/cleanup-branches"
+
+Claude: "Found 1 merged branch: feature/{{formats.issueExample}}-login"
+        "Delete? (Y/n)"
+
+You: "y"
+
+Claude: ✓ Branch deleted
+        "✓ Remote deleted"
+        "Cleanup complete!"
+```
+
+### Example 2: Monthly Maintenance
+
+```
+You: "/cleanup-branches"
+
+Claude: [Shows 8 branches: 5 merged, 2 stale, 1 active]
+
+        "Delete merged branches? (Y/n)"
+
+You: "y"
+
+Claude: ✓ 5 merged branches deleted
+
+        "Also delete 2 stale branches? (y/N)"
+
+You: "n"
+
+Claude: "Kept stale branches"
+        "✓ Cleanup complete!"
+```
+
+### Example 3: Review Before Deleting
+
+```
+You: "/cleanup-branches"
+
+Claude: [Shows branches]
+
+        "What to clean? 1. Merged, 2. All, 3. Select"
+
+You: "3"
+
+Claude: "Select branches (1,2,3): _____"
+
+You: "1,3,5"
+
+Claude: ✓ 3 branches deleted
+        "2 branches kept"
+```
+
+### Example 4: Dry Run First
+
+```
+You: "/cleanup-branches --dry-run"
+
+Claude: [Shows what would be deleted]
+
+        "Run without --dry-run? (y/N)"
+
+You: "y"
+
+Claude: "/cleanup-branches"
+        [Performs actual deletion]
+```
+
+## When to Run
+
+### After Merging PRs
+```
+Merged 3 PRs today? Clean up:
+/cleanup-branches
+```
+
+### Weekly Maintenance
+```
+Friday afternoon cleanup:
+/cleanup-branches --merged-only
+```
+
+### Before Starting New Work
+```
+Clean workspace before new issue:
+/cleanup-branches
+```
+
+### Repository Spring Cleaning
+```
+Monthly deep clean:
+/cleanup-branches
+[Review and delete stale branches]
+```
+
+## Integration with Other Commands
+
+### After /create-pr
+```
+After PR merge, /create-pr offers automatic cleanup:
+
+"PR merged! Delete branch? (Y/n)"
+
+If you said no, run /cleanup-branches later.
+```
+
+### With /my-work-linear
+```
+/my-work-linear shows stale branches:
+
+"⚠️  Branch 'feature/DEV-100' is 30 days old"
+"Run /cleanup-branches to clean up"
+```
+
+### With /workflow-status
+```
+/workflow-status detects stale branches:
+
+"5 stale branches detected"
+"Run /cleanup-branches for maintenance"
+```
+
+## Configuration
+
+Add to `.linear-workflow.json`:
+
+```json
+{
+  "branchCleanup": {
+    "staleDays": 30,
+    "abandonedDays": 60,
+    "autoCleanupMerged": true,
+    "confirmStale": true,
+    "confirmAbandoned": true
+  }
+}
+```
+
+**Options:**
+- `staleDays`: Days before branch is considered stale (default: 30)
+- `abandonedDays`: Days before branch is abandoned (default: 60)
+- `autoCleanupMerged`: Auto-delete merged branches (default: true)
+- `confirmStale`: Ask before deleting stale (default: true)
+- `confirmAbandoned`: Ask before deleting abandoned (default: true)
+
+## Related Commands
+
+- `/create-pr` - Creates PR with automatic cleanup
+- `/workflow-status` - Shows stale branch warnings
+- `/my-work-linear` - Shows your active branches
+
+## Troubleshooting
+
+### "Cannot delete branch"
+
+**Cause:** Branch has unpushed commits or unmerged changes
+
+**Fix:**
+```bash
+# Push commits first
+git push origin branch-name
+
+# Or force delete (loses commits)
+git branch -D branch-name
+```
+
+### "Branch not found"
+
+**Cause:** Branch already deleted or never existed
+
+**Fix:** Run `/cleanup-branches` again to refresh list
+
+### "Remote deletion failed"
+
+**Cause:** No permission or branch protected
+
+**Fix:**
+```bash
+# Check remote branches
+git ls-remote --heads origin
+
+# Manually delete if needed
+git push origin --delete branch-name
+```
+
+## Best Practices
+
+1. **Clean up regularly** - Don't let branches pile up
+2. **Use --merged-only** - Safest option for routine cleanup
+3. **Review stale branches** - May contain useful work
+4. **Keep backups** - For abandoned branches with unmerged work
+5. **Automate** - Let `/create-pr` clean up automatically
+
+## Tips
+
+- Run after merging multiple PRs
+- Use dry-run first if unsure
+- Review stale branches carefully
+- Keep current branch switched to main
+- Clean up saves disk space
+- Easier to find active work
+- Prevents confusion about what's in progress
+
+---
+
+Generated with [Claude Code](https://claude.com/claude-code)

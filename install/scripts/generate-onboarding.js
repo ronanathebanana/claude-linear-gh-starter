@@ -7,10 +7,10 @@
  * Creates personalized guides with actual team settings, issue patterns, and branch names.
  *
  * Usage:
- *   node scripts/generate-onboarding.js                     # Generate all docs
- *   node scripts/generate-onboarding.js --output ./onboarding  # Custom output directory
- *   node scripts/generate-onboarding.js --format markdown   # Output format (markdown/html)
- *   node scripts/generate-onboarding.js --minimal           # Generate minimal quick-start only
+ *   node install/scripts/generate-onboarding.js                     # Generate all docs
+ *   node install/scripts/generate-onboarding.js --output ./onboarding  # Custom output directory
+ *   node install/scripts/generate-onboarding.js --format markdown   # Output format (markdown/html)
+ *   node install/scripts/generate-onboarding.js --minimal           # Generate minimal quick-start only
  */
 
 const fs = require('fs');
@@ -102,7 +102,7 @@ Follow the browser authentication flow to connect to Linear.
 
 \`\`\`bash
 # Run health check
-node scripts/health-check.js
+node install/scripts/health-check.js
 
 # Should show 90%+ health score
 \`\`\`
@@ -204,9 +204,9 @@ git push
 
 ## Getting Help
 
-- **Workflow Issues**: \`node scripts/health-check.js\`
-- **Configuration**: \`node scripts/edit-config.js\`
-- **Git Hook Problems**: \`node scripts/test-git-hook.js\`
+- **Workflow Issues**: \`node install/scripts/health-check.js\`
+- **Configuration**: \`node install/scripts/edit-config.js\`
+- **Git Hook Problems**: \`node install/scripts/test-git-hook.js\`
 - **Documentation**: See \`docs/linear-workflow.md\`
 
 Welcome to the team!
@@ -445,7 +445,7 @@ Claude analyzes recent commits and posts structured update to Linear.
 **Solution:**
 \`\`\`bash
 # Test your commit message format
-node scripts/test-git-hook.js
+node install/scripts/test-git-hook.js
 
 # Check issue pattern
 cat .linear-workflow.json | grep issuePattern
@@ -494,7 +494,7 @@ cat .mcp.json
 
 3. **Verify Linear API key:**
 \`\`\`bash
-node scripts/validate-secrets.js
+node install/scripts/validate-secrets.js
 \`\`\`
 
 ### Branch Protection Preventing Push
@@ -522,7 +522,7 @@ gh pr create
 **Solution:**
 \`\`\`bash
 # Interactive configuration editor
-node scripts/edit-config.js
+node install/scripts/edit-config.js
 
 # Or manually edit
 nano .linear-workflow.json
@@ -535,10 +535,10 @@ nano .linear-workflow.json
 **Solution:**
 \`\`\`bash
 # Run health check with verbose output
-node scripts/health-check.js --verbose
+node install/scripts/health-check.js --verbose
 
 # Attempt auto-fix
-node scripts/health-check.js --fix
+node install/scripts/health-check.js --fix
 
 # Manual fixes
 # Follow suggested fixes from health check output
@@ -549,13 +549,13 @@ node scripts/health-check.js --fix
 - **Configuration Reference**: \`.linear-workflow.json\`
 - **Workflow File**: \`.github/workflows/linear-status-update.yml\`
 - **Team Documentation**: \`${config.paths?.issues || 'docs/issues/'}\`
-- **Health Check**: \`node scripts/health-check.js\`
-- **Edit Configuration**: \`node scripts/edit-config.js\`
+- **Health Check**: \`node install/scripts/health-check.js\`
+- **Edit Configuration**: \`node install/scripts/edit-config.js\`
 
 ## Questions?
 
 - Check \`docs/linear-workflow.md\` for workflow documentation
-- Run \`node scripts/health-check.js\` to diagnose issues
+- Run \`node install/scripts/health-check.js\` to diagnose issues
 - Ask your team lead or Claude Code for help!
 `;
 }
@@ -626,10 +626,10 @@ git branch --show-current
 
 | Issue | Command |
 |-------|---------|
-| Health check | \`node scripts/health-check.js\` |
-| Test git hook | \`node scripts/test-git-hook.js\` |
-| Validate secrets | \`node scripts/validate-secrets.js\` |
-| Edit config | \`node scripts/edit-config.js\` |
+| Health check | \`node install/scripts/health-check.js\` |
+| Test git hook | \`node install/scripts/test-git-hook.js\` |
+| Validate secrets | \`node install/scripts/validate-secrets.js\` |
+| Edit config | \`node install/scripts/edit-config.js\` |
 | View workflow logs | \`gh run list\` |
 
 ## Important Patterns
@@ -683,7 +683,7 @@ Issue ID not found in commit message.
 
 **1. Test your commit message:**
 \`\`\`bash
-node scripts/test-git-hook.js
+node install/scripts/test-git-hook.js
 \`\`\`
 
 **2. Check the pattern:**
@@ -697,7 +697,7 @@ ${getCommitFormatExample(config)}
 
 **4. Reinstall hook if corrupted:**
 \`\`\`bash
-./scripts/install-hooks.sh
+./install/scripts/install-hooks.sh
 chmod +x .git/hooks/commit-msg
 \`\`\`
 
@@ -722,7 +722,7 @@ chmod +x .git/hooks/commit-msg
 
 **3. Reinstall hook:**
 \`\`\`bash
-./scripts/install-hooks.sh
+./install/scripts/install-hooks.sh
 \`\`\`
 
 ---
@@ -786,7 +786,7 @@ git branch --show-current
 
 \`\`\`bash
 # Test API key
-node scripts/validate-secrets.js
+node install/scripts/validate-secrets.js
 \`\`\`
 
 ### Status Updating to Wrong State
@@ -806,7 +806,7 @@ cat .github/workflows/linear-status-update.yml
 cat .linear-workflow.json
 
 # Update workflow if needed
-node scripts/edit-config.js
+node install/scripts/edit-config.js
 # Then regenerate workflow
 \`\`\`
 
@@ -947,7 +947,7 @@ If missing, update workflow configuration.
 
 \`\`\`bash
 # Interactive editor
-node scripts/edit-config.js
+node install/scripts/edit-config.js
 
 # Select what to edit:
 # 1. Branch strategy
@@ -1014,7 +1014,7 @@ gh workflow enable linear-status-update.yml
 
 **3. Syntax error in workflow:**
 \`\`\`bash
-node scripts/validate-workflow.js
+node install/scripts/validate-workflow.js
 \`\`\`
 
 ### Workflow Running but Failing
@@ -1039,7 +1039,7 @@ gh secret set LINEAR_API_KEY
 **"Invalid API key":**
 \`\`\`bash
 # Validate and update
-node scripts/validate-secrets.js
+node install/scripts/validate-secrets.js
 gh secret set LINEAR_API_KEY  # Paste new key
 \`\`\`
 
@@ -1059,13 +1059,13 @@ gh secret set LINEAR_API_KEY  # Paste new key
 
 \`\`\`bash
 # Full diagnostics
-node scripts/health-check.js --verbose
+node install/scripts/health-check.js --verbose
 
 # Attempt auto-fixes
-node scripts/health-check.js --fix
+node install/scripts/health-check.js --fix
 
 # JSON output for debugging
-node scripts/health-check.js --json > health-report.json
+node install/scripts/health-check.js --json > health-report.json
 \`\`\`
 
 ### Check All Systems
@@ -1085,7 +1085,7 @@ gh run list --limit 5
 cat .linear-workflow.json | jq .
 
 # 5. Linear connection
-node scripts/validate-secrets.js
+node install/scripts/validate-secrets.js
 \`\`\`
 
 ### Still Stuck?
@@ -1106,7 +1106,7 @@ echo "Git: $(git --version)"
 echo "GH CLI: $(gh --version)"
 
 # Health check
-node scripts/health-check.js --verbose > debug-health.txt
+node install/scripts/health-check.js --verbose > debug-health.txt
 
 # Recent workflow runs
 gh run list --limit 10 > debug-runs.txt

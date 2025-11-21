@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **Release Approval Workflow** - `/create-release-approval` command for production deployments
+  - Automatically analyzes commits between staging/main and production branches
+  - Extracts and fetches all Linear issue IDs from commits via MCP
+  - Categorizes issues by type (Bug Fixes, New Features, Improvements)
+  - Generates comprehensive release approval issue with:
+    - Complete list of all changes with links to Linear issues
+    - Brief summary of each issue's problem and solution
+    - Approval checklist (testing, documentation, stakeholder notification, etc.)
+    - Release metadata (version, date, target branch, related PRs)
+  - Assigns to configurable release manager or team member
+  - Auto-integrates with `/create-pr` when targeting production branch
+  - Perfect for teams with formal release approval processes
+
+### Changed
+
+- Updated command count from 17 to 21 commands across all documentation
+- Progress & Delivery category now includes 3 commands (was 2)
+- COMMAND-CHEATSHEET.md includes comprehensive release approval documentation
+
 ## [1.0.0] - 2025-01-11
 
 ### Added

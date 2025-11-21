@@ -7,9 +7,9 @@
  * and provides migration paths for upgrades.
  *
  * Usage:
- *   node scripts/version-manager.js check
- *   node scripts/version-manager.js upgrade --from 1.0.0 --to 1.1.0
- *   node scripts/version-manager.js list-migrations
+ *   node install/scripts/version-manager.js check
+ *   node install/scripts/version-manager.js upgrade --from 1.0.0 --to 1.1.0
+ *   node install/scripts/version-manager.js list-migrations
  */
 
 const fs = require('fs').promises;
@@ -480,7 +480,7 @@ async function checkVersion(projectPath = process.cwd()) {
       });
 
       console.log('To upgrade, run:');
-      console.log(`  node scripts/version-manager.js upgrade --to ${CURRENT_VERSION}`);
+      console.log(`  node install/scripts/version-manager.js upgrade --to ${CURRENT_VERSION}`);
       console.log('');
     } else {
       console.log('⚠️  No migration path found');
@@ -603,7 +603,7 @@ async function upgrade(options = {}) {
       console.log('');
       console.log('Next steps:');
       console.log('  1. Review changes: git diff main');
-      console.log('  2. Test workflow: node scripts/test-integration.js');
+      console.log('  2. Test workflow: node install/scripts/test-integration.js');
       console.log('  3. Create PR:');
       console.log('');
       console.log(`     gh pr create --base main --head ${branchName} \\`);
@@ -615,7 +615,7 @@ async function upgrade(options = {}) {
     } else {
       console.log('Next steps:');
       console.log('  1. Review changes in .linear-workflow.json');
-      console.log('  2. Test workflow: node scripts/test-integration.js');
+      console.log('  2. Test workflow: node install/scripts/test-integration.js');
       console.log('  3. Commit changes: git commit -m "chore: Upgrade workflow to v' + upgradedConfig.version + '"');
       console.log('');
     }
@@ -700,9 +700,9 @@ async function main() {
         console.log('Version Manager - Workflow Version Management');
         console.log('');
         console.log('Usage:');
-        console.log('  node scripts/version-manager.js check');
-        console.log('  node scripts/version-manager.js upgrade [--to <version>] [--create-branch]');
-        console.log('  node scripts/version-manager.js list-migrations');
+        console.log('  node install/scripts/version-manager.js check');
+        console.log('  node install/scripts/version-manager.js upgrade [--to <version>] [--create-branch]');
+        console.log('  node install/scripts/version-manager.js list-migrations');
         console.log('');
         console.log('Commands:');
         console.log('  check            - Check installed version and available updates');
@@ -714,8 +714,8 @@ async function main() {
         console.log('  --create-branch  - Create upgrade branch, commit, and push (recommended)');
         console.log('');
         console.log('Examples:');
-        console.log('  node scripts/version-manager.js upgrade --create-branch');
-        console.log('  node scripts/version-manager.js upgrade --to 1.2.0 --create-branch');
+        console.log('  node install/scripts/version-manager.js upgrade --create-branch');
+        console.log('  node install/scripts/version-manager.js upgrade --to 1.2.0 --create-branch');
         console.log('');
         process.exit(1);
     }

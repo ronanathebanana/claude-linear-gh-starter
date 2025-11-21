@@ -38,7 +38,7 @@ Say "Let's get to work on DEV-123" and watch Claude:
 
 This is a **2-way integration**: Claude reads from Linear (via MCP), creates task analysis locally, and posts back to Linear. Your team sees Claude's work. GitHub Actions handle status updates automatically as code moves through your workflow (optional - you can use Claude commands without GitHub Actions).
 
-The setup wizard walks you through a **5-minute installation** that configures everything: Linear MCP integration (OAuth-based, **no API key required**!), optional GitHub Actions workflows, commit message validation, auto-assignment rules, and team configuration. Choose from pre-built profiles (Startup, Small Team, Enterprise) or customize every detail to match your workflow.
+The setup wizard walks you through a **15-minute installation** that configures everything: Linear MCP integration (OAuth-based, **no API key required**!), optional GitHub Actions workflows, commit message validation, auto-assignment rules, and team configuration. Choose from pre-built profiles (Startup, Small Team, Enterprise) or customize every detail to match your workflow.
 
 **Perfect for teams who:**
 - Want to ship code, not update tickets
@@ -126,7 +126,7 @@ Three commands. Five minutes. You're done.
 
 ```bash
 # 1. Clone this repo
-git clone https://github.com/YOUR_USERNAME/claude-linear-gh-starter.git
+git clone https://github.com/ronanathebanana/claude-linear-gh-starter.git
 
 # 2. Start Claude Code in the cloned repo
 cd claude-linear-gh-starter && claude
@@ -183,7 +183,7 @@ The wizard will detect your existing installation and offer to upgrade:
 
 ## ⚡ Commands Reference
 
-After setup, use 17 powerful slash commands or just talk naturally to Claude:
+After setup, use 20 powerful slash commands or just talk naturally to Claude:
 
 ### Quick Command Examples
 
@@ -225,6 +225,13 @@ After setup, use 17 powerful slash commands or just talk naturally to Claude:
 ```bash
 /progress-update
 /create-pr
+/create-release-approval v1.2.0    # Production release approval
+```
+
+**Maintain & diagnose:**
+```bash
+/workflow-status                    # Check workflow health
+/cleanup-branches                   # Clean up merged/stale branches
 ```
 
 ### Or Just Talk Naturally
@@ -238,7 +245,7 @@ After setup, use 17 powerful slash commands or just talk naturally to Claude:
 "Ready for review"
 ```
 
-[→ **Full Command Cheat Sheet**](COMMAND-CHEATSHEET.md) - Complete guide with examples for all 17 commands
+[→ **Full Command Cheat Sheet**](COMMAND-CHEATSHEET.md) - Complete guide with examples for all 21 commands
 
 <br/>
 
@@ -443,7 +450,7 @@ Configure automatic assignment when status changes:
     "assignments": {
       "reviewRequired": {
         "userId": "reviewer-user-id",
-        "userName": "Alex Acton"
+        "userName": "Joe Bloggs"
       }
     }
   }
@@ -566,7 +573,7 @@ Complete guides available in `/docs`:
 gh secret list | grep LINEAR_API_KEY
 
 # Test connection
-node scripts/validate-secrets.js
+node install/scripts/validate-secrets.js
 
 # Check workflow logs
 gh run list --workflow=linear-status-update.yml
@@ -623,7 +630,7 @@ cd your-project && claude
 **Solutions:**
 ```bash
 # Test hook installation
-node scripts/test-git-hook.js
+node install/scripts/test-git-hook.js
 
 # Verify issue pattern
 cat .linear-workflow.json | grep issuePattern
@@ -634,6 +641,64 @@ ls -la .git/hooks/commit-msg
 </details>
 
 [→ **Full Troubleshooting Guide**](docs/troubleshooting.md)
+
+<br/>
+
+---
+
+## 🗑️ Uninstalling
+
+If you need to remove the Linear workflow integration, we provide a clean uninstaller:
+
+```bash
+# Run the uninstaller
+node install/scripts/uninstall.js
+```
+
+The uninstaller will:
+- 🔍 Detect all installed components
+- 💾 Optionally backup files before removal
+- 🗑️ Remove configuration files (.linear-workflow.json, .mcp.json)
+- 🔄 Remove GitHub Actions workflow
+- 🪝 Remove git commit hooks
+- 📝 Remove workflow commands from .claude/commands/
+- 📁 Remove issue documentation directories
+- 🔌 Optionally remove Linear MCP server
+- 🔑 Optionally remove LINEAR_API_KEY from GitHub secrets
+- 🧹 Clean up .gitignore entries
+
+### Safe Uninstallation
+
+The uninstaller is interactive and will:
+1. Show you what's installed
+2. Ask for confirmation before removing
+3. Offer to backup files before deletion
+4. Provide a summary of what was removed
+
+### Manual Uninstallation
+
+If you prefer manual removal:
+```bash
+# Remove configuration
+rm -f .linear-workflow.json .mcp.json .env.example
+
+# Remove GitHub workflow
+rm -f .github/workflows/linear-status-update.yml
+
+# Remove git hook
+rm -f .git/hooks/commit-msg
+
+# Remove workflow commands
+rm -f .claude/commands/*-linear.md
+rm -f .claude/commands/start-issue.md
+rm -f .claude/commands/create-pr.md
+
+# Remove MCP server
+claude mcp remove linear-server
+
+# Remove GitHub secret
+gh secret delete LINEAR_API_KEY
+```
 
 <br/>
 
@@ -707,8 +772,8 @@ ls -la .git/hooks/commit-msg
 ### 🆘 Getting Help
 
 - **📖 Documentation**: Comprehensive guides in [`/docs`](docs/)
-- **🐛 Issues**: Report bugs or request features on [GitHub Issues](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues)
-- **💬 Discussions**: Ask questions in [GitHub Discussions](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/discussions)
+- **🐛 Issues**: Report bugs or request features on [GitHub Issues](https://github.com/ronanathebanana/claude-linear-gh-starter/issues)
+- **💬 Discussions**: Ask questions in [GitHub Discussions](https://github.com/ronanathebanana/claude-linear-gh-starter/discussions)
 
 ### 🤝 Contributing
 
@@ -754,7 +819,7 @@ Built for the developer community. 💙
 
 <div align="center">
 
-**Questions?** Check the [📖 documentation](docs/) or [🐛 open an issue](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues)
+**Questions?** Check the [📖 documentation](docs/) or [🐛 open an issue](https://github.com/ronanathebanana/claude-linear-gh-starter/issues)
 
 **Ready to get started?** Run `/setup-linear` in Claude Code ⚡
 

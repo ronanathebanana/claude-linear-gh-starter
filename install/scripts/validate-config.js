@@ -487,13 +487,13 @@ Usage:
 
 Examples:
   node validate-config.js .linear-workflow.json
-  node validate-config.js config.json setup/config-schema.json
+  node validate-config.js config.json install/config/schema.json
 `);
     process.exit(0);
   }
 
   const configPath = args[0];
-  const schemaPath = args[1] || path.join(__dirname, '../setup/config-schema.json');
+  const schemaPath = args[1] || path.join(__dirname, '../install/config/schema.json');
 
   (async () => {
     try {

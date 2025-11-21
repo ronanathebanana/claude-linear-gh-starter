@@ -9,8 +9,8 @@
  * - LINEAR_API_KEY has correct permissions
  *
  * Usage:
- *   node scripts/validate-secrets.js
- *   node scripts/validate-secrets.js --api-key lin_api_xxxxx
+ *   node install/scripts/validate-secrets.js
+ *   node install/scripts/validate-secrets.js --api-key lin_api_xxxxx
  */
 
 const { execSync } = require('child_process');
@@ -258,11 +258,11 @@ async function main() {
       console.log('it actually works, we need access to the key value.');
       console.log('');
       console.log('To validate the key, run:');
-      console.log('  node scripts/validate-secrets.js --api-key YOUR_KEY');
+      console.log('  node install/scripts/validate-secrets.js --api-key YOUR_KEY');
       console.log('');
       console.log('Or export it in your shell:');
       console.log('  export LINEAR_API_KEY=your_key');
-      console.log('  node scripts/validate-secrets.js');
+      console.log('  node install/scripts/validate-secrets.js');
       console.log('');
       process.exit(0);
     }

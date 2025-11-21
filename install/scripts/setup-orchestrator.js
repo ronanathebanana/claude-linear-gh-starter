@@ -10,9 +10,9 @@
  * - Safe cleanup
  *
  * Usage:
- *   node scripts/setup-orchestrator.js install --config .linear-workflow.json
- *   node scripts/setup-orchestrator.js rollback
- *   node scripts/setup-orchestrator.js status
+ *   node install/scripts/setup-orchestrator.js install --config .linear-workflow.json
+ *   node install/scripts/setup-orchestrator.js rollback
+ *   node install/scripts/setup-orchestrator.js status
  */
 
 const fs = require('fs').promises;
@@ -346,7 +346,7 @@ class SetupOrchestrator {
       console.error('✓ Rollback complete - project restored to previous state');
       console.error('');
       console.error('To retry installation:');
-      console.error('  node scripts/setup-orchestrator.js install --config .linear-workflow.json');
+      console.error('  node install/scripts/setup-orchestrator.js install --config .linear-workflow.json');
 
       throw error;
     }
@@ -499,9 +499,9 @@ async function main() {
         console.log('Setup Orchestrator - Linear Workflow Installation Manager');
         console.log('');
         console.log('Usage:');
-        console.log('  node scripts/setup-orchestrator.js install --config <file> [--dry-run]');
-        console.log('  node scripts/setup-orchestrator.js rollback');
-        console.log('  node scripts/setup-orchestrator.js status');
+        console.log('  node install/scripts/setup-orchestrator.js install --config <file> [--dry-run]');
+        console.log('  node install/scripts/setup-orchestrator.js rollback');
+        console.log('  node install/scripts/setup-orchestrator.js status');
         console.log('');
         console.log('Commands:');
         console.log('  install   - Run installation with automatic rollback on failure');

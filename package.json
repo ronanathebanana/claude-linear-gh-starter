@@ -2,11 +2,12 @@
   "name": "claude-linear-gh-starter",
   "version": "1.0.0",
   "description": "Interactive setup wizard for Linear + Claude + GitHub workflow integration",
-  "main": "scripts/apply-config.js",
+  "main": "install/scripts/apply-config.js",
   "scripts": {
-    "setup": "node scripts/setup-wizard.js",
-    "validate": "node scripts/validate-config.js",
-    "test": "echo \"Tests coming soon\" && exit 0"
+    "setup": "echo 'Please use /setup-linear command in Claude Code instead of npm run setup'",
+    "validate": "node install/scripts/validate-config.js",
+    "test": "node install/scripts/test-integration.js",
+    "uninstall": "node install/scripts/uninstall.js"
   },
   "keywords": [
     "linear",
@@ -21,15 +22,16 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/YOUR_USERNAME/claude-linear-gh-starter.git"
+    "url": "https://github.com/ronanathebanana/claude-linear-gh-starter.git"
   },
   "bugs": {
-    "url": "https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues"
+    "url": "https://github.com/ronanathebanana/claude-linear-gh-starter/issues"
   },
-  "homepage": "https://github.com/YOUR_USERNAME/claude-linear-gh-starter#readme",
+  "homepage": "https://github.com/ronanathebanana/claude-linear-gh-starter#readme",
   "engines": {
     "node": ">=16.0.0"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "glob": "^10.5.0"
+  }
 }

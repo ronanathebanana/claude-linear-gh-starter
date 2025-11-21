@@ -10,8 +10,8 @@
  * - Hook allows valid commits
  *
  * Usage:
- *   node scripts/test-git-hook.js
- *   node scripts/test-git-hook.js --verbose
+ *   node install/scripts/test-git-hook.js
+ *   node install/scripts/test-git-hook.js --verbose
  */
 
 const fs = require('fs');
@@ -190,7 +190,7 @@ function runTests(verbose = false) {
     console.log('');
     console.log('To install the hook:');
     console.log('  1. Run the setup wizard');
-    console.log('  2. Or manually copy: cp templates/commit-msg.template .git/hooks/commit-msg');
+    console.log('  2. Or manually copy: cp install/templates/workflow/commit-msg.template .git/hooks/commit-msg');
     console.log('  3. Make executable: chmod +x .git/hooks/commit-msg');
     console.log('');
     process.exit(1);
@@ -286,7 +286,7 @@ function runTests(verbose = false) {
     console.log('  3. Reinstall hook: Run setup wizard');
     console.log('');
     console.log('For detailed output, run:');
-    console.log('  node scripts/test-git-hook.js --verbose');
+    console.log('  node install/scripts/test-git-hook.js --verbose');
     console.log('');
     process.exit(1);
   }

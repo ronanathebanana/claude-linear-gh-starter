@@ -7,10 +7,10 @@
  * Provides detailed diagnostics and actionable fix suggestions.
  *
  * Usage:
- *   node scripts/health-check.js                  # Run all checks
- *   node scripts/health-check.js --fix            # Run checks and auto-fix common issues
- *   node scripts/health-check.js --verbose        # Show detailed output
- *   node scripts/health-check.js --json           # Output results as JSON
+ *   node install/scripts/health-check.js                  # Run all checks
+ *   node install/scripts/health-check.js --fix            # Run checks and auto-fix common issues
+ *   node install/scripts/health-check.js --verbose        # Show detailed output
+ *   node install/scripts/health-check.js --json           # Output results as JSON
  */
 
 const fs = require('fs');
@@ -318,7 +318,7 @@ async function checkRequiredFields(config, results, autoFix) {
     results.addFix(
       'Add Missing Fields',
       'Edit configuration to add missing fields',
-      'node scripts/edit-config.js'
+      'node install/scripts/edit-config.js'
     );
   } else {
     results.addCheck(
@@ -372,7 +372,7 @@ async function checkWorkflowFile(projectPath, results, autoFix) {
     results.addFix(
       'Validate Workflow',
       'Check workflow file syntax',
-      'node scripts/validate-workflow.js'
+      'node install/scripts/validate-workflow.js'
     );
   } else {
     results.addCheck(
@@ -401,12 +401,12 @@ async function checkGitHook(projectPath, results, autoFix) {
     results.addFix(
       'Install Git Hook',
       'Run the hook installation script',
-      './scripts/install-hooks.sh'
+      './install/scripts/install-hooks.sh'
     );
 
     if (autoFix) {
       console.log('Auto-fixing: Installing git hook...');
-      const templatePath = path.join(__dirname, '../templates/commit-msg.template');
+      const templatePath = path.join(__dirname, '../install/templates/workflow/commit-msg.template');
       if (fileExists(templatePath)) {
         fs.copyFileSync(templatePath, hookPath);
         fs.chmodSync(hookPath, 0o755);
@@ -708,7 +708,7 @@ async function checkLinearConnection(config, results, autoFix) {
       results.addFix(
         'Validate LINEAR_API_KEY',
         'Check that your API key is valid',
-        'node scripts/validate-secrets.js'
+        'node install/scripts/validate-secrets.js'
       );
     } else if (data.data?.organization) {
       results.addCheck(

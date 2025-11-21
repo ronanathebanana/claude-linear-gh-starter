@@ -7,9 +7,9 @@
  * Similar to `npm init` but for workflow configuration.
  *
  * Usage:
- *   node scripts/edit-config.js
- *   node scripts/edit-config.js --section branches
- *   node scripts/edit-config.js --backup
+ *   node install/scripts/edit-config.js
+ *   node install/scripts/edit-config.js --section branches
+ *   node install/scripts/edit-config.js --backup
  */
 
 const fs = require('fs').promises;
@@ -221,7 +221,7 @@ async function editStatuses(config) {
   console.log('✓ Status mappings updated');
   console.log('');
   console.log('⚠️  Note: You may need to update status IDs separately');
-  console.log('   Run: node scripts/linear-helpers.js statuses <team-id>');
+  console.log('   Run: node install/scripts/linear-helpers.js statuses <team-id>');
   console.log('');
   return true;
 }
@@ -328,7 +328,7 @@ async function editAssignees(config) {
     console.log('');
     console.log('Enter user IDs for each status transition (or leave empty to skip):');
     console.log('');
-    console.log('💡 Tip: Find user IDs with: node scripts/linear-helpers.js team-members <team-id>');
+    console.log('💡 Tip: Find user IDs with: node install/scripts/linear-helpers.js team-members <team-id>');
     console.log('');
 
     config.assignees.onInProgress = await prompt(
@@ -579,7 +579,7 @@ async function main() {
       console.log('Next steps:');
       console.log('  1. Review changes: cat .linear-workflow.json');
       console.log('  2. Regenerate workflow files if needed');
-      console.log('  3. Test configuration: node scripts/validate-config.js');
+      console.log('  3. Test configuration: node install/scripts/validate-config.js');
       console.log('');
     }
   } else {
@@ -595,8 +595,8 @@ async function main() {
       console.log('');
       console.log('Next steps:');
       console.log('  1. Review changes: cat .linear-workflow.json');
-      console.log('  2. Regenerate workflow files: node scripts/apply-config.js');
-      console.log('  3. Test configuration: node scripts/validate-config.js');
+      console.log('  2. Regenerate workflow files: node install/scripts/apply-config.js');
+      console.log('  3. Test configuration: node install/scripts/validate-config.js');
       console.log('  4. Commit changes: git add .linear-workflow.json && git commit');
       console.log('');
     } else {

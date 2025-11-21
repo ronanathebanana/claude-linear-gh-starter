@@ -8,16 +8,16 @@ Before diving into specific issues, run the automated pre-flight checks:
 
 ```bash
 # Automated pre-flight checks (recommended)
-./scripts/preflight-checks.sh
+./install/scripts/preflight-checks.sh
 
 # GitHub authentication helper
-./scripts/github-auth-helper.sh
+./install/scripts/github-auth-helper.sh
 
 # Manual validation (if scripts unavailable)
-node scripts/github-setup.js verify
-node scripts/test-integration.js
-node scripts/validate-config.js .linear-workflow.json
-node scripts/validate-workflow.js .github/workflows/linear-status-update.yml
+node install/scripts/github-setup.js verify
+node install/scripts/test-integration.js
+node install/scripts/validate-config.js .linear-workflow.json
+node install/scripts/validate-workflow.js .github/workflows/linear-status-update.yml
 ```
 
 ---
@@ -41,7 +41,7 @@ error: failed to push some refs to 'https://github.com/owner/repo.git'
 
 **Option 1 - Use the helper script (recommended):**
 ```bash
-./scripts/github-auth-helper.sh
+./install/scripts/github-auth-helper.sh
 ```
 
 The script will guide you through re-authentication.
@@ -71,7 +71,7 @@ You should see `workflow` in the scopes list.
 
 **Prevention:** Always run pre-flight checks before setup:
 ```bash
-./scripts/preflight-checks.sh
+./install/scripts/preflight-checks.sh
 ```
 
 ---
@@ -294,7 +294,7 @@ node --version
    ```
 
 4. **Verify repository exists on GitHub:**
-   - Visit github.com/YOUR_USERNAME/REPO_NAME
+   - Visit github.com/ronanathebanana/REPO_NAME
    - Ensure you have access
 
 ---
@@ -355,7 +355,7 @@ node --version
 
 3. **Validate workflow syntax:**
    ```bash
-   node scripts/validate-workflow.js .github/workflows/linear-status-update.yml
+   node install/scripts/validate-workflow.js .github/workflows/linear-status-update.yml
    ```
 
 4. **Check workflow has been pushed:**
@@ -530,7 +530,7 @@ node --version
 
 1. **Run validator:**
    ```bash
-   node scripts/validate-workflow.js .github/workflows/linear-status-update.yml
+   node install/scripts/validate-workflow.js .github/workflows/linear-status-update.yml
    ```
 
 2. **Common YAML issues:**
@@ -557,8 +557,8 @@ node --version
 
 4. **Re-render template:**
    ```bash
-   node scripts/apply-config.js apply \
-     templates/github-workflow.yml.template \
+   node install/scripts/apply-config.js apply \
+     install/templates/workflow/github-workflow.yml.template \
      .github/workflows/linear-status-update.yml \
      .linear-workflow.json
    ```
@@ -616,13 +616,13 @@ node --version
 
 2. **Validate configuration:**
    ```bash
-   node scripts/validate-config.js .linear-workflow.json
+   node install/scripts/validate-config.js .linear-workflow.json
    ```
 
 3. **Re-render templates:**
    ```bash
-   node scripts/apply-config.js apply \
-     templates/TEMPLATE_NAME.template \
+   node install/scripts/apply-config.js apply \
+     install/templates/TEMPLATE_NAME.template \
      OUTPUT_PATH \
      .linear-workflow.json
    ```
@@ -644,7 +644,7 @@ node --version
 
 1. **Run validator with details:**
    ```bash
-   node scripts/validate-config.js .linear-workflow.json
+   node install/scripts/validate-config.js .linear-workflow.json
    ```
 
 2. **Common validation errors:**
@@ -688,7 +688,7 @@ node --version
 
 4. **Compare with schema:**
    ```bash
-   cat setup/config-schema.json
+   cat install/config/schema.json
    # Review required fields and formats
    ```
 
@@ -872,7 +872,7 @@ node --version
 
 1. **Use automated rollback:**
    ```bash
-   node scripts/apply-config.js rollback
+   node install/scripts/apply-config.js rollback
    ```
 
 2. **Manual rollback:**
@@ -930,7 +930,7 @@ node --version
 
 3. **Or use cleanup script:**
    ```bash
-   node scripts/example-usage.js --cleanup
+   node install/scripts/example-usage.js --cleanup
    ```
 
 ---
@@ -946,7 +946,7 @@ node --version
 export DEBUG=*
 
 # Run setup or validation
-node scripts/github-setup.js verify
+node install/scripts/github-setup.js verify
 ```
 
 ---
@@ -972,9 +972,9 @@ node scripts/github-setup.js verify
 
 3. **Validation results:**
    ```bash
-   node scripts/validate-config.js .linear-workflow.json
-   node scripts/validate-workflow.js .github/workflows/linear-status-update.yml
-   node scripts/github-setup.js verify
+   node install/scripts/validate-config.js .linear-workflow.json
+   node install/scripts/validate-workflow.js .github/workflows/linear-status-update.yml
+   node install/scripts/github-setup.js verify
    ```
 
 4. **Recent errors:**
@@ -995,8 +995,8 @@ node scripts/github-setup.js verify
    - [MCP Setup](./mcp-setup.md)
 
 2. **Community:**
-   - [GitHub Discussions](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/discussions)
-   - [Issues](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues)
+   - [GitHub Discussions](https://github.com/ronanathebanana/claude-linear-gh-starter/discussions)
+   - [Issues](https://github.com/ronanathebanana/claude-linear-gh-starter/issues)
 
 3. **Vendor Support:**
    - [Linear Support](https://linear.app/contact)
@@ -1088,7 +1088,7 @@ npm install <module-name>
 6. **Error messages:** Full error output
 7. **Diagnostics:** Output from diagnostic commands
 
-**Submit at:** [GitHub Issues](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues/new)
+**Submit at:** [GitHub Issues](https://github.com/ronanathebanana/claude-linear-gh-starter/issues/new)
 
 ---
 

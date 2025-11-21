@@ -72,7 +72,7 @@ gh auth status
 
 **Expected output:**
 ```
-✓ Logged in to github.com as YOUR_USERNAME (keyring)
+✓ Logged in to github.com as ronanathebanana (keyring)
 ✓ Git operations for github.com configured to use https protocol.
 ✓ Token: *******************
 ✓ Token scopes: admin:public_key, gist, repo, workflow
@@ -134,7 +134,7 @@ gh repo view
 ```
 name: your-repo-name
 description: Your repository description
-owner: YOUR_USERNAME
+owner: ronanathebanana
 ...
 ```
 
@@ -326,7 +326,7 @@ Paste your secret (⏎ to finish):
 
 **Expected output:**
 ```
-✓ Set Actions secret LINEAR_API_KEY for YOUR_USERNAME/your-repo
+✓ Set Actions secret LINEAR_API_KEY for ronanathebanana/your-repo
 ```
 
 ---
@@ -456,7 +456,7 @@ git branch -a
 **If you have branch protection on `main`:**
 
 ```bash
-node scripts/github-setup.js check-branch main
+node install/scripts/github-setup.js check-branch main
 ```
 
 **Branch protection is fine, but ensure:**
@@ -479,7 +479,7 @@ node scripts/github-setup.js check-branch main
 From the `claude-linear-gh-starter` repository:
 
 ```bash
-node scripts/github-setup.js verify
+node install/scripts/github-setup.js verify
 ```
 
 **Expected output:**
@@ -487,9 +487,9 @@ node scripts/github-setup.js verify
 GitHub Access Verification
 
 ✓ GitHub CLI installed: gh CLI is installed
-✓ GitHub authentication: Authenticated as YOUR_USERNAME
+✓ GitHub authentication: Authenticated as ronanathebanana
 ✓ Required OAuth scopes: Has repo and workflow scopes
-✓ Repository connection: Connected to YOUR_USERNAME/your-repo
+✓ Repository connection: Connected to ronanathebanana/your-repo
 ✓ Repository permissions: Permission level: admin
 ✓ GitHub Actions: GitHub Actions enabled (X workflows)
 
@@ -732,7 +732,7 @@ gh api -X PUT repos/:owner/:repo/actions/permissions -F enabled=true
 
 **Integration Support:**
 - [Troubleshooting guide](./troubleshooting.md)
-- [Open an issue](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues)
+- [Open an issue](https://github.com/ronanathebanana/claude-linear-gh-starter/issues)
 
 ---
 

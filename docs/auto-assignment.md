@@ -262,16 +262,16 @@ The wizard fetches and displays team members automatically.
 export LINEAR_API_KEY="lin_api_your_key_here"
 
 # List all team members
-node scripts/linear-helpers.js team-members YOUR_TEAM_ID
+node install/scripts/linear-helpers.js team-members YOUR_TEAM_ID
 
 # Find specific user by email
-node scripts/linear-helpers.js find-user alice@company.com
+node install/scripts/linear-helpers.js find-user alice@company.com
 ```
 
 **Output:**
 ```
 User Found:
-  Name: Alice Smith
+  Name: Jane Bloggs
   Email: alice@company.com
   ID: abc-123-user-uuid  ← Use this ID
   Active: true
@@ -303,7 +303,7 @@ query {
 **1. Get team member IDs:**
 ```bash
 export LINEAR_API_KEY="your_key"
-node scripts/linear-helpers.js team-members TEAM_ID
+node install/scripts/linear-helpers.js team-members TEAM_ID
 ```
 
 **2. Edit `.linear-workflow.json`:**
@@ -321,8 +321,8 @@ node scripts/linear-helpers.js team-members TEAM_ID
 
 **3. Re-render the GitHub workflow:**
 ```bash
-node scripts/apply-config.js apply \
-  templates/github-workflow.yml.template \
+node install/scripts/apply-config.js apply \
+  install/templates/workflow/github-workflow.yml.template \
   .github/workflows/linear-status-update.yml \
   .linear-workflow.json
 ```
@@ -382,7 +382,7 @@ Just update the user IDs in config and re-render:
 
 **Check:**
 1. Verify user ID in config matches intended person
-2. Run: `LINEAR_API_KEY=key node scripts/linear-helpers.js team-members TEAM_ID`
+2. Run: `LINEAR_API_KEY=key node install/scripts/linear-helpers.js team-members TEAM_ID`
 3. Confirm IDs match
 
 ### User Gets Unassigned
@@ -437,9 +437,9 @@ Add a comment in your config explaining who each UUID represents:
 {
   "assignees": {
     "enabled": true,
-    // Alice Smith - Primary code reviewer
+    // Jane Bloggs - Primary code reviewer
     "onReview": "abc-123-uuid",
-    // Carol White - QA Lead
+    // Sarah Bloggs - QA Lead
     "onStaging": "def-456-uuid"
   }
 }
@@ -517,11 +517,10 @@ A: No, rules are global for the team. All issues follow the same assignment conf
 
 ## Related Documentation
 
-- [Setup Wizard Prompts](../setup/wizard-prompts.md)
 - [Linear Setup Guide](./linear-setup.md)
 - [Troubleshooting](./troubleshooting.md)
 - [Linear API Docs](https://developers.linear.app)
 
 ---
 
-**Need help?** [Open an issue](https://github.com/YOUR_USERNAME/claude-linear-gh-starter/issues)
+**Need help?** [Open an issue](https://github.com/ronanathebanana/claude-linear-gh-starter/issues)
