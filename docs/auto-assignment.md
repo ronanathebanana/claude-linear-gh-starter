@@ -271,7 +271,7 @@ node scripts/linear-helpers.js find-user alice@company.com
 **Output:**
 ```
 User Found:
-  Name: Alice Smith
+  Name: Jane Bloggs
   Email: alice@company.com
   ID: abc-123-user-uuid  ← Use this ID
   Active: true
@@ -437,9 +437,9 @@ Add a comment in your config explaining who each UUID represents:
 {
   "assignees": {
     "enabled": true,
-    // Alice Smith - Primary code reviewer
+    // Jane Bloggs - Primary code reviewer
     "onReview": "abc-123-uuid",
-    // Carol White - QA Lead
+    // Sarah Bloggs - QA Lead
     "onStaging": "def-456-uuid"
   }
 }

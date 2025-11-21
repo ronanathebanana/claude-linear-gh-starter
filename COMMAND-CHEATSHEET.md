@@ -1,12 +1,12 @@
 # Command Cheat Sheet
 
-Quick reference for all 17 slash commands plus natural language workflow commands.
+Quick reference for all 20 slash commands plus natural language workflow commands.
 
 > **Pro tip:** You don't need to memorize these! Just talk to Claude naturally about what you want to do.
 
 ---
 
-## 📋 Quick Reference: All 17 Slash Commands
+## 📋 Quick Reference: All 20 Slash Commands
 
 ### Issue Creation (6 commands)
 
@@ -32,17 +32,26 @@ Quick reference for all 17 slash commands plus natural language workflow command
 | `/team-work-linear` | Show team's active work | `/team-work-linear` |
 | `/high-priority-linear` | Show high priority items across team | `/high-priority-linear` |
 
-### Progress & Delivery (2 commands)
+### Progress & Delivery (3 commands)
 
 | Command | What It Does | Example |
 |---------|--------------|---------|
 | `/create-pr` | Create pull request with Linear integration | `/create-pr` |
+| `/create-release-approval` | Create release approval issue for production | `/create-release-approval v1.2.0` |
 | `/progress-update` | Post progress update to Linear | `/progress-update` |
 
-### Help (1 command)
+### Maintenance & Diagnostics (2 commands)
 
 | Command | What It Does | Example |
 |---------|--------------|---------|
+| `/workflow-status` | Check workflow health and diagnose issues | `/workflow-status` |
+| `/cleanup-branches` | Clean up merged and stale branches | `/cleanup-branches` |
+
+### Help & Learning (2 commands)
+
+| Command | What It Does | Example |
+|---------|--------------|---------|
+| `/tutorial` | Interactive tutorial to learn the workflow | `/tutorial` |
 | `/linear-help` | Show all available commands and what they do | `/linear-help` |
 
 ---
@@ -217,10 +226,12 @@ Start working on an existing Linear issue.
 **What happens:**
 1. Fetches issue from Linear (via MCP)
 2. Creates detailed 11-section task analysis
-3. Posts analysis summary to Linear as comment
-4. Creates feature branch: `feature/DEV-123-description`
-5. Makes initial commit
-6. Updates issue status to "In Progress"
+3. **Asks: "Would you like me to post a summary comment to Linear? (Y/n)"**
+4. If yes: Builds comment summary, then posts to Linear
+5. If no: Skips building/posting, continues workflow
+6. Creates feature branch: `feature/DEV-123-description`
+7. Makes initial commit
+8. Updates issue status to "In Progress"
 
 **Also works with natural language:**
 ```
@@ -477,6 +488,107 @@ Create PR when work is ready for review.
 
 ---
 
+#### `/create-release-approval` - Create Release Approval
+
+Create a comprehensive release approval issue when preparing for production deployment.
+
+```bash
+/create-release-approval v1.2.0
+/create-release-approval              # Will ask for version
+```
+
+**What happens:**
+1. Analyzes commits between staging/main and production
+2. Extracts all Linear issue IDs from commits
+3. Fetches issue details from Linear (via MCP)
+4. Categorizes by type (Bug fixes/Features/Improvements)
+5. Asks who should approve the release
+6. Creates release approval issue with:
+   - Complete list of all changes
+   - Links to all related issues
+   - Brief summary of each issue's fix/implementation
+   - Approval checklist
+   - Release metadata
+
+**Example:**
+```
+You: /create-release-approval v1.2.0
+
+Claude: Analyzing commits between staging and production...
+        Found 8 issues to include in release v1.2.0
+
+        Breakdown:
+          • 3 bug fixes
+          • 2 new features
+          • 3 improvements
+
+        Who should approve this release?
+        1. Jane Bloggs - Release Manager
+        2. Joe Bloggs - Tech Lead
+        3. No assignee
+
+You: 1
+
+Claude: ✓ Release approval created: DEV-999
+        ✓ Assigned to: Jane Bloggs
+        ✓ Linked 8 issues
+
+        Linear URL: https://linear.app/.../DEV-999
+```
+
+**Release Approval Issue Format:**
+```markdown
+Release Approval: v1.2.0 - January 21, 2025
+
+A summary of recent changes awaiting review for release v1.2.0.
+
+## Changes in This Release
+
+### Bug Fixes (3)
+[DEV-123: Fix Overflow Menu]
+Issue: Overflow menu not appearing on mobile
+Fix: Updated CSS z-index and positioning logic
+
+### New Features (2)
+[DEV-156: Add User Authentication]
+Feature: Secure login system with password reset
+Implemented: JWT-based auth with email/password
+
+### Improvements (3)
+[DEV-167: Optimize Database Queries]
+Improvement: Slow query performance on reports
+Implemented: Added indexes, reduced load time to <2s
+
+## Approval Checklist
+- [ ] All features tested in staging
+- [ ] No critical bugs reported
+- [ ] Documentation updated
+- [ ] Stakeholders notified
+- [ ] Ready for production deployment
+```
+
+**Auto-integration with PR creation:**
+
+When creating a PR to production, Claude automatically offers to create release approval:
+
+```
+You: /create-pr
+
+Claude: Detecting target branch... production
+
+        This looks like a release PR!
+        Would you like to create a Release Approval issue? (Y/n)
+```
+
+**Perfect for:**
+- Production releases requiring formal approval
+- Stakeholder visibility into deployments
+- Release documentation and audit trail
+- Teams with approval gates
+- Regulated industries
+
+---
+
 #### `/progress-update` - Post Progress Update
 
 Share progress update to Linear.
@@ -500,7 +612,341 @@ Share progress update to Linear.
 
 ---
 
-### Help Command
+### Maintenance & Diagnostics Commands
+
+#### `/workflow-status` - Check Workflow Health
+
+Diagnose workflow issues and check system health.
+
+```bash
+/workflow-status
+/workflow-status --detailed  # Show additional diagnostics
+```
+
+**What happens:**
+1. Checks Linear MCP connection (OAuth authentication)
+2. Validates GitHub CLI access and permissions
+3. Tests git hooks installation and functionality
+4. Verifies configuration file is valid
+5. Checks GitHub Actions workflow (if enabled)
+6. Shows recent activity (7 days)
+7. Provides health score (0-100%)
+8. Offers auto-fix for common issues
+
+**Health checks include:**
+- ✅ Linear MCP Connection - Server, authentication, workspace access
+- ✅ GitHub CLI - Version, authentication, scopes, repository access
+- ✅ Git Hooks - Location, executable status, validation tests
+- ✅ Configuration - File validity, required fields, issue pattern
+- ✅ GitHub Actions - Workflow file, secrets, recent runs
+- 📊 Recent Activity - Issues, PRs, commits in last 7 days
+
+**Example output (healthy):**
+```
+🔍 Pre-Flight Checks
+
+✅ Linear MCP Connection
+   • Server: Connected
+   • Authentication: Valid (OAuth)
+   • Workspace: Acme Inc
+   • Team: DEV - Development
+
+✅ GitHub CLI
+   • Version: gh 2.40.0
+   • Authenticated: username
+   • Scopes: repo, workflow ✓
+
+✅ Git Hooks
+   • Location: .git/hooks/commit-msg
+   • Executable: Yes
+   • Tests passing: 7/7 ✓
+
+✅ Overall Health: Excellent (100%)
+
+All systems operational!
+```
+
+**Example output (with issues):**
+```
+❌ Linear MCP Connection
+   • Server: Not responding
+   • Error: Connection timeout
+
+   🔧 How to fix:
+   1. Restart Claude Code to reload MCP config
+   2. If still failing, re-authenticate:
+      claude mcp remove linear-server
+      claude mcp add --transport http linear-server https://mcp.linear.app/mcp
+   3. Run /mcp to authenticate
+
+⚠️  Overall Health: Fair (65%)
+
+3 issues detected. Run auto-fix? (Y/n)
+```
+
+**Auto-fix feature:**
+When issues are detected, Claude can automatically fix common problems:
+- Make git hooks executable
+- Test MCP connection and guide re-authentication
+- Verify GitHub secrets configuration
+- Update outdated configuration
+
+**Perfect for:**
+- Troubleshooting when something isn't working
+- After initial setup to verify installation
+- Before starting work (morning checklist)
+- After configuration changes
+- When onboarding new team members
+
+---
+
+#### `/cleanup-branches` - Clean Up Branches
+
+Automatically detect and clean up merged or stale branches.
+
+```bash
+/cleanup-branches
+/cleanup-branches --merged-only  # Only clean merged branches (safest)
+/cleanup-branches --dry-run      # Preview what would be deleted
+```
+
+**What happens:**
+1. Scans for local branches in repository
+2. Checks merge status against main/staging/prod
+3. Identifies stale branches (30+ days no activity)
+4. Detects abandoned branches (60+ days, no PR)
+5. Categorizes branches (Merged/Stale/Active)
+6. Shows detailed report with issue links
+7. Lets you choose what to clean up
+8. Safely deletes selected branches (local + remote)
+
+**Branch categories:**
+
+**Merged (Safe):**
+- PR was merged
+- All commits are in target branch
+- Safe to delete
+
+**Stale (Caution):**
+- No commits in 30+ days
+- No open PR
+- Requires confirmation
+
+**Active (Keep):**
+- Recent activity
+- Has open PR
+- Currently checked out
+
+**Example output:**
+```
+Branch Cleanup Report
+
+✅ Merged Branches (Safe to Delete)
+
+1. feature/DEV-123-login
+   • PR #234 merged to main (3 days ago)
+   • Issue: DEV-123 - Add user authentication [Done]
+   • 15 commits, fully merged
+
+2. feature/DEV-115-api
+   • PR #230 merged to main (1 week ago)
+   • Issue: DEV-115 - Refactor API [Done]
+   • 8 commits, fully merged
+
+⚠️  Stale Branches (Review Before Deleting)
+
+3. feature/DEV-100-test
+   • Last commit: 45 days ago
+   • No PR found
+   • Issue: DEV-100 - Test feature [On Hold]
+   • 2 commits, not merged
+
+✨ Active Branches (Keep)
+
+4. feature/DEV-125-dashboard
+   • Last commit: 2 hours ago
+   • In progress, no PR yet
+   • Issue: DEV-125 - Dashboard refactor [In Progress]
+
+Summary:
+  • 2 merged branches (safe to delete)
+  • 1 stale branch (review needed)
+  • 1 active branch (keep)
+
+What would you like to clean up?
+1. Delete all merged branches (2 branches) [Recommended]
+2. Delete merged + stale branches (3 branches)
+3. Select individual branches to delete
+4. Dry run (show what would be deleted)
+5. Cancel
+```
+
+**Safety features:**
+- Pre-deletion checks for unpushed commits
+- Backup suggestions for unmerged work
+- Protected branches never deleted (main, staging, prod)
+- Current branch never deleted
+- Branches with open PRs flagged for review
+- Confirmation required for destructive actions
+
+**Command options:**
+
+`--merged-only` - Only clean merged branches (safest):
+```bash
+/cleanup-branches --merged-only
+
+Cleaning up merged branches only...
+Found 3 merged branches
+Delete all? (Y/n)
+```
+
+`--dry-run` - Preview without deleting:
+```bash
+/cleanup-branches --dry-run
+
+DRY RUN - No branches will be deleted
+
+Would delete:
+  ✓ feature/DEV-123-login (merged)
+  ✓ feature/DEV-115-api (merged)
+
+Would keep:
+  • feature/DEV-125-dashboard (active)
+```
+
+**Perfect for:**
+- After merging multiple PRs
+- Weekly maintenance (keep repo clean)
+- Before starting new work
+- When branch list is getting long
+- Repository spring cleaning
+
+**Integration:**
+- `/create-pr` offers automatic cleanup after merge
+- `/workflow-status` detects stale branches
+- `/my-work-linear` shows your active branches
+
+---
+
+### Help & Learning Commands
+
+#### `/tutorial` - Interactive Tutorial
+
+Learn the Linear workflow through hands-on practice.
+
+```bash
+/tutorial
+/tutorial resume  # Resume from where you left off
+/tutorial reset   # Start over from beginning
+```
+
+**What happens:**
+1. Welcome and overview (~30 seconds)
+2. Understand the test issue created during setup
+3. Start work with AI analysis (see 2-way integration!)
+4. Make a simple change to simulate work
+5. Commit with proper format (git hook validation)
+6. Check workflow health with diagnostics
+7. Completion and next steps
+
+**Perfect for:**
+- First-time users after setup
+- New team members onboarding
+- Anyone who wants to understand the workflow before using it
+- Learning by doing rather than reading
+
+**Time:** ~10 minutes
+**Safe:** Uses tutorial branch, won't affect real work
+
+**Example flow:**
+```
+You: /tutorial
+
+Claude:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Welcome to Linear Workflow Tutorial! 🎓
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+You'll learn the complete workflow by actually using it.
+
+What you'll do:
+  1. Understand a Linear issue
+  2. Start work with AI analysis
+  3. Make a simple change
+  4. Commit with proper format
+  5. Check workflow health
+  6. See the complete workflow in action
+
+Time: ~10 minutes
+Ready to start? (Y/n)
+
+[Tutorial walks you through each step interactively]
+
+Step 1: Understanding Linear Issues
+[Fetches and displays test issue]
+
+Step 2: Starting Work with AI Analysis
+[Shows AI analysis creation and Linear posting]
+
+Step 3: Making Changes
+[Creates tutorial file]
+
+Step 4: Committing with Validation
+[Demonstrates git hook validation]
+
+Step 5: Workflow Health Check
+[Runs /workflow-status]
+
+Step 6: Completion
+[Cleanup and next steps]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎉 You're Ready to Go!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Resume capability:**
+If tutorial is interrupted, resume from where you left off:
+```
+/tutorial resume
+
+Claude: You're on Step 3 of 6: Making Changes
+        Resume from here? (Y/n)
+```
+
+**Reset capability:**
+Start over from the beginning:
+```
+/tutorial reset
+
+Claude: Reset and start over? (Y/n)
+```
+
+**Tutorial state tracking:**
+Progress is saved in `.linear-workflow.json`:
+```json
+{
+  "tutorial": {
+    "completed": false,
+    "currentStep": 3,
+    "startedAt": "2025-01-21T10:00:00Z",
+    "issueId": "DEV-123",
+    "canResume": true
+  }
+}
+```
+
+**What you'll learn:**
+- ✅ Fetch issues from Linear via MCP
+- ✅ AI analysis with 2-way integration
+- ✅ Feature branch workflow
+- ✅ Commit message validation
+- ✅ Workflow health diagnostics
+- ✅ Complete development cycle
+
+**Key insight:** The tutorial uses the actual test issue created during setup, so you'll see real Linear integration in action!
+
+---
 
 #### `/linear-help` - Show All Commands
 
@@ -511,7 +957,7 @@ Get a quick reference of all available Linear workflow commands.
 ```
 
 **What happens:**
-1. Displays organized list of all 17 commands by category
+1. Displays organized list of all 21 commands by category
 2. Shows brief description of what each command does
 3. Includes quick usage examples
 4. Provides links to detailed documentation
@@ -530,9 +976,18 @@ Get a quick reference of all available Linear workflow commands.
   /feedback-linear - Request feedback
   ...
 
-🚀 Progress & Delivery (2 commands)
+🚀 Progress & Delivery (3 commands)
   /create-pr - Create pull request
+  /create-release-approval - Create release approval
   /progress-update - Post progress update
+
+🔧 Maintenance & Diagnostics (2 commands)
+  /workflow-status - Check workflow health
+  /cleanup-branches - Clean up merged/stale branches
+
+🎓 Help & Learning (2 commands)
+  /tutorial - Interactive tutorial (learn by doing!)
+  /linear-help - Show all commands
 
 💡 Pro tip: Natural language works too!
    "Let's get to work on DEV-123"

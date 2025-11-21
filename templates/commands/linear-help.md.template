@@ -1,117 +1,37 @@
-Show all available Linear workflow commands and what they do.
+Interactive command launcher for Linear workflow commands.
 
-## Usage
+When you run this command, I'll present an interactive picker to help you quickly find and run any Linear workflow command.
 
-```
-/linear-help
-/linear-help [category]
-```
+## How It Works
 
-## Quick Command Reference
+**Step 1:** Select a category
+- Issue Creation
+- Workflow & Status
+- Progress & Delivery
+- Maintenance & Help
 
-### 📝 Issue Creation (6 commands)
+**Step 2:** Select a specific command from that category
 
-| Command | What It Does |
-|---------|--------------|
-| `/bug-linear` | Quick bug report (auto-uses Bug template) |
-| `/improvement-linear` | Quick improvement (auto-uses Improvement template) |
-| `/feature-linear` | Quick feature request (auto-uses Feature template) |
-| `/create-linear-issue` | Create any issue with template selection |
-| `/create-blocker-linear` | Create blocking issue for current work |
-| `/create-subtask-linear` | Create sub-task linked to current issue |
+**Step 3:** The command runs immediately with any needed prompts
 
-### 🔄 Workflow & Status (8 commands)
+This is the fastest way to discover and use commands without memorizing them!
 
-| Command | What It Does |
-|---------|--------------|
-| `/start-issue` | Start work on existing issue |
-| `/feedback-linear` | Request feedback/clarification from teammates |
-| `/get-feedback-linear` | Retrieve and show recent feedback comments |
-| `/pause-linear` | Pause work and commit WIP safely |
-| `/blocked-linear` | Mark as blocked by external dependency |
-| `/my-work-linear` | Show your active/paused/blocked issues |
-| `/team-work-linear` | Show team's active work |
-| `/high-priority-linear` | Show high priority items across team |
+## Available Commands
 
-### 🚀 Progress & Delivery (2 commands)
+**Issue Creation (6 commands)**
+- Create bugs, features, improvements, blockers, and sub-tasks
 
-| Command | What It Does |
-|---------|--------------|
-| `/create-pr` | Create pull request with Linear integration |
-| `/progress-update` | Post progress update to Linear |
+**Workflow & Status (8 commands)**
+- Start work, pause, request feedback, check status
+
+**Progress & Delivery (3 commands)**
+- Create PRs, post updates, request release approval
+
+**Maintenance & Help (4 commands)**
+- Check workflow health, cleanup branches, get help, tutorial
 
 ---
 
-## 💡 Pro Tips
-
-**Natural Language Works Too!**
-
-You don't need to memorize these commands. Just talk naturally:
-
-- "Let's get to work on {{formats.issueExample}}"
-- "I found a bug - login timeout is too short"
-- "What am I working on?"
-- "Show me high priority items"
-- "Create a blocker for this"
-- "Ready for review"
-
-**Quick Examples:**
-
-```bash
-# Start your day
-/my-work-linear                    # See what you're working on
-/high-priority-linear              # Check urgent items
-/start-issue {{formats.issueExample}}              # Continue or start work
-
-# Create new work
-/bug-linear Login timeout too short
-/feature-linear Add dark mode toggle
-
-# When blocked
-/feedback-linear Should this support mobile?
-/blocked-linear Waiting for API deployment
-/create-blocker-linear Database indexes needed
-
-# Deliver work
-/create-pr                         # Create pull request
-/progress-update                   # Share progress
-```
-
----
-
-## 📖 Detailed Documentation
-
-For comprehensive examples, workflows, and best practices:
-
-**[→ Full Command Cheat Sheet](../COMMAND-CHEATSHEET.md)**
-
-- Detailed guide for each command
-- Real-world workflow examples
-- Tips and best practices
-- Natural language alternatives
-
-**[→ Linear Workflow Guide](../docs/linear-workflow.md)**
-
-- Complete workflow documentation
-- Setup instructions
-- Troubleshooting
-
----
-
-## 🔗 Quick Links
-
-- **Command Cheat Sheet**: `COMMAND-CHEATSHEET.md`
-- **Workflow Guide**: `docs/linear-workflow.md`
-- **Configuration**: `.linear-workflow.json`
-- **Linear Issues**: https://linear.app/{{linear.workspaceName}}/team/{{linear.teamKey}}
-
----
-
-**Need help with a specific command?** Just ask Claude:
-- "How do I use /feedback-linear?"
-- "Show me examples of /bug-linear"
-- "What's the difference between /pause-linear and /blocked-linear?"
-
----
-
-Generated with [Claude Code](https://claude.com/claude-code)
+For detailed documentation, see:
+- `docs/linear-workflow.md` - Complete workflow guide
+- `COMMAND-CHEATSHEET.md` - All commands with examples

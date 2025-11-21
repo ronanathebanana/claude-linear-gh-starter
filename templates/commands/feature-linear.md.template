@@ -80,9 +80,16 @@ Ready to start building this feature? (Y/n)
 If you say yes, Claude follows the normal workflow:
 1. Fetches feature details from Linear
 2. Creates comprehensive task analysis
-3. Posts analysis summary to Linear
-4. Creates feature branch
-5. Makes initial commit
+3. **Asks for confirmation before posting to Linear:**
+   ```
+   Task analysis complete!
+
+   Would you like me to post a summary comment to Linear? (Y/n)
+   ```
+4. **If yes:** Build comment summary from task analysis, then post to Linear
+5. **If no:** Skip building and posting entirely, continue with workflow
+6. Creates feature branch
+7. Makes initial commit
 
 ## Examples
 

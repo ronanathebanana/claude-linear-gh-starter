@@ -70,8 +70,11 @@ What you're about to get:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Time Required: ~5 minutes
+Time Required: ~15 minutes (if all options chosen)
 You'll Need: Linear account + GitHub auth
+
+💡 Pro tip: Grab a drink, sit down, and just keep pressing enter.
+   The wizard handles everything - you just pick your preferences!
 
 The Setup Process:
   1. Authenticate with Linear (browser OAuth)
@@ -668,8 +671,53 @@ Remaining:
 For safety, I'll install the workflow on a new branch.
 
 You can review all changes before merging to your main branch.
+```
 
-Branch name [setup/linear-workflow]:
+**Use AskUserQuestion for branch naming:**
+
+```javascript
+AskUserQuestion({
+  questions: [{
+    question: "Choose a branch naming format:",
+    header: "Branch Name",
+    multiSelect: false,
+    options: [
+      {
+        label: "setup/linear-workflow-v1.0.0",
+        description: "Clear version number, professional"
+      },
+      {
+        label: "setup/linear-workflow-20251121",
+        description: "Date-based, easy to track when created"
+      },
+      {
+        label: "setup/linear-workflow",
+        description: "Simple and concise"
+      },
+      {
+        label: "Custom name",
+        description: "You specify the branch name"
+      }
+    ]
+  }]
+})
+```
+
+**If user chooses option 4:**
+```
+Enter custom branch name: _____
+```
+
+**Generate branch name based on choice:**
+```javascript
+let branchName;
+const today = new Date().toISOString().slice(0,10).replace(/-/g, '');
+switch (choice) {
+  case 1: branchName = `setup/linear-workflow-v${config.version}`; break;
+  case 2: branchName = `setup/linear-workflow-${today}`; break;
+  case 3: branchName = 'setup/linear-workflow'; break;
+  case 4: branchName = customName; break;
+}
 ```
 
 **Create the branch with clear progress:**
@@ -678,13 +726,13 @@ Branch name [setup/linear-workflow]:
 echo "Creating installation branch..."
 
 cd "/path/to/project" && \
-  git checkout -b setup/linear-workflow && \
-  echo "✓ Created branch: setup/linear-workflow"
+  git checkout -b ${branchName} && \
+  echo "✓ Created branch: ${branchName}"
 ```
 
 **If branch already exists:**
 ```
-⚠️  Branch 'setup/linear-workflow' already exists.
+⚠️  Branch '${branchName}' already exists.
 
 Options:
 1. Use existing branch (will overwrite)
@@ -1107,7 +1155,7 @@ Initializing Claude Code in project...
 
 📦 Custom Commands Installation
 
-This workflow includes 17 custom slash commands that will be installed
+This workflow includes 20 custom slash commands that will be installed
 in your project's .claude/commands/ directory.
 
 Commands preview:
@@ -1130,12 +1178,18 @@ Commands preview:
   • /team-work-linear - Show team's active work
   • /high-priority-linear - Show high priority items across team
 
-  🚀 Progress & Delivery (2 commands):
+  🚀 Progress & Delivery (3 commands):
   • /create-pr - Create pull request with Linear integration
+  • /create-release-approval - Create release approval issue for production
   • /progress-update - Post progress update to Linear
 
-  💡 Help (1 command):
-  • /linear-help - Show all available commands and what they do
+  🔧 Maintenance & Diagnostics (2 commands):
+  • /workflow-status - Check workflow health and diagnose issues
+  • /cleanup-branches - Clean up merged and stale branches
+
+  🎓 Help & Learning (2 commands):
+  • /tutorial - Interactive tutorial to learn the workflow
+  • /linear-help - Interactive command launcher (select and run commands)
 
 These commands will be available to all team members using Claude Code.
 
@@ -1146,7 +1200,7 @@ These commands will be available to all team members using Claude Code.
 
 What would you like to do?
 
-1. Install all 17 commands (recommended)
+1. Install all 21 commands (recommended)
    → Full workflow with all conveniences
 
 2. Install essential commands only (minimal)
@@ -1165,10 +1219,49 @@ Your choice [1]: _____
 
 **Handle each option:**
 
-**Option 1 - Install all 17 commands (recommended):**
+**Option 1 - Install all 21 commands (recommended):**
+
+**IMPORTANT: Copy files directly - DO NOT use sed loops or complex bash patterns.**
+
+**Use individual cp commands for each file:**
+
+```bash
+# Issue Creation (6 commands)
+cp "{{setupToolPath}}/templates/commands/create-linear-issue.md.template" "{{projectPath}}/.claude/commands/create-linear-issue.md"
+cp "{{setupToolPath}}/templates/commands/bug-linear.md.template" "{{projectPath}}/.claude/commands/bug-linear.md"
+cp "{{setupToolPath}}/templates/commands/improvement-linear.md.template" "{{projectPath}}/.claude/commands/improvement-linear.md"
+cp "{{setupToolPath}}/templates/commands/feature-linear.md.template" "{{projectPath}}/.claude/commands/feature-linear.md"
+cp "{{setupToolPath}}/templates/commands/create-blocker-linear.md.template" "{{projectPath}}/.claude/commands/create-blocker-linear.md"
+cp "{{setupToolPath}}/templates/commands/create-subtask-linear.md.template" "{{projectPath}}/.claude/commands/create-subtask-linear.md"
+
+# Workflow & Status (8 commands)
+cp "{{setupToolPath}}/templates/commands/start-issue.md.template" "{{projectPath}}/.claude/commands/start-issue.md"
+cp "{{setupToolPath}}/templates/commands/feedback-linear.md.template" "{{projectPath}}/.claude/commands/feedback-linear.md"
+cp "{{setupToolPath}}/templates/commands/get-feedback-linear.md.template" "{{projectPath}}/.claude/commands/get-feedback-linear.md"
+cp "{{setupToolPath}}/templates/commands/pause-linear.md.template" "{{projectPath}}/.claude/commands/pause-linear.md"
+cp "{{setupToolPath}}/templates/commands/blocked-linear.md.template" "{{projectPath}}/.claude/commands/blocked-linear.md"
+cp "{{setupToolPath}}/templates/commands/my-work-linear.md.template" "{{projectPath}}/.claude/commands/my-work-linear.md"
+cp "{{setupToolPath}}/templates/commands/team-work-linear.md.template" "{{projectPath}}/.claude/commands/team-work-linear.md"
+cp "{{setupToolPath}}/templates/commands/high-priority-linear.md.template" "{{projectPath}}/.claude/commands/high-priority-linear.md"
+
+# Progress & Delivery (3 commands)
+cp "{{setupToolPath}}/templates/commands/create-pr.md.template" "{{projectPath}}/.claude/commands/create-pr.md"
+cp "{{setupToolPath}}/templates/commands/create-release-approval.md.template" "{{projectPath}}/.claude/commands/create-release-approval.md"
+cp "{{setupToolPath}}/templates/commands/progress-update.md.template" "{{projectPath}}/.claude/commands/progress-update.md"
+
+# Maintenance & Diagnostics (2 commands)
+cp "{{setupToolPath}}/templates/commands/workflow-status.md.template" "{{projectPath}}/.claude/commands/workflow-status.md"
+cp "{{setupToolPath}}/templates/commands/cleanup-branches.md.template" "{{projectPath}}/.claude/commands/cleanup-branches.md"
+
+# Help & Learning (2 commands)
+cp "{{setupToolPath}}/templates/commands/tutorial.md.template" "{{projectPath}}/.claude/commands/tutorial.md"
+cp "{{setupToolPath}}/templates/commands/linear-help.md.template" "{{projectPath}}/.claude/commands/linear-help.md"
+```
+
+**Display progress as files are copied:**
 
 ```
-✓ Installing all 17 commands...
+✓ Installing all 21 commands...
 
       Issue Creation:
       ✓ .claude/commands/create-linear-issue.md created
@@ -1190,13 +1283,32 @@ Your choice [1]: _____
 
       Progress & Delivery:
       ✓ .claude/commands/create-pr.md created
+      ✓ .claude/commands/create-release-approval.md created
       ✓ .claude/commands/progress-update.md created
 
-      Help:
+      Maintenance & Diagnostics:
+      ✓ .claude/commands/workflow-status.md created
+      ✓ .claude/commands/cleanup-branches.md created
+
+      Help & Learning:
+      ✓ .claude/commands/tutorial.md created
       ✓ .claude/commands/linear-help.md created
 ```
 
 **Option 2 - Install essential commands only (minimal):**
+
+**Copy only essential command files:**
+
+```bash
+# Core Workflow (2 commands)
+cp "{{setupToolPath}}/templates/commands/start-issue.md.template" "{{projectPath}}/.claude/commands/start-issue.md"
+cp "{{setupToolPath}}/templates/commands/create-pr.md.template" "{{projectPath}}/.claude/commands/create-pr.md"
+
+# Help (1 command)
+cp "{{setupToolPath}}/templates/commands/linear-help.md.template" "{{projectPath}}/.claude/commands/linear-help.md"
+```
+
+**Display progress:**
 
 ```
 ✓ Installing essential commands only...
@@ -1225,7 +1337,7 @@ Which command categories would you like to install?
 Categories:
   1. Issue Creation (6 commands) - /bug-linear, /feature-linear, etc.
   2. Workflow & Status (8 commands) - /start-issue, /my-work-linear, etc.
-  3. Progress & Delivery (2 commands) - /create-pr, /progress-update
+  3. Progress & Delivery (3 commands) - /create-pr, /create-release-approval, /progress-update
   4. Help (1 command) - /linear-help
 
 Select categories to install (comma-separated, e.g., "1,2,4"):
@@ -1233,6 +1345,23 @@ Your selection: _____
 ```
 
 **Example: User selects "1,4" (Issue Creation + Help):**
+
+**Copy only selected category files using direct cp commands:**
+
+```bash
+# Category 1: Issue Creation (6 commands)
+cp "{{setupToolPath}}/templates/commands/create-linear-issue.md.template" "{{projectPath}}/.claude/commands/create-linear-issue.md"
+cp "{{setupToolPath}}/templates/commands/bug-linear.md.template" "{{projectPath}}/.claude/commands/bug-linear.md"
+cp "{{setupToolPath}}/templates/commands/improvement-linear.md.template" "{{projectPath}}/.claude/commands/improvement-linear.md"
+cp "{{setupToolPath}}/templates/commands/feature-linear.md.template" "{{projectPath}}/.claude/commands/feature-linear.md"
+cp "{{setupToolPath}}/templates/commands/create-blocker-linear.md.template" "{{projectPath}}/.claude/commands/create-blocker-linear.md"
+cp "{{setupToolPath}}/templates/commands/create-subtask-linear.md.template" "{{projectPath}}/.claude/commands/create-subtask-linear.md"
+
+# Category 4: Help (1 command)
+cp "{{setupToolPath}}/templates/commands/linear-help.md.template" "{{projectPath}}/.claude/commands/linear-help.md"
+```
+
+**Display progress:**
 
 ```
 ✓ Installing selected categories...
@@ -1295,7 +1424,7 @@ Created:
   • CLAUDE.md - Project instructions for Claude
 
 {{#if installedAllCommands}}
-Custom commands available (all 17 installed):
+Custom commands available (all 20 installed):
 
   Issue Creation (6 commands):
   • /bug-linear - Quick bug report
@@ -1315,14 +1444,20 @@ Custom commands available (all 17 installed):
   • /team-work-linear - Show team's active work
   • /high-priority-linear - Show high priority items across team
 
-  Progress & Delivery (2 commands):
+  Progress & Delivery (3 commands):
   • /create-pr - Create pull request with Linear integration
+  • /create-release-approval - Create release approval issue for production
   • /progress-update - Post progress update to Linear
 
-  Help (1 command):
-  • /linear-help - Show all available commands and what they do
+  Maintenance & Diagnostics (2 commands):
+  • /workflow-status - Check workflow health and diagnose issues
+  • /cleanup-branches - Clean up merged and stale branches
 
-Total: 17 powerful commands for seamless Linear workflow!
+  Help & Learning (2 commands):
+  • /tutorial - Interactive tutorial to learn the workflow
+  • /linear-help - Interactive command launcher (select and run commands)
+
+Total: 21 powerful commands for seamless Linear workflow!
 {{else if installedEssentialOnly}}
 Essential commands installed (3 total):
 
@@ -1331,7 +1466,7 @@ Essential commands installed (3 total):
   • /create-pr - Create pull request with Linear integration
 
   Help:
-  • /linear-help - Show all available commands and what they do
+  • /linear-help - Interactive command launcher (select and run commands)
 
 Other workflows available via natural language!
 {{else if installedCustomCategories}}
@@ -1461,7 +1596,9 @@ Would you like to create a Linear issue for this? (Y/n)
 5. **If you're ready** - Claude follows the normal workflow:
    - Fetch issue details
    - Create task analysis
-   - Post analysis to Linear
+   - Ask: "Would you like me to post a summary comment to Linear? (Y/n)"
+   - If yes: Build comment summary, then post to Linear
+   - If no: Skip building/posting, continue workflow
    - Create feature branch
    - Make initial commit
 
@@ -1505,9 +1642,11 @@ Claude: [Follows normal workflow - analysis, branch, commit]
 This will:
 1. Fetch issue details from Linear
 2. Create task analysis document
-3. Post analysis summary to Linear
-4. Create feature branch
-5. Make initial commit
+3. Ask: "Would you like me to post a summary comment to Linear? (Y/n)"
+4. If yes: Build comment summary, then post to Linear
+5. If no: Skip building/posting, continue workflow
+6. Create feature branch
+7. Make initial commit
 
 #### Creating Pull Requests
 
@@ -1547,11 +1686,12 @@ This will:
 - `/team-work-linear` - Show team's active work
 - `/high-priority-linear` - Show high priority items across team
 
-**Progress & Delivery (2 commands):**
+**Progress & Delivery (3 commands):**
 - `/create-pr` - Create pull request with Linear integration
+- `/create-release-approval` - Create release approval issue for production
 - `/progress-update` - Post progress update to Linear
 
-Total: **16 powerful commands** for seamless Linear workflow!
+Total: **18 powerful commands** for seamless Linear workflow!
 
 See `.claude/commands/` for full command definitions and examples.
 
@@ -1716,10 +1856,12 @@ If no issue ID provided, you'll be prompted to enter one.
 This command will:
 1. Fetch issue details from Linear (via MCP)
 2. Create comprehensive task analysis document
-3. Post analysis summary as Linear comment
-4. Create feature branch: feature/{{formats.issueExample}}-description
-5. Make initial commit with issue reference
-6. Update issue status to "{{linear.statuses.inProgress}}"
+3. Ask: "Would you like me to post a summary comment to Linear? (Y/n)"
+4. If yes: Build comment summary, then post as Linear comment
+5. If no: Skip building/posting, continue workflow
+6. Create feature branch: feature/{{formats.issueExample}}-description
+7. Make initial commit with issue reference
+8. Update issue status to "{{linear.statuses.inProgress}}"
 
 Example:
   /start-issue {{formats.issueExample}}
@@ -1773,6 +1915,95 @@ Update includes:
 
 Example:
   /progress-update
+```
+
+**`.claude/commands/workflow-status.md`:**
+```markdown
+Check the health and status of your Linear workflow integration.
+
+Usage:
+  /workflow-status
+  /workflow-status --detailed
+
+This command runs a comprehensive health check of all workflow components:
+
+What Gets Checked:
+1. Linear MCP Connection - Server, authentication, workspace access
+2. GitHub CLI - Installation, authentication, scopes
+3. Git Configuration - Repository, hooks, validation
+4. Workflow Configuration - File validity, mappings
+5. GitHub Actions - Workflow file, secrets, recent runs (if enabled)
+6. Recent Activity - Issues, PRs, commits (last 7 days)
+
+Perfect for:
+- Troubleshooting when something isn't working
+- After setup to verify installation
+- Before starting work (morning checklist)
+- When onboarding new team members
+
+Example:
+  /workflow-status
+```
+
+**`.claude/commands/cleanup-branches.md`:**
+```markdown
+Clean up merged and stale feature branches.
+
+Usage:
+  /cleanup-branches
+  /cleanup-branches --merged-only
+  /cleanup-branches --dry-run
+
+Automatically detects and helps you clean up branches that are no longer needed.
+
+What Gets Cleaned:
+1. Merged Branches (Safe) - PR merged, all commits in target branch
+2. Stale Branches (Caution) - No commits in 30+ days, no open PR
+3. Abandoned Branches (Review) - Never had PR, very old (60+ days)
+
+Safety Features:
+- Pre-deletion checks for unpushed commits
+- Backup suggestions for unmerged work
+- Protected branches never deleted (main, staging, prod)
+- Current branch never deleted
+- Confirmation required for destructive actions
+
+Perfect for:
+- After merging multiple PRs
+- Weekly maintenance
+- When branch list is getting long
+- Before starting new work
+
+Example:
+  /cleanup-branches
+```
+
+**`.claude/commands/tutorial.md`:**
+```markdown
+Interactive tutorial to learn the Linear workflow through hands-on practice.
+
+Usage:
+  /tutorial
+  /tutorial resume    # Resume from where you left off
+  /tutorial reset     # Start over from beginning
+
+This 10-minute interactive tutorial walks you through:
+1. Understanding Linear issues
+2. Starting work with analysis
+3. Making changes and committing
+4. Using workflow commands
+5. Checking workflow health
+
+Perfect for:
+- First-time users after setup
+- New team members onboarding
+- Anyone who wants to understand the workflow before using it
+
+The tutorial uses the test issue created during setup, so you'll see
+real Linear integration in action!
+
+Example:
+  /tutorial
 ```
 
 **Mark TODO as completed after initialization.**
@@ -1995,65 +2226,34 @@ Ask the user these questions **one at a time**, storing answers in memory.
 
 #### Question 0: Configuration Profile (NEW!)
 
-**FIRST QUESTION - Offer preset profiles for quick setup:**
+**FIRST QUESTION - Offer preset profiles for quick setup using AskUserQuestion:**
 
-```
-Choose your workflow configuration:
-
-🚀 1. Startup
-   Move fast, ship faster - minimal overhead
-
-   Best for:
-   • Solo developers or small startups (1-3 developers)
-   • Rapid prototyping and MVP development
-   • Minimal process overhead
-
-   Workflow:
-   • Branches: main only
-   • Statuses: In Progress → Done
-   • Review: Optional
-   • Setup time: ~2 minutes
-
-👥 2. Small Team [Recommended]
-   Balanced velocity with code review process
-
-   Best for:
-   • Small teams (3-10 developers)
-   • Startups with QA process
-   • Projects requiring code review
-
-   Workflow:
-   • Branches: main + staging
-   • Statuses: In Progress → Code Review → QA Testing → Done
-   • Review: Required
-   • Setup time: ~4 minutes
-
-🏢 3. Enterprise
-   Full pipeline control with multiple environments
-
-   Best for:
-   • Large teams (10+ developers)
-   • Enterprise organizations
-   • Regulated industries
-
-   Workflow:
-   • Branches: main + staging + production
-   • Statuses: In Progress → Code Review → QA → Deployed
-   • Review: Required + approvals
-   • Setup time: ~6 minutes
-
-⚙️  4. Custom
-   Full control - configure everything manually
-
-   Best for:
-   • Unique workflows
-   • Specific requirements
-   • Advanced users
-
-   Workflow: You decide
-   Setup time: ~10 minutes
-
-Your choice [2]: _____
+```javascript
+AskUserQuestion({
+  questions: [{
+    question: "Choose your workflow configuration:",
+    header: "Setup Profile",
+    multiSelect: false,
+    options: [
+      {
+        label: "Startup",
+        description: "Move fast, minimal overhead. Main only, 2min setup. Best for: 1-3 devs, MVP development"
+      },
+      {
+        label: "Small Team",
+        description: "Balanced velocity + QA. Main+staging, 4min setup. Best for: 3-10 devs, code review required"
+      },
+      {
+        label: "Enterprise",
+        description: "Full pipeline control. Main+staging+prod, 6min setup. Best for: 10+ devs, regulated industries"
+      },
+      {
+        label: "Custom",
+        description: "Full control, configure everything manually. 10min setup. Best for: unique workflows"
+      }
+    ]
+  }]
+})
 ```
 
 **Store the selected profile for later use.**
@@ -2116,22 +2316,29 @@ The Linear workflow is fully functional via Claude Code commands.
 Want to add AUTOMATIC status updates when PRs merge?
 
 This requires a LINEAR_API_KEY (stored in GitHub secrets).
-
-✅ Benefits:
-  ✓ Status auto-updates when PR merges (no manual updates)
-  ✓ Works without Claude running
-  ✓ Full team automation
-
-⚠️  Requirements:
-  • Linear API key creation permission
-  • GitHub repository admin access
-
-💡 Note: Some organizations restrict API key creation.
-   If you can't create API keys, you can skip this - the workflow
-   still works fully via Claude Code commands!
-
-Would you like to enable GitHub Actions automation? (y/N)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Use AskUserQuestion for GitHub Actions:**
+
+```javascript
+AskUserQuestion({
+  questions: [{
+    question: "Would you like to enable GitHub Actions automation?",
+    header: "GitHub Actions",
+    multiSelect: false,
+    options: [
+      {
+        label: "Yes, enable automation",
+        description: "Auto-update status on PR merge. Requires LINEAR_API_KEY, GitHub admin access. 2min setup."
+      },
+      {
+        label: "No, skip for now",
+        description: "Workflow fully works via Claude Code commands. Can add later. Recommended if you can't create API keys."
+      }
+    ]
+  }]
+})
 ```
 
 **If user says YES:**
@@ -2210,15 +2417,35 @@ Continuing with setup...
 ```
 
 #### Question 2: Branch Strategy
-```
-What branch names does your team use?
 
-1. Simple (main only)
-2. Standard (main + staging)
-3. Enterprise (main + staging + prod)
-4. Custom
+**Use AskUserQuestion for branch strategy:**
 
-Your choice [2]: _____
+```javascript
+AskUserQuestion({
+  questions: [{
+    question: "What branch names does your team use?",
+    header: "Branch Strategy",
+    multiSelect: false,
+    options: [
+      {
+        label: "Simple (main only)",
+        description: "Single branch deployment. Best for: startups, simple projects, continuous deployment."
+      },
+      {
+        label: "Standard (main + staging)",
+        description: "Two-tier workflow with QA. Best for: small teams, code review + testing before production."
+      },
+      {
+        label: "Enterprise (main + staging + prod)",
+        description: "Three-tier with release control. Best for: large teams, regulated industries, manual release approval."
+      },
+      {
+        label: "Custom",
+        description: "Specify your own branch names."
+      }
+    ]
+  }]
+})
 ```
 
 If custom:
@@ -2502,31 +2729,7 @@ Let's continue with the next configuration step...
 How should commits reference Linear issues?
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Choose how to reference Linear issues in commit messages:
-
-1. Related: DEV-XXX [Recommended]
-   Best for: Full workflow control
-   • GitHub Actions controls all status updates
-   • No conflict with Linear automations
-   • Most flexible approach
-
-2. Closes: DEV-XXX
-   Best for: Final commits that complete an issue
-   • Indicates this commit closes the issue
-   • ⚠️  May trigger Linear's magic word automation
-   • Only use if you disable Linear automations (see below)
-
-3. Fixes: DEV-XXX
-   Best for: Bug fix commits
-   • Indicates this commit fixes a bug
-   • ⚠️  May trigger Linear's magic word automation
-   • Only use if you disable Linear automations (see below)
-
-Your choice [1]: _____
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ⚠️  IMPORTANT: Linear Magic Word Automations
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Linear has built-in "magic word" automations that respond to keywords
 like "Closes", "Fixes", "Resolves" in commit messages and PR titles.
@@ -2542,25 +2745,70 @@ Example conflict:
   4. Result: Status conflict or unexpected behavior
 
 Recommendation:
-  • Use "Related: DEV-XXX" (Option 1) - safest, no conflicts
+  • Use "Related: DEV-XXX" - safest, no conflicts
   • OR disable Linear magic word automations:
     → https://linear.app/{{workspace}}/settings/git
 
-Check your Linear automation settings:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Use AskUserQuestion for commit reference method:**
+
+```javascript
+AskUserQuestion({
+  questions: [{
+    question: "How should commits reference Linear issues?",
+    header: "Commit Reference",
+    multiSelect: false,
+    options: [
+      {
+        label: "Related: DEV-XXX",
+        description: "Full workflow control. GitHub Actions controls status updates. No Linear conflicts. Most flexible."
+      },
+      {
+        label: "Closes: DEV-XXX",
+        description: "For final commits. ⚠️ May trigger Linear automation. Use only if Linear automations disabled."
+      },
+      {
+        label: "Fixes: DEV-XXX",
+        description: "For bug fixes. ⚠️ May trigger Linear automation. Use only if Linear automations disabled."
+      }
+    ]
+  }]
+})
 ```
 
 **Ask user about Linear automations:**
 
 ```
-Do you have Linear's magic word automations enabled?
+Check your Linear automation settings at:
+https://linear.app/{{workspace}}/settings/git
+```
 
-Check at: https://linear.app/{{workspace}}/settings/git
+**Use AskUserQuestion for Linear automation status:**
 
-1. Not sure / Don't know
-2. Yes, enabled (default in Linear)
-3. No, disabled
-
-Your choice [1]: _____
+```javascript
+AskUserQuestion({
+  questions: [{
+    question: "Do you have Linear's magic word automations enabled?",
+    header: "Linear Automations",
+    multiSelect: false,
+    options: [
+      {
+        label: "Not sure / Don't know",
+        description: "I haven't checked or I'm not sure. Will recommend safest option (Related:)."
+      },
+      {
+        label: "Yes, enabled",
+        description: "Linear automations are enabled (default). Will recommend Related: to avoid conflicts."
+      },
+      {
+        label: "No, disabled",
+        description: "I've disabled Linear automations. Can safely use any reference format."
+      }
+    ]
+  }]
+})
 ```
 
 **If user selects "Not sure" or "Yes, enabled":**
@@ -2827,31 +3075,108 @@ This matches all issues in team "{{teamName}}".
 ```
 
 #### Question 5: Update Detail Level
-```
-How detailed should Linear updates be?
 
-1. 🎯 High-level (Stakeholder view)
-   Brief summaries, business impact focus
+**Use AskUserQuestion for detail level:**
 
-2. 🔧 Technical (Developer view)
-   Detailed analysis with code references
-
-3. 📝 Minimal (Status updates only)
-   One-line updates, commit references only
-
-Your choice [2]: _____
+```javascript
+AskUserQuestion({
+  questions: [{
+    question: "How detailed should Linear updates be?",
+    header: "Detail Level",
+    multiSelect: false,
+    options: [
+      {
+        label: "High-level (Stakeholder view)",
+        description: "Brief summaries, business impact focus. Best for: product managers, stakeholders."
+      },
+      {
+        label: "Technical (Developer view)",
+        description: "Detailed analysis with code references. Best for: developers, code reviewers."
+      },
+      {
+        label: "Minimal (Status updates only)",
+        description: "One-line updates, commit references only. Best for: quick check-ins, small teams."
+      }
+    ]
+  }]
+})
 ```
 
 #### Question 6: Documentation Location
+
+**Use AskUserQuestion for documentation location:**
+
+```javascript
+AskUserQuestion({
+  questions: [{
+    question: "Where should Claude store issue analysis documents?",
+    header: "Documentation",
+    multiSelect: false,
+    options: [
+      {
+        label: "/docs/issues/",
+        description: "Recommended. Standard location, visible in repository, easy to find."
+      },
+      {
+        label: "/docs/dev-issues/",
+        description: "Alternative. Separates from user-facing docs, still visible in repository."
+      },
+      {
+        label: "/.linear/issues/",
+        description: "Hidden folder. Keeps analysis out of main docs, less visible in file tree."
+      },
+      {
+        label: "Custom path",
+        description: "You specify the path. Full control over location."
+      }
+    ]
+  }]
+})
 ```
-Where should Claude store issue analysis documents?
 
-1. /docs/issues/                           [Recommended]
-2. /docs/dev-issues/                       [Alternative]
-3. /.linear/issues/                        [Hidden folder]
-4. Custom path
+**After user selects path, ask about git tracking:**
 
-Your choice [1]: _____
+**Use AskUserQuestion for git tracking:**
+
+```javascript
+AskUserQuestion({
+  questions: [{
+    question: "Should this folder be tracked in git?",
+    header: "Git Tracking",
+    multiSelect: false,
+    options: [
+      {
+        label: "Yes, commit analysis documents",
+        description: "Team sees analysis history, full documentation in repository. Recommended for most teams."
+      },
+      {
+        label: "No, add to .gitignore",
+        description: "Analysis stays local to each branch. Cleaner git history, no documentation clutter."
+      }
+    ]
+  }]
+})
+```
+
+**If user chooses option 2 (gitignore):**
+
+```
+✓ Analysis documents will be excluded from git
+
+I'll add {{docsPath}} to .gitignore
+
+Note: Each team member will have their own local analysis documents.
+The workflow will still work perfectly - analysis is just not committed.
+```
+
+**Store gitignore preference in config:**
+```json
+{
+  "paths": {
+    "issues": "/docs/issues/",
+    "excludeFromGit": true
+  }
+}
 ```
 
 #### Question 7: Auto-Assignment
@@ -2940,11 +3265,11 @@ curl -X POST https://api.linear.app/graphql \
 Team Members ({{teamName}}):
 
 Active Members:
-  1. Alice Smith - alice@company.com (Active)
-  2. Bob Jones - bob@company.com (Active)
-  3. Carol White - carol@company.com (Active)
-  4. David Chen - david@company.com (Active)
-  5. Emma Wilson - emma@company.com (Active)
+  1. Jane Bloggs - alice@company.com (Active)
+  2. Joe Bloggs - bob@company.com (Active)
+  3. Sarah Bloggs - carol@company.com (Active)
+  4. Tom Bloggs - david@company.com (Active)
+  5. Emma Bloggs - emma@company.com (Active)
 
   0. None / Skip this status
 
@@ -2973,11 +3298,11 @@ Typical use case:
 Who should be assigned when issue moves to "{{linear.statuses.inProgress}}"?
 
 Options:
-  1. Alice Smith - alice@company.com
-  2. Bob Jones - bob@company.com
-  3. Carol White - carol@company.com
-  4. David Chen - david@company.com
-  5. Emma Wilson - emma@company.com
+  1. Jane Bloggs - alice@company.com
+  2. Joe Bloggs - bob@company.com
+  3. Sarah Bloggs - carol@company.com
+  4. Tom Bloggs - david@company.com
+  5. Emma Bloggs - emma@company.com
   0. None (keep current assignee)
 
 Your choice [0]: _____
@@ -3000,11 +3325,11 @@ Typical use case:
 Who should be assigned when issue moves to "{{linear.statuses.review}}"?
 
 Options:
-  1. Alice Smith - alice@company.com
-  2. Bob Jones - bob@company.com ⭐ (Tech Lead)
-  3. Carol White - carol@company.com
-  4. David Chen - david@company.com
-  5. Emma Wilson - emma@company.com
+  1. Jane Bloggs - alice@company.com
+  2. Joe Bloggs - bob@company.com ⭐ (Tech Lead)
+  3. Sarah Bloggs - carol@company.com
+  4. Tom Bloggs - david@company.com
+  5. Emma Bloggs - emma@company.com
   0. None (keep current assignee)
 
 Your choice [2]: _____
@@ -3027,11 +3352,11 @@ Typical use case:
 Who should be assigned when issue moves to "{{linear.statuses.staging}}"?
 
 Options:
-  1. Alice Smith - alice@company.com
-  2. Bob Jones - bob@company.com
-  3. Carol White - carol@company.com ⭐ (QA Lead)
-  4. David Chen - david@company.com
-  5. Emma Wilson - emma@company.com
+  1. Jane Bloggs - alice@company.com
+  2. Joe Bloggs - bob@company.com
+  3. Sarah Bloggs - carol@company.com ⭐ (QA Lead)
+  4. Tom Bloggs - david@company.com
+  5. Emma Bloggs - emma@company.com
   0. None (keep current assignee)
 
 Your choice [3]: _____
@@ -3055,11 +3380,11 @@ Typical use case:
 Who should be assigned when issue moves to "{{linear.statuses.done}}"?
 
 Options:
-  1. Alice Smith - alice@company.com
-  2. Bob Jones - bob@company.com
-  3. Carol White - carol@company.com
-  4. David Chen - david@company.com ⭐ (Team Lead)
-  5. Emma Wilson - emma@company.com
+  1. Jane Bloggs - alice@company.com
+  2. Joe Bloggs - bob@company.com
+  3. Sarah Bloggs - carol@company.com
+  4. Tom Bloggs - david@company.com ⭐ (Team Lead)
+  5. Emma Bloggs - emma@company.com
   0. None (keep current assignee)
 
 Your choice [0]: _____
@@ -3106,8 +3431,8 @@ Your choice [1]: _____
 
 Status Transitions:
   "{{linear.statuses.inProgress}}" → No change (keeps current assignee)
-  "{{linear.statuses.review}}" → Assigned to Bob Jones (bob@company.com)
-  "{{linear.statuses.staging}}" → Assigned to Carol White (carol@company.com)
+  "{{linear.statuses.review}}" → Assigned to Joe Bloggs (bob@company.com)
+  "{{linear.statuses.staging}}" → Assigned to Sarah Bloggs (carol@company.com)
   "{{linear.statuses.done}}" → No change (keeps current assignee)
 
 Preservation: Keep original assignee ✓
@@ -3215,8 +3540,8 @@ Documentation: /docs/issues/
 
 Auto-Assignment:
   Enabled: Yes
-  On Review → Alice Smith (alice@team.com)
-  On Staging → Carol White (qa-lead@team.com)
+  On Review → Jane Bloggs (alice@team.com)
+  On Staging → Sarah Bloggs (qa-lead@team.com)
   Preserve Original: Yes
 
 Is this correct? [Y/n]: _____
@@ -4111,12 +4436,14 @@ To run the full test, say: "Let's get to work on {{ISSUE-ID}}"
 This will:
   1. Fetch issue details using Linear MCP tools
   2. Create task analysis document in /docs/issues/
-  3. Post summary comment to Linear issue
-  4. Create feature branch (feature/{{ISSUE-ID}}-test-setup)
-  5. Make initial commit with issue reference
-  6. Push to GitHub
-  7. Verify commit message hook validation
-  8. Test Linear MCP integration end-to-end
+  3. Ask: "Would you like me to post a summary comment to Linear? (Y/n)"
+  4. If yes: Build comment summary, then post to Linear issue
+  5. If no: Skip building/posting, continue workflow
+  6. Create feature branch (feature/{{ISSUE-ID}}-test-setup)
+  7. Make initial commit with issue reference
+  8. Push to GitHub
+  9. Verify commit message hook validation
+  10. Test Linear MCP integration end-to-end
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -4132,10 +4459,12 @@ Your choice [1]: _____
 Follow the complete Linear workflow as documented in docs/linear-workflow.md:
 1. Fetch issue with MCP tools (get_issue, list_comments)
 2. Create task analysis
-3. Post to Linear
-4. Create branch
-5. Initial commit
-6. Push
+3. Ask: "Would you like me to post a summary comment to Linear? (Y/n)"
+4. If yes: Build comment summary, then post to Linear
+5. If no: Skip building/posting, continue workflow
+6. Create branch
+7. Initial commit
+8. Push
 
 **After workflow completes:**
 
@@ -4344,6 +4673,43 @@ Try the complete 2-way workflow before merging:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+🎓 Want a Guided Tour?
+
+Take the 10-minute interactive tutorial to learn by doing:
+
+  /tutorial
+
+The tutorial walks you through:
+  • Fetching and analyzing issues
+  • Starting work with AI analysis
+  • Making changes and committing
+  • Using workflow commands
+  • Seeing the 2-way Linear integration in action
+
+It's the fastest way to understand the workflow!
+
+Would you like to start the tutorial now? (Y/n)
+```
+
+**IMPORTANT: ALWAYS ask this question after installation completes. Do not skip the tutorial prompt.**
+
+**If user says yes, automatically invoke the tutorial:**
+
+```
+Great! Starting interactive tutorial...
+
+[Launches /tutorial command]
+```
+
+**If user says no:**
+
+```
+No problem! You can run /tutorial anytime you're ready.
+
+Let me show you what else you can do:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 More Commands to Try:
 
   Slash Commands:
@@ -4398,6 +4764,12 @@ After merging to main:
   ✓ Team can start using workflow commands immediately
 
 Need help merging? Just ask!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🐟 Remember: Issues are friends, not food!
+
+Happy coding with Linear + Claude! 🚀
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
@@ -4715,6 +5087,218 @@ function findStatusByName(statuses, name) {
 
 Once workflow is installed, support these commands. These commands enable natural, conversational development workflows with Linear integration.
 
+### Command Aliases
+
+**For user convenience, recognize these shorter aliases for common commands:**
+
+| Alias | Full Command | Description |
+|-------|--------------|-------------|
+| `/start` | `/start-issue` | Start work on an issue |
+| `/pr` | `/create-pr` | Create pull request |
+| `/status` | `/workflow-status` | Check workflow health |
+| `/cleanup` | `/cleanup-branches` | Clean up branches |
+| `/bug` | `/bug-linear` | Create bug report |
+| `/feat` or `/feature` | `/feature-linear` | Create feature request |
+| `/improve` | `/improvement-linear` | Create improvement issue |
+| `/blocked` | `/blocked-linear` | Mark as blocked |
+| `/pause` | `/pause-linear` | Pause work |
+| `/feedback` | `/feedback-linear` | Request feedback |
+| `/standup` | `/standup` | Generate standup update |
+| `/mywork` | `/my-work-linear` | Show my work |
+| `/teamwork` | `/team-work-linear` | Show team work |
+| `/highpri` | `/high-priority-linear` | Show high priority items |
+
+**Implementation:**
+When user types an alias, treat it exactly as if they typed the full command name.
+
+**Examples:**
+```
+User: "/start DEV-123"
+→ Treated as: /start-issue DEV-123
+
+User: "/pr"
+→ Treated as: /create-pr
+
+User: "/bug Login timeout"
+→ Treated as: /bug-linear Login timeout
+```
+
+**Benefits:**
+- Faster typing for power users
+- Muscle memory from other tools (e.g., `/pr` common in many CLIs)
+- Lower barrier to entry
+- Both forms work (aliases and full commands)
+
+**Note:** All documentation shows full command names for clarity, but both forms are accepted.
+
+### Interactive Help Command (/linear-help)
+
+**Trigger:** User runs `/linear-help` or asks "What commands are available?"
+
+**Purpose:** Quick command launcher - NOT detailed help (that's what docs are for)
+
+**Claude should:**
+
+1. **Use AskUserQuestion for category selection:**
+
+```javascript
+AskUserQuestion({
+  questions: [{
+    question: "Which category of commands?",
+    header: "Commands",
+    multiSelect: false,
+    options: [
+      {
+        label: "Issue Creation",
+        description: "Create bugs, features, improvements, blockers, sub-tasks"
+      },
+      {
+        label: "Workflow & Status",
+        description: "Start work, pause, request feedback, check status"
+      },
+      {
+        label: "Progress & Delivery",
+        description: "Create PRs, post updates, request release approval"
+      },
+      {
+        label: "Maintenance & Help",
+        description: "Check workflow health, cleanup, tutorial, help"
+      }
+    ]
+  }]
+})
+```
+
+2. **Based on selection, show commands in that category using AskUserQuestion:**
+
+**If "Issue Creation" selected:**
+```javascript
+AskUserQuestion({
+  questions: [{
+    question: "Which command would you like to run?",
+    header: "Issue Creation",
+    multiSelect: false,
+    options: [
+      {
+        label: "/bug-linear",
+        description: "Quick bug report (uses Bug template)"
+      },
+      {
+        label: "/feature-linear",
+        description: "Quick feature request (uses Feature template)"
+      },
+      {
+        label: "/improvement-linear",
+        description: "Quick improvement (uses Improvement template)"
+      },
+      {
+        label: "/create-linear-issue",
+        description: "Create any issue with template selection"
+      }
+      // Note: Only 4 options max, so show most common first
+      // User can select "Other" to manually type /create-blocker-linear or /create-subtask-linear
+    ]
+  }]
+})
+```
+
+**If "Workflow & Status" selected:**
+```javascript
+AskUserQuestion({
+  questions: [{
+    question: "Which command would you like to run?",
+    header: "Workflow",
+    multiSelect: false,
+    options: [
+      {
+        label: "/start-issue",
+        description: "Start work on existing issue"
+      },
+      {
+        label: "/my-work-linear",
+        description: "Show your active issues"
+      },
+      {
+        label: "/pause-linear",
+        description: "Pause work and commit WIP"
+      },
+      {
+        label: "/blocked-linear",
+        description: "Mark as blocked by dependency"
+      }
+      // Most common 4 - user can type others manually
+    ]
+  }]
+})
+```
+
+**If "Progress & Delivery" selected:**
+```javascript
+AskUserQuestion({
+  questions: [{
+    question: "Which command would you like to run?",
+    header: "Delivery",
+    multiSelect: false,
+    options: [
+      {
+        label: "/create-pr",
+        description: "Create pull request with Linear integration"
+      },
+      {
+        label: "/progress-update",
+        description: "Post progress update to Linear"
+      },
+      {
+        label: "/create-release-approval",
+        description: "Create release approval issue"
+      }
+    ]
+  }]
+})
+```
+
+**If "Maintenance & Help" selected:**
+```javascript
+AskUserQuestion({
+  questions: [{
+    question: "Which command would you like to run?",
+    header: "Maintenance",
+    multiSelect: false,
+    options: [
+      {
+        label: "/workflow-status",
+        description: "Check workflow health and diagnose issues"
+      },
+      {
+        label: "/cleanup-branches",
+        description: "Clean up merged and stale branches"
+      },
+      {
+        label: "/tutorial",
+        description: "Interactive workflow tutorial"
+      }
+    ]
+  }]
+})
+```
+
+3. **Execute the selected command immediately**
+
+If user selected `/bug-linear`, immediately start the `/bug-linear` workflow.
+If user selected `/start-issue`, immediately start the `/start-issue` workflow.
+Etc.
+
+4. **If user selects "Other"**
+
+User can type the command manually (handles commands not in the top 4 of each category).
+
+**Key principles:**
+- Fast: Two clicks to any command
+- Discoverable: See all categories and commands
+- No memorization needed
+- Commands run immediately after selection
+- For detailed help, point to docs (not in the launcher)
+
 ### Core Workflow Commands
 
 #### Create Linear Issue (Bottom-Up Workflow)
@@ -4800,7 +5384,9 @@ User mentions adding/building/fixing something WITHOUT referencing an existing L
 9. **If yes**, follow normal "Start Work on Issue" workflow:
    - Fetch issue details
    - Create task analysis
-   - Post analysis to Linear
+   - Ask: "Would you like me to post a summary comment to Linear? (Y/n)"
+   - If yes: Build comment summary, then post to Linear
+   - If no: Skip building/posting, continue workflow
    - Create feature branch
    - Push initial commit
 
@@ -4950,10 +5536,17 @@ User references an existing Linear issue ID.
 1. Update local repo (`git checkout main && git pull`)
 2. Fetch issue with MCP (`get_issue`, `list_comments`)
 3. Create task analysis document (11-section format)
-4. Post summary comment to Linear (`create_comment`)
-5. Create feature branch
-6. Push initial commit
-7. Confirm status updated to "In Progress"
+4. **Ask for confirmation before building/posting to Linear:**
+   ```
+   Task analysis complete!
+
+   Would you like me to post a summary comment to Linear? (Y/n)
+   ```
+5. **If yes:** Build comment summary from task analysis, then post to Linear (`create_comment`)
+6. **If no:** Skip building and posting entirely, continue with workflow
+7. Create feature branch
+8. Push initial commit
+9. Confirm status updated to "In Progress"
 
 #### Continue Existing Issue
 
@@ -4983,6 +5576,249 @@ User references an existing Linear issue ID.
 3. Post PR summary to Linear (`create_comment`)
 4. Status updates automatically via GitHub Actions
 5. Return PR URL
+
+#### Create Release Approval
+
+**Trigger phrases:**
+- "/create-release-approval"
+- "/create-release-approval v1.2.0"
+- "Create release approval for [version]"
+- When creating PR to production branch (offer automatically)
+
+**When to trigger:**
+- User explicitly calls `/create-release-approval`
+- During `/create-pr` when target branch is production
+- User mentions "release approval" or "production deployment"
+
+**Claude should:**
+
+1. **Detect or ask for version number:**
+   ```
+   What version number for this release?
+   Examples: v1.2.0, 2025.01.21, sprint-15
+   ```
+
+2. **Ask for assignee (if not configured):**
+   ```
+   Who should approve this release?
+
+   Options:
+   1. Jane Bloggs (alice@company.com) - Release Manager
+   2. Joe Bloggs (bob@company.com) - Tech Lead
+   3. Sarah Bloggs (carol@company.com) - Product Manager
+   4. No assignee (team will triage)
+   5. Custom (specify email)
+
+   Your choice [1]: _
+   ```
+
+3. **Analyze commits between staging/main and production:**
+   ```bash
+   # Get commits between branches
+   git log production..staging --oneline
+
+   # Extract Linear issue IDs using configured pattern
+   # Example pattern: [A-Z]+-\d+
+   ```
+
+4. **Fetch all issues from Linear via MCP:**
+   ```javascript
+   // For each extracted issue ID
+   const issues = await Promise.all(
+     issueIds.map(id => getIssue(id))
+   );
+   ```
+
+5. **Categorize issues by type:**
+   - **Bug Fixes**: Issues with "bug" label or "[BUG]" in title
+   - **New Features**: Issues with "feature" label or "[FEATURE]" in title
+   - **Improvements**: All other issues
+
+6. **Create release approval issue:**
+   ```javascript
+   const releaseIssue = await createIssue({
+     teamId: config.linear.teamId,
+     title: `Release Approval: ${version} - ${new Date().toLocaleDateString()}`,
+     description: formatReleaseDescription(version, issues),
+     stateId: config.linear.statuses.reviewRequired.id,
+     assigneeId: assigneeId,
+     priority: 1, // High priority
+     labels: ['release', 'approval', version]
+   });
+   ```
+
+7. **Format release description:**
+   ```markdown
+   A summary of recent changes awaiting review for release ${version}.
+
+   This release includes ${issues.length} changes across bug fixes, features, and improvements.
+
+   Release Date: ${date}
+   Target Branch: ${productionBranch}
+
+   ---
+
+   ## Changes in This Release
+
+   ### Bug Fixes (${bugCount})
+
+   #### [DEV-123: Fix Overflow Menu](https://linear.app/workspace/issue/DEV-123)
+   **Issue:** Overflow menu not appearing on mobile devices
+   **Fix:** Updated CSS z-index and positioning logic
+
+   ### New Features (${featureCount})
+
+   #### [DEV-156: Add User Authentication](https://linear.app/workspace/issue/DEV-156)
+   **Feature:** Secure login system with password reset
+   **Implemented:** JWT-based authentication with email/password
+
+   ### Improvements (${improvementCount})
+
+   #### [DEV-167: Optimize Database Queries](https://linear.app/workspace/issue/DEV-167)
+   **Improvement:** Slow query performance on reports page
+   **Implemented:** Added composite indexes, reduced load time to <2s
+
+   ---
+
+   ## Approval Checklist
+
+   - [ ] All features tested in staging environment
+   - [ ] No critical bugs reported in last 48 hours
+   - [ ] Documentation updated (user guides, API docs)
+   - [ ] Stakeholders notified of deployment window
+   - [ ] Database migrations tested and reviewed
+   - [ ] Rollback plan documented and tested
+   - [ ] Monitoring and alerts configured
+   - [ ] Ready for production deployment
+
+   ## Related Information
+
+   **Related PRs:**
+   - PR #${prNumber}: ${stagingBranch} → ${productionBranch} (pending approval)
+
+   **Related Issues:** ${issueIds.join(', ')}
+   ```
+
+8. **Link all issues to release approval:**
+   ```javascript
+   for (const issue of issues) {
+     await createIssueRelation({
+       issueId: issue.id,
+       relatedIssueId: releaseIssue.id,
+       type: 'related'
+     });
+   }
+   ```
+
+9. **Display confirmation:**
+   ```
+   ✓ Release approval created: ${releaseIssueId}
+   ✓ Assigned to: ${assigneeName}
+   ✓ Linked ${issues.length} issues
+
+   Linear URL: https://linear.app/workspace/issue/${releaseIssueId}
+
+   Breakdown:
+     • ${bugCount} bug fixes
+     • ${featureCount} new features
+     • ${improvementCount} improvements
+   ```
+
+10. **If called from `/create-pr` workflow:**
+    ```
+    Should I include this in the PR description? (Y/n)
+
+    [If yes]
+    ✓ Release approval issue added to PR description
+    ✓ PR linked to release approval issue
+    ```
+
+**Helper function for summarizing fixes:**
+```javascript
+function summarizeFix(issue) {
+  // Extract key information from issue description, comments, or commits
+  // Return brief 1-2 sentence summary of what was fixed/implemented
+
+  // Check recent comments for summary
+  const comments = issue.comments;
+  const summaryComment = comments.find(c =>
+    c.body.includes('Summary:') || c.body.includes('## Solution')
+  );
+
+  if (summaryComment) {
+    return extractSummary(summaryComment.body);
+  }
+
+  // Fall back to first line of description
+  return issue.description.split('\n')[0];
+}
+```
+
+**Example flow:**
+```
+User: "/create-release-approval v1.2.0"
+
+Claude: "Analyzing commits between staging and production..."
+        "Found 8 issues to include in release v1.2.0"
+
+        "Breakdown:"
+        "  • 3 bug fixes"
+        "  • 2 new features"
+        "  • 3 improvements"
+
+        "Who should approve this release?"
+        "1. Jane Bloggs - Release Manager"
+        "2. Joe Bloggs - Tech Lead"
+        "3. No assignee"
+
+User: "1"
+
+Claude: [Creates release approval issue]
+
+        "✓ Release approval created: DEV-999"
+        "✓ Assigned to: Jane Bloggs"
+        "✓ Linked 8 issues"
+
+        "Linear URL: https://linear.app/.../DEV-999"
+
+        "The release approval issue includes:"
+        "  • Complete list of all changes"
+        "  • Links to all 8 related issues"
+        "  • Approval checklist"
+        "  • Release notes formatted for stakeholders"
+```
+
+**Integration with PR creation:**
+```
+User: "/create-pr"
+
+Claude: "Detecting target branch... production"
+
+        "This looks like a release PR!"
+        "Would you like to create a Release Approval issue? (Y/n)"
+
+User: "y"
+
+Claude: "What version number for this release?"
+User: "v2.0.0"
+
+Claude: [Analyzes commits, creates release approval]
+
+        "✓ Release approval created: DEV-999"
+        "✓ PR #245 linked to release approval"
+        "✓ Release notes added to PR description"
+
+        "Creating pull request..."
+        [Continues with normal PR creation]
+```
+
+**Benefits:**
+- **Stakeholder visibility** - Non-technical stakeholders can review what's being deployed
+- **Approval gate** - Formal checkpoint before production deployment
+- **Audit trail** - Complete record of what was released and when
+- **Risk mitigation** - Checklist ensures nothing is forgotten
+- **Team alignment** - Everyone knows what's going out
+- **Auto-documentation** - Release notes generated automatically from Linear issues
 
 ---
 
@@ -6048,6 +6884,14 @@ The `.linear-workflow.json` file structure:
     "enabled": true,
     "apiKeyConfigured": true
   },
+  "tutorial": {
+    "completed": false,
+    "currentStep": 0,
+    "startedAt": null,
+    "completedAt": null,
+    "issueId": "DEV-123",
+    "canResume": false
+  },
   "installed": "2025-01-11T10:30:00Z"
 }
 ```
@@ -6103,41 +6947,477 @@ When rendering templates, replace these placeholders:
 - ✗ Never batch write operations with different purposes
 - ✗ Keep Linear API calls separate (users should approve each API operation)
 
-## Troubleshooting Guide
+## Smart Error Recovery
 
-Include these common issues in error handling:
+When errors occur, provide actionable recovery options with automatic fixes where possible.
 
-### Linear API Issues
-- Invalid API key → Guide to create new one
-- Team not found → List available teams
-- No permission → Check user has correct Linear role
+### Error Detection & Recovery Pattern
 
-### MCP Server Issues
-- **MCP server not connecting:**
-  - Check `.mcp.json` file exists
-  - Verify `LINEAR_API_KEY` is set in `.env` file
-  - Try: `npx -y @modelcontextprotocol/server-linear` to test manually
-  - Restart Claude Code after creating/updating `.mcp.json`
+**For every error, follow this pattern:**
 
-- **MCP tools not available:**
-  - Ensure `.mcp.json` is in the project root directory
-  - Check `.env` file has correct LINEAR_API_KEY format: `lin_api_...`
-  - Verify Claude Code has loaded the MCP server (check status bar)
+1. **Detect** - Identify the specific error
+2. **Diagnose** - Explain what went wrong in plain language
+3. **Recover** - Offer automatic fix or clear manual steps
+4. **Verify** - Confirm fix worked
 
-- **Environment variable not loading:**
-  - Ensure `.env` file is in project root (same directory as `.mcp.json`)
-  - Check for typos: must be exactly `LINEAR_API_KEY=...` (no spaces)
-  - Try setting as system environment variable instead
+**Example Pattern:**
+```
+❌ Error: Could not connect to Linear MCP
 
-### GitHub Issues
-- Not authenticated → Run `gh auth login`
-- No repo access → Check repository exists and user has admin
-- Secrets permission → Ensure user has write access to secrets
+🔍 Diagnosis:
+The Linear MCP server is not responding. This usually means:
+  • MCP server not authenticated, OR
+  • Claude Code needs restart, OR
+  • Network connectivity issue
 
-### Git Issues
-- Not in repo → Initialize git or cd to correct directory
-- Dirty working tree → Suggest stashing or committing changes
-- Branch exists → Offer to use existing or create new name
+🔧 I can fix this automatically:
+
+Option 1: Re-authenticate (Recommended)
+  → I'll guide you through MCP authentication
+  → Time: ~2 minutes
+
+Option 2: Restart reminder
+  → Remind you to restart Claude Code
+  → Time: ~30 seconds
+
+Option 3: Manual diagnosis
+  → Show detailed troubleshooting steps
+  → Time: ~5 minutes
+
+Auto-fix? [1]: _____
+```
+
+### Common Errors & Smart Recovery
+
+#### 1. MCP Connection Failures
+
+**Error:** "Could not connect to Linear MCP" or "MCP tools not available"
+
+**Smart Recovery:**
+```
+❌ Linear MCP Connection Failed
+
+🔍 Root Cause: MCP server not authenticated
+
+I can fix this for you automatically:
+
+Step 1: Remove old MCP configuration
+  claude mcp remove linear-server
+
+Step 2: Add new MCP server
+  claude mcp add --transport http linear-server https://mcp.linear.app/mcp
+
+Step 3: Restart Claude Code (required)
+  Exit and restart Claude Code to load new config
+
+Step 4: Authenticate
+  Run: /mcp
+  Follow browser OAuth flow
+
+Run auto-fix? (Y/n)
+
+[If yes, execute steps 1-2, then:]
+
+✓ MCP configuration updated
+
+⚠️  RESTART REQUIRED
+Please exit Claude Code and restart it, then run /mcp to authenticate.
+
+After restarting, come back and say "done" to continue.
+```
+
+**Prevention:**
+```
+💡 Tip: Run /workflow-status regularly to catch MCP issues early
+```
+
+#### 2. Git Hook Validation Failures
+
+**Error:** "Commit blocked: Missing Linear issue reference"
+
+**Smart Recovery:**
+```
+❌ Commit Blocked by Git Hook
+
+Your commit message:
+  "Add user authentication"
+
+Expected format:
+  "feat: Add user authentication (Related: DEV-123)"
+
+🔍 Issue: Missing Linear issue reference
+
+🔧 I can help fix this:
+
+Option 1: Amend commit with issue reference [Recommended]
+  Which issue is this for? DEV-___
+
+  [User enters: 123]
+
+  → I'll amend your commit to:
+    "feat: Add user authentication (Related: DEV-123)"
+
+Option 2: Show me the correct format
+  → Display examples and commit message guide
+
+Option 3: Skip validation (not recommended)
+  ⚠️  This bypasses workflow automation
+  → Use: git commit --no-verify
+
+Option 4: Cancel and edit manually
+  → I'll cancel, you edit and try again
+
+Your choice [1]: _____
+```
+
+**Auto-fix execution:**
+```
+[User chose Option 1 and entered issue ID]
+
+Amending commit...
+
+  ✓ Commit message updated:
+    "feat: Add user authentication (Related: DEV-123)"
+
+  ✓ Re-running git hook validation...
+  ✓ Hook passed!
+
+  ✓ Commit successful
+
+Next: Push your changes or continue working
+```
+
+#### 3. GitHub Authentication Issues
+
+**Error:** "gh: not authenticated" or "missing workflow scope"
+
+**Smart Recovery:**
+```
+❌ GitHub CLI Not Authenticated
+
+🔍 Diagnosis: You're not logged in to GitHub CLI
+
+🔧 Auto-fix available:
+
+I'll start the GitHub authentication process:
+
+  1. Open browser to authenticate
+  2. Grant required scopes (repo, workflow)
+  3. Verify authentication works
+
+This takes ~2 minutes.
+
+Start authentication? (Y/n)
+
+[If yes:]
+
+Starting GitHub authentication...
+
+  Running: gh auth login --scopes repo,workflow
+
+  [Device code flow starts]
+
+  📱 Step 1: Copy this code: XXXX-XXXX
+
+  📱 Step 2: Open: https://github.com/login/device
+
+  📱 Step 3: Enter the code and authorize
+
+  Waiting for authorization...
+
+  [Polls in background until complete]
+
+  ✓ Authentication successful!
+
+  Verifying scopes...
+  ✓ repo scope: Present
+  ✓ workflow scope: Present
+
+  ✓ Ready to continue!
+```
+
+**Missing workflow scope:**
+```
+❌ Missing 'workflow' Scope
+
+🔍 Diagnosis: You're authenticated but missing the 'workflow' scope
+
+This scope is required to:
+  • Push to .github/workflows/
+  • Create/update GitHub Actions workflows
+
+🔧 Auto-fix:
+
+I'll refresh your authentication with the correct scopes.
+
+  gh auth refresh --scopes repo,workflow
+
+This will re-prompt for authorization (~1 minute).
+
+Fix now? (Y/n)
+
+[Executes and polls for completion automatically]
+```
+
+#### 4. Branch Conflicts & Issues
+
+**Error:** "Branch already exists" or "Cannot create branch"
+
+**Smart Recovery:**
+```
+❌ Branch Already Exists
+
+Branch 'feature/DEV-123-auth' already exists locally.
+
+🔍 Checking branch status...
+
+  Last commit: 3 days ago
+  Status: No open PR
+  Behind main: 5 commits
+
+🔧 What would you like to do?
+
+Option 1: Switch to existing branch and update [Recommended]
+  → git checkout feature/DEV-123-auth
+  → git rebase main (update with latest)
+  → Continue working
+
+Option 2: Delete and recreate
+  ⚠️  This will lose any uncommitted work on that branch
+  → Backup existing branch first
+  → Create fresh branch from main
+
+Option 3: Create with different name
+  → feature/DEV-123-auth-v2
+  → Keeps old branch intact
+
+Option 4: Show branch details
+  → View commits and files changed
+  → Decide manually
+
+Your choice [1]: _____
+```
+
+**Auto-fix execution:**
+```
+[User chose Option 1]
+
+Switching to existing branch and updating...
+
+  ✓ Switched to: feature/DEV-123-auth
+  ✓ Fetching latest changes from main...
+  ✓ Rebasing onto main...
+
+  Rebase successful!
+
+  Your branch is now:
+    • Up to date with main
+    • Has your previous work
+    • Ready to continue
+
+✓ Ready to work on DEV-123!
+```
+
+#### 5. Linear API Errors
+
+**Error:** "Linear API returned error" or "Issue not found"
+
+**Smart Recovery:**
+```
+❌ Linear API Error
+
+Error: Issue "DEV-999" not found
+
+🔍 Diagnosis: Issue doesn't exist or you don't have access
+
+🔧 Let me help:
+
+Searching for similar issues...
+
+  Found 3 potential matches:
+    1. DEV-998: Add user authentication [In Progress]
+    2. DEV-997: Fix login bug [Done]
+    3. DEV-995: Improve auth flow [To Do]
+
+Did you mean one of these? [1-3 or enter correct ID]: _____
+
+[If user enters different ID:]
+
+  ✓ Found issue: DEV-998 - Add user authentication
+
+  Use this issue instead? (Y/n)
+
+[If yes, continue workflow with correct issue]
+```
+
+**Permission error:**
+```
+❌ Linear Permission Error
+
+🔍 Diagnosis: You don't have access to this Linear team
+
+Your accessible teams:
+  • FE - Frontend Team
+  • BE - Backend Team
+
+The issue DEV-123 is in team: ADMIN (Admin Team)
+
+🔧 Fix options:
+
+Option 1: Request access to ADMIN team
+  → Ask your Linear admin to add you
+  → URL: https://linear.app/workspace/settings/teams
+
+Option 2: Check if you meant a different team
+  → Search all your teams for similar issues
+
+Option 3: Continue with different issue
+  → Pick from your accessible teams
+
+Your choice [3]: _____
+```
+
+#### 6. Commit Message Format Errors
+
+**Error:** "Invalid commit message format"
+
+**Smart Recovery:**
+```
+❌ Invalid Commit Message Format
+
+Your message:
+  "updated files"
+
+🔍 Issues detected:
+  ✗ No type prefix (feat/fix/docs/etc)
+  ✗ Not descriptive enough
+  ✗ No Linear issue reference
+
+🔧 Let me help you write a better commit message:
+
+What did you change?
+  [Analyzing staged files...]
+
+  Files staged:
+    • src/auth/login.ts (modified)
+    • src/auth/jwt.ts (new file)
+    • tests/auth.test.ts (new file)
+
+  Detected changes:
+    • New authentication feature
+    • JWT token implementation
+    • Test coverage
+
+Suggested commit message:
+  "feat: Add JWT authentication with OAuth support (Related: DEV-123)
+
+  - Implement OAuth 2.0 flow for Google and GitHub
+  - Add JWT token generation and validation
+  - Add integration tests for auth flow"
+
+Use this message? (Y/n/edit)
+
+[If yes, commits with suggested message]
+[If edit, allows user to modify]
+```
+
+#### 7. GitHub Actions Failures
+
+**Error:** "Workflow run failed" or "LINEAR_API_KEY not found"
+
+**Smart Recovery:**
+```
+❌ GitHub Actions Workflow Failed
+
+Latest run: linear-status-update.yml
+Error: "Error: Input required and not supplied: LINEAR_API_KEY"
+
+🔍 Diagnosis: LINEAR_API_KEY secret not configured or invalid
+
+🔧 Auto-fix available:
+
+Step 1: Verify you have a Linear API key
+  Do you have a LINEAR_API_KEY? (Y/n)
+
+  [If no:]
+    Create one at: https://linear.app/settings/api
+    Come back when you have it.
+
+  [If yes:]
+    Great! Let's configure it.
+
+Step 2: Set GitHub secret
+  I'll help you set the secret securely.
+
+  Enter your LINEAR_API_KEY: _____
+
+  [Validates format]
+  ✓ Format looks correct (lin_api_...)
+
+  Setting GitHub secret...
+  gh secret set LINEAR_API_KEY --body "***"
+
+  ✓ Secret configured
+
+Step 3: Verify secret works
+  Testing Linear API connection...
+
+  ✓ API key valid
+  ✓ Can access workspace: Acme Inc
+  ✓ Can list teams
+
+Step 4: Re-run workflow
+  gh workflow run linear-status-update.yml
+
+  ✓ Workflow triggered
+
+  Monitor at: https://github.com/owner/repo/actions
+
+All steps complete! ✅
+```
+
+### Error Prevention
+
+**Proactive checks before operations:**
+
+```
+Before /start-issue:
+  ✓ Check MCP connection
+  ✓ Verify issue exists
+  ✓ Check working tree is clean
+
+  [If issues found, fix before proceeding]
+
+Before /create-pr:
+  ✓ Check uncommitted changes
+  ✓ Verify branch is pushed
+  ✓ Check for merge conflicts
+
+  [Auto-fix or warn before PR creation]
+
+Before git operations:
+  ✓ Verify git hooks installed
+  ✓ Check commit message format
+  ✓ Validate issue reference exists
+
+  [Guide user through fixes]
+```
+
+### Recovery Verification
+
+**After fixing, always verify:**
+
+```
+Fix applied. Verifying...
+
+  ✓ MCP connection: Working
+  ✓ Can fetch issues: Yes
+  ✓ Can post comments: Yes
+
+✅ All systems operational!
+
+You can now continue with: [original command]
+```
 
 ### Workflow vs MCP
 **Remember:**
@@ -6147,6 +7427,33 @@ Include these common issues in error handling:
   - GitHub Actions: LINEAR_API_KEY from repository secrets
   - Claude Code: OAuth authentication via `claude mcp add` + `/mcp` command
   - Claude Desktop: OAuth authentication via global config file + restart
+
+### When Auto-Fix Isn't Available
+
+```
+❌ [Error message]
+
+🔍 Diagnosis: [What went wrong]
+
+🔧 Manual fix required:
+
+Step 1: [First action]
+  Command: [exact command to run]
+  Expected result: [what success looks like]
+
+Step 2: [Second action]
+  Command: [exact command]
+  Expected result: [what success looks like]
+
+Step 3: Verify fix worked
+  Run: /workflow-status
+  Or try: [original command again]
+
+Need more help?
+  • Check: docs/troubleshooting.md
+  • Run: /workflow-status
+  • Ask: "How do I [specific issue]?"
+```
 
 ---
 

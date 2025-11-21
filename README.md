@@ -183,7 +183,7 @@ The wizard will detect your existing installation and offer to upgrade:
 
 ## ⚡ Commands Reference
 
-After setup, use 17 powerful slash commands or just talk naturally to Claude:
+After setup, use 20 powerful slash commands or just talk naturally to Claude:
 
 ### Quick Command Examples
 
@@ -225,6 +225,13 @@ After setup, use 17 powerful slash commands or just talk naturally to Claude:
 ```bash
 /progress-update
 /create-pr
+/create-release-approval v1.2.0    # Production release approval
+```
+
+**Maintain & diagnose:**
+```bash
+/workflow-status                    # Check workflow health
+/cleanup-branches                   # Clean up merged/stale branches
 ```
 
 ### Or Just Talk Naturally
@@ -238,7 +245,7 @@ After setup, use 17 powerful slash commands or just talk naturally to Claude:
 "Ready for review"
 ```
 
-[→ **Full Command Cheat Sheet**](COMMAND-CHEATSHEET.md) - Complete guide with examples for all 17 commands
+[→ **Full Command Cheat Sheet**](COMMAND-CHEATSHEET.md) - Complete guide with examples for all 21 commands
 
 <br/>
 
@@ -443,7 +450,7 @@ Configure automatic assignment when status changes:
     "assignments": {
       "reviewRequired": {
         "userId": "reviewer-user-id",
-        "userName": "Alex Acton"
+        "userName": "Joe Bloggs"
       }
     }
   }

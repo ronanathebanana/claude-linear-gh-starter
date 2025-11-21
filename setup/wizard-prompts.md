@@ -791,9 +791,9 @@ const members = await getTeamMembers(apiKey, teamId);
 ```
 Team Members:
 
-1. Alice Smith - alice@company.com
-2. Bob Jones - bob@company.com
-3. Carol White - carol@company.com
+1. Jane Bloggs - alice@company.com
+2. Joe Bloggs - bob@company.com
+3. Sarah Bloggs - carol@company.com
 4. David Brown - david@company.com
 5. None (leave unassigned)
 
@@ -835,8 +835,8 @@ Your choice [2]: _____
 ```
 ✓ Auto-assignment configured:
   - "In Progress" → (no change)
-  - "In Review" → Alice Smith (code reviewer)
-  - "QA" → Carol White (QA lead)
+  - "In Review" → Jane Bloggs (code reviewer)
+  - "QA" → Sarah Bloggs (QA lead)
   - "Done" → (no change)
 
   Preserve original assignee: Yes

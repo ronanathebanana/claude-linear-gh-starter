@@ -1,0 +1,480 @@
+Interactive tutorial to learn the Linear workflow through hands-on practice.
+
+## Usage
+
+```
+/tutorial
+/tutorial resume    # Resume from where you left off
+/tutorial reset     # Start over from beginning
+```
+
+## Description
+
+Learn the complete Linear + GitHub + Claude workflow by actually doing it. This 10-minute interactive tutorial walks you through:
+
+1. Understanding Linear issues
+2. Starting work with analysis
+3. Making changes and committing
+4. Using workflow commands
+5. Checking workflow health
+
+Perfect for:
+- First-time users after setup
+- New team members onboarding
+- Anyone who wants to understand the workflow before using it
+
+## Tutorial Flow
+
+### Welcome & Overview
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Welcome to Linear Workflow Tutorial! 🎓
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+You'll learn the complete workflow by actually using it.
+
+What you'll do:
+  1. Understand a Linear issue
+  2. Start work with AI analysis
+  3. Make a simple change
+  4. Commit with proper format
+  5. Check workflow health
+  6. See the complete workflow in action
+
+Time: ~10 minutes
+Safe: Uses tutorial branch, won't affect real work
+
+Ready to start? (Y/n)
+```
+
+**If yes, continue. If no:**
+```
+No problem! Run /tutorial anytime you're ready.
+
+Tip: The tutorial is the fastest way to understand the workflow.
+```
+
+### Step 1: Understand Your Test Issue
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Step 1 of 6: Understanding Linear Issues
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+During setup, we created a test issue for you:
+
+Issue: {{tutorial.issueId}}
+Title: {{tutorial.issueTitle}}
+URL: {{tutorial.issueUrl}}
+
+Let me fetch the full details from Linear...
+
+[Fetches issue via MCP]
+
+✓ Issue fetched from Linear
+
+Here's what you're working with:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 Issue: {{tutorial.issueId}} - {{tutorial.issueTitle}}
+
+Status: {{tutorial.issueStatus}}
+Priority: {{tutorial.issuePriority}}
+
+## Description
+{{tutorial.issueDescription}}
+
+## Acceptance Criteria
+{{tutorial.acceptanceCriteria}}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 Key Concept: Linear Integration
+
+Your workflow starts with Linear issues. Claude can:
+  • Fetch issue details automatically
+  • Understand requirements
+  • Create analysis documents
+  • Post updates back to Linear
+
+All via MCP (Model Context Protocol) - no manual copying!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Ready for Step 2? (Y/n)
+```
+
+### Step 2: Start Work (AI Analysis)
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Step 2 of 6: Starting Work with AI Analysis
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Now let's start work on this issue. In a real workflow, you'd say:
+
+  "Let's get to work on {{tutorial.issueId}}"
+
+or use the command:
+
+  /start-issue {{tutorial.issueId}}
+
+Let me walk you through what happens...
+
+[1/5] Fetching issue details from Linear...
+      ✓ Issue fetched via MCP
+
+[2/5] Creating comprehensive task analysis...
+
+      Claude analyzes:
+        • Requirements and acceptance criteria
+        • Potential technical approaches
+        • Files that might need changes
+        • Potential challenges or blockers
+        • Testing strategy
+
+      ✓ Analysis complete
+
+[3/5] Saving analysis document...
+      ✓ Saved to: {{paths.issues}}/{{tutorial.issueId}}-tutorial/task-analysis.md
+
+[4/5] Posting analysis summary to Linear...
+
+      💡 Key Feature: 2-Way Integration
+
+      Claude posts a summary back to Linear so your team can see:
+        • What approach you're taking
+        • Estimated complexity
+        • Any blockers discovered
+        • Testing plan
+
+      This keeps everyone informed without status meetings!
+
+      ✓ Posted to Linear: {{tutorial.issueUrl}}
+
+[5/5] Creating feature branch...
+      ✓ Branch: tutorial/{{tutorial.issueId}}-demo
+      ✓ Switched to tutorial branch
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Work started!
+
+What just happened:
+  ✓ Fetched issue from Linear (MCP)
+  ✓ Claude analyzed requirements
+  ✓ Created task analysis document locally
+  ✓ Posted summary back to Linear (2-way!)
+  ✓ Created feature branch
+  ✓ Ready to code!
+
+Check the Linear issue - you'll see Claude's analysis comment!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Ready for Step 3? (Y/n)
+```
+
+### Step 3: Make a Change
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Step 3 of 6: Making Changes
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+In a real workflow, you'd implement the feature now.
+
+For this tutorial, let's create a simple file to simulate work:
+
+Creating: docs/tutorial-complete.md
+
+[Creates file with tutorial completion message]
+
+✓ File created
+
+Current status:
+  Branch: tutorial/{{tutorial.issueId}}-demo
+  Files changed: 1 new file
+  Ready to commit
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Ready for Step 4? (Y/n)
+```
+
+### Step 4: Commit with Validation
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Step 4 of 6: Committing Changes
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 Key Feature: Automatic Commit Validation
+
+Your project has a git hook that validates commit messages.
+
+Every commit must reference a Linear issue:
+  {{formats.issueReferenceKeyword}}: {{formats.issueExample}}
+
+This ensures:
+  ✓ All work is tracked in Linear
+  ✓ Commits are linked to issues
+  ✓ Automatic status updates work
+
+Let me commit with the proper format...
+
+Commit message:
+  "docs: Add tutorial completion marker ({{formats.issueReferenceKeyword}}: {{tutorial.issueId}})"
+
+[Performs git commit]
+
+✓ Commit created
+✓ Git hook validated the message
+✓ Issue reference found: {{tutorial.issueId}}
+
+If you had forgotten the issue reference, the hook would block:
+
+  ❌ Commit rejected
+     Missing issue reference
+
+  Expected format:
+    {{formats.issueReferenceKeyword}}: {{formats.issueExample}}
+
+But your commit was perfect! ✓
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Ready for Step 5? (Y/n)
+```
+
+### Step 5: Check Workflow Health
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Step 5 of 6: Workflow Health Check
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Before we finish, let's verify everything is working.
+
+Command: /workflow-status
+
+[Runs workflow health checks]
+
+Running health checks...
+
+✅ Linear MCP Connection
+   • Server: Connected
+   • Authentication: Valid (OAuth)
+   • Workspace: {{linear.workspaceName}}
+   • Team: {{linear.teamName}}
+
+✅ GitHub CLI
+   • Authenticated: {{githubUser}}
+   • Scopes: repo{{#if githubActions.enabled}}, workflow{{/if}} ✓
+
+✅ Git Hooks
+   • Location: .git/hooks/commit-msg
+   • Executable: Yes ✓
+   • Just validated your commit!
+
+✅ Configuration
+   • File: .linear-workflow.json
+   • Valid: Yes ✓
+
+{{#if githubActions.enabled}}
+✅ GitHub Actions
+   • Workflow: linear-status-update.yml
+   • Status: Enabled
+   • Will update Linear when you push!
+{{/if}}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Overall Health: Excellent (100%)
+
+All systems operational! Your workflow is working perfectly.
+
+💡 Pro Tip: Run /workflow-status anytime something seems off.
+   It diagnoses issues and offers automatic fixes.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Ready for Step 6 (final step)? (Y/n)
+```
+
+### Step 6: Completion & Cleanup
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Step 6 of 6: Tutorial Complete! 🎉
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Congratulations! You've completed the Linear workflow tutorial.
+
+What you learned:
+  ✅ Fetch issues from Linear (MCP integration)
+  ✅ Start work with AI analysis
+  ✅ AI posts updates back to Linear (2-way!)
+  ✅ Make changes on feature branches
+  ✅ Commit with validated messages
+  ✅ Check workflow health
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🧹 Clean Up Tutorial Artifacts
+
+Let me clean up the tutorial files:
+
+  • Switch back to {{branches.main}}
+  • Delete tutorial branch
+  • Remove tutorial marker file
+
+Clean up now? (Y/n)
+```
+
+**If yes:**
+```
+Cleaning up...
+
+✓ Switched to {{branches.main}}
+✓ Deleted branch: tutorial/{{tutorial.issueId}}-demo
+✓ Removed: docs/tutorial-complete.md
+
+✓ Cleanup complete!
+```
+
+**If no:**
+```
+No problem! Clean up manually later:
+
+  git checkout {{branches.main}}
+  git branch -D tutorial/{{tutorial.issueId}}-demo
+  rm docs/tutorial-complete.md
+```
+
+### Tutorial Completion
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎉 You're Ready to Go!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+What to do next:
+
+📖 Explore All Commands
+  Run: /linear-help
+  See all 20 available commands
+
+🚀 Start Real Work
+  Say: "Let's get to work on [ISSUE-ID]"
+  Or: "Show me high priority issues"
+
+💡 Natural Language Works!
+  "What am I working on?"
+  "Show me the team's work"
+  "I found a bug - [description]"
+
+📚 Read Full Documentation
+  • COMMAND-CHEATSHEET.md - All commands with examples
+  • docs/linear-workflow.md - Complete workflow guide
+
+🔧 Troubleshooting
+  /workflow-status - Diagnose any issues
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Quick Reference:
+
+Create Issues:
+  /bug-linear, /feature-linear, /improvement-linear
+
+Start Work:
+  /start-issue [ISSUE-ID]
+
+Deliver:
+  /progress-update, /create-pr
+
+Maintain:
+  /workflow-status, /cleanup-branches
+
+Help:
+  /linear-help
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 The Test Issue
+
+Your test issue ({{tutorial.issueId}}) is still in Linear.
+
+What to do with it:
+  • Keep it for practice
+  • Close it: Update status to "Done" in Linear
+  • Delete it: Archive in Linear settings
+
+The analysis Claude posted is real - check it out in Linear!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Need help? Just ask:
+  • "How do I [task]?"
+  • "Show me [command] examples"
+  • "What commands are available?"
+
+Happy coding! 🚀
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+## Tutorial State
+
+The tutorial tracks progress in `.linear-workflow.json`:
+
+```json
+{
+  "tutorial": {
+    "completed": false,
+    "currentStep": 0,
+    "startedAt": "2025-01-21T10:00:00Z",
+    "issueId": "{{formats.issueExample}}",
+    "canResume": true
+  }
+}
+```
+
+## Resume Capability
+
+If tutorial is interrupted:
+
+```
+/tutorial resume
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Resume Tutorial
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+You're on Step 3 of 6: Making Changes
+
+Resume from here? (Y/n)
+```
+
+## Reset Capability
+
+Start tutorial from beginning:
+
+```
+/tutorial reset
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Reset Tutorial
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+This will reset your tutorial progress and start from Step 1.
+
+Reset and start over? (Y/n)
+```
+
+---
+
+Generated with [Claude Code](https://claude.com/claude-code)

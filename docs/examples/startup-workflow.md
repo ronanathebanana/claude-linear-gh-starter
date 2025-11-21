@@ -317,7 +317,7 @@ Status: Still "In Progress"
 
 **Day 2 - Afternoon:**
 ```
-Alex reviews and approves PR
+Mark reviews and approves PR
 Sarah merges to main
 Status: Done ← Automatic update
 CI/CD deploys to production

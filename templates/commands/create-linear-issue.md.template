@@ -72,9 +72,16 @@ Ready to start work on this issue? (Y/n)
 If you say yes, Claude follows the normal workflow:
 1. Fetches issue details from Linear
 2. Creates task analysis document in `{{paths.issues}}`
-3. Posts analysis summary as Linear comment
-4. Creates feature branch
-5. Makes initial commit
+3. **Asks for confirmation before posting to Linear:**
+   ```
+   Task analysis complete!
+
+   Would you like me to post a summary comment to Linear? (Y/n)
+   ```
+4. **If yes:** Build comment summary from task analysis, then post as Linear comment
+5. **If no:** Skip building and posting entirely, continue with workflow
+6. Creates feature branch
+7. Makes initial commit
 
 ## Examples
 
