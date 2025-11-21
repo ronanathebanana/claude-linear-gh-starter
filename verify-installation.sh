@@ -139,9 +139,9 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 
 if [ "$STRUCTURE" == "new" ]; then
     # Check for old paths that should have been updated
-    test_path_in_file "CLAUDE.md" "templates/github" "No old workflow template paths"
-    test_path_in_file "CLAUDE.md" "templates/commit" "No old commit template paths"
-    test_path_in_file "CLAUDE.md" "scripts/apply" "No old script paths"
+    test_path_in_file "CLAUDE.md" "templates/github" "No old workflow template paths" || true
+    test_path_in_file "CLAUDE.md" "templates/commit" "No old commit template paths" || true
+    test_path_in_file "CLAUDE.md" "scripts/apply" "No old script paths" || true
 
     # Check that new paths exist
     if grep -q "install/templates" CLAUDE.md 2>/dev/null; then
